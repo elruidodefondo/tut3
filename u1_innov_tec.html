@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Objeto de aprendizaje | Unidad 1 Innovación tecnológica</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --ink:#152033;
+      --muted:#667085;
+      --primary:#0f4c81;
+      --primary2:#1b7f7a;
+      --accent:#f4b400;
+      --good:#2e7d32;
+      --bad:#c62828;
+      --card:#ffffff;
+      --line:#d7e0ea;
+      --soft:#e8f3f3;
+      --soft2:#fff7df;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#eef6ff 0%,var(--bg) 35%,#fff 100%);
+      color:var(--ink);
+      line-height:1.55;
+    }
+    .watermark-layer{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:9999;
+      opacity:0;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      grid-auto-rows:220px;
+      overflow:hidden;
+      transition:.25s ease;
+    }
+    .watermark-layer.active{opacity:.14}
+    .wm-text{
+      transform:rotate(-28deg);
+      font-size:32px;
+      font-weight:900;
+      color:#5f6368;
+      white-space:pre-line;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:18px;
+    }
+    header{
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(135deg,#0b3157 0%,#0f4c81 48%,#1b7f7a 100%);
+      color:#fff;
+      padding:34px 18px 28px;
+      border-bottom:7px solid #65a688;
+    }
+    header .wrap, main{max-width:1180px;margin:0 auto}
+    .hero{display:grid;grid-template-columns:1.4fr .8fr;gap:22px;align-items:center}
+    h1{font-size:clamp(28px,5vw,52px);line-height:1.04;margin:0 0 10px;font-weight:900}
+    .subtitle{font-size:18px;opacity:.95;max-width:760px;margin:0}
+    .hero-art{
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.2);
+      border-radius:24px;
+      min-height:190px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 10px 30px rgba(0,0,0,.12);
+    }
+    .hero-art svg{width:92%;height:auto;max-height:210px}
+    nav{
+      position:sticky;
+      top:0;
+      z-index:20;
+      background:rgba(255,255,255,.96);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--line);
+    }
+    nav .wrap{max-width:1180px;margin:0 auto;display:flex;gap:8px;overflow:auto;padding:10px 12px}
+    nav a{
+      text-decoration:none;
+      color:var(--primary);
+      border:1px solid #c9d7e6;
+      border-radius:999px;
+      padding:8px 12px;
+      font-weight:700;
+      white-space:nowrap;
+      font-size:14px;
+      background:#fff;
+    }
+    nav a:hover{background:#eaf4f4;color:#0c625d}
+    main{padding:22px 14px 70px}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:0 8px 24px rgba(16,24,40,.06);
+    }
+    .span-12{grid-column:span 12}.span-8{grid-column:span 8}.span-6{grid-column:span 6}.span-4{grid-column:span 4}
+    .section-title{
+      display:flex;align-items:center;gap:10px;
+      background:#2A5959;color:#f1f2d5;
+      padding:12px 14px;border-left:8px solid #65A688;border-radius:10px;
+      font-weight:900;font-size:19px;margin:8px 0 14px;
+    }
+    .pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:6px 10px;font-size:13px;font-weight:800;background:#eaf4f4;color:#11635d;border:1px solid #b7d7d4}
+    .note{background:var(--soft2);border-left:6px solid var(--accent);padding:12px;border-radius:8px;margin:12px 0}
+    .oknote{background:#eaf6eb;border-left:6px solid var(--good);padding:12px;border-radius:8px;margin:12px 0}
+    .bluenote{background:#eaf4f4;border-left:6px solid #2A5959;padding:12px;border-radius:8px;margin:12px 0}
+    label{font-weight:800;color:#23324a;font-size:14px}
+    input,select,textarea{
+      width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:10px;font-size:15px;background:#fff;color:var(--ink)
+    }
+    textarea{min-height:90px;resize:vertical}
+    .form-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:12px}
+    button{
+      cursor:pointer;
+      border:0;
+      background:var(--primary);
+      color:#fff;
+      border-radius:12px;
+      padding:10px 14px;
+      font-weight:900;
+      box-shadow:0 5px 14px rgba(15,76,129,.18);
+    }
+    button.secondary{background:#1b7f7a} button.warn{background:#b7791f} button.ghost{background:#fff;color:var(--primary);border:1px solid #c9d7e6;box-shadow:none}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    .progress-wrap{height:14px;background:#e2e8f0;border-radius:999px;overflow:hidden;border:1px solid #d0d7e2}
+    .progress-bar{height:100%;width:0;background:linear-gradient(90deg,#1b7f7a,#65A688,#f4b400);transition:.4s ease}
+    .mini-stat{display:flex;gap:10px;flex-wrap:wrap}.mini-stat div{background:#f8fafc;border:1px solid #d9e2ec;border-radius:12px;padding:10px;flex:1;min-width:160px}.mini-stat strong{display:block;font-size:20px;color:var(--primary)}
+    .locked{filter:grayscale(.2);opacity:.7}.lock-msg{display:none}.locked .lock-msg{display:block;color:#9a3412;font-weight:800;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px;margin:10px 0}.locked .activity-body{display:none}
+
+    .hotspot-stage{position:relative;min-height:360px;background:linear-gradient(135deg,#e9f5ff,#f8fbff);border:1px solid var(--line);border-radius:18px;overflow:hidden;padding:20px}
+    .hotspot-stage svg{position:absolute;inset:0;width:100%;height:100%;opacity:.96}
+    .hotspot{
+      position:absolute;border-radius:999px;background:#fff;border:3px solid var(--primary2);color:var(--primary);font-weight:900;padding:10px 13px;box-shadow:0 8px 18px rgba(0,0,0,.12);min-width:120px;text-align:center
+    }
+    .hotspot:hover,.hotspot.active{background:#eaf6eb;border-color:#2e7d32;color:#1b5e20}
+    .hot-info{margin-top:12px;background:#fff;border:1px solid var(--line);border-left:6px solid var(--primary2);border-radius:10px;padding:12px;min-height:82px}
+
+    .flash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .flashcard{min-height:138px;perspective:800px}.flash-inner{position:relative;width:100%;height:100%;min-height:138px;transition:transform .5s;transform-style:preserve-3d}.flashcard.flipped .flash-inner{transform:rotateY(180deg)}.flash-front,.flash-back{position:absolute;inset:0;border-radius:16px;border:1px solid #d9e2ec;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;box-shadow:0 8px 16px rgba(0,0,0,.06)}.flash-front{background:#f8fbff;color:#0f4c81;font-size:20px;font-weight:900}.flash-back{background:#eaf4f4;transform:rotateY(180deg);font-size:14px}
+
+    .drag-bank,.drop-grid,.class-grid{display:grid;gap:12px}.drag-bank{grid-template-columns:repeat(4,1fr);margin-bottom:16px}.drop-grid{grid-template-columns:repeat(2,1fr)}.class-grid{grid-template-columns:repeat(3,1fr)}
+    .drag-item{background:#fff;border:2px solid #bfd0e4;border-radius:12px;padding:10px;text-align:center;font-weight:900;color:#0f4c81;box-shadow:0 5px 12px rgba(0,0,0,.05);user-select:none}.drag-item.dragging{opacity:.5}.drag-item.selected{outline:4px solid #f4b400}
+    .dropzone{background:#f8fafc;border:2px dashed #a9b8ca;border-radius:14px;padding:12px;min-height:88px}.dropzone h4{margin:0 0 8px;color:#2A5959}.dropzone.correct{border-color:#2e7d32;background:#eef8ef}.dropzone.wrong{border-color:#c62828;background:#fff0f0}.dropzone .placed{margin-top:8px}
+    .slot{background:#fff;border:1px solid #cdd8e5;border-radius:10px;padding:9px;margin:6px 0}.slot strong{color:#0f4c81}
+    .seq-list{display:grid;gap:8px}.seq-item{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #ccd8e6;border-radius:12px;padding:10px}.seq-item span{flex:1;font-weight:800}.seq-item button{padding:6px 9px;border-radius:8px;box-shadow:none;background:#e8eef6;color:#0f4c81}
+    .select-inline{display:inline-block;width:auto;min-width:180px;margin:2px 4px}
+    .case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.case{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}.feedback{font-weight:800;margin-top:8px}.good{color:var(--good)}.bad{color:var(--bad)}
+    .timer-box{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#0b3157;color:#fff;border-radius:18px;padding:15px;margin:12px 0}.timer{font-size:28px;font-weight:900;letter-spacing:1px}.quiz-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0}.quiz-card label{display:block;font-weight:600;margin:6px 0;padding:8px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc}
+    .badge{display:inline-flex;align-items:center;gap:8px;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;border-radius:999px;padding:8px 12px;font-weight:900;margin:4px 4px 4px 0}
+    .score-board{background:#fff;border:2px solid #0f4c81;border-radius:18px;padding:18px;position:relative;overflow:hidden}.score-board:before{content:attr(data-wm);position:absolute;inset:auto -60px 20px auto;transform:rotate(-18deg);font-size:30px;font-weight:900;color:#5f6368;opacity:.13;white-space:pre;text-align:center}.print-area{background:#fff}
+    .rubric{width:100%;border-collapse:collapse}.rubric th{background:#2A5959;color:#f1f2d5}.rubric td,.rubric th{border:1px solid #cbd5e1;padding:8px;text-align:left}.small{font-size:13px;color:var(--muted)}
+    .confetti{position:fixed;top:-20px;width:10px;height:10px;border-radius:50%;z-index:10000;animation:fall 2.2s linear forwards}@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+    @media (max-width:900px){.hero,.form-grid{grid-template-columns:1fr}.span-8,.span-6,.span-4{grid-column:span 12}.flash-grid,.case-grid,.class-grid,.drop-grid,.drag-bank{grid-template-columns:1fr}.hotspot-stage{min-height:520px}.hotspot{min-width:100px;font-size:13px}.watermark-layer{grid-template-columns:repeat(2,1fr)}}
+    @media print{nav,header,.no-print,button{display:none!important}body{background:#fff}.card{box-shadow:none}.watermark-layer.active{opacity:.09}.score-board{page-break-inside:avoid}.span-12,.span-8,.span-6,.span-4{grid-column:span 12}}
+  </style>
+</head>
+<body>
+  <div id="watermark" class="watermark-layer"></div>
+  <header>
+    <div class="wrap hero">
+      <div>
+        <span class="pill">Objeto de aprendizaje interactivo</span>
+        <h1>Unidad 1: Innovación tecnológica</h1>
+        <p class="subtitle">Explora la sociedad 4.0, la industria 4.0, las tecnologías emergentes y los tipos de innovación mediante retos breves, juegos y evidencias con marca de agua.</p>
+      </div>
+      <div class="hero-art" aria-label="Ilustración tecnológica">
+        <svg viewBox="0 0 560 260" role="img" aria-label="Red de tecnología e innovación">
+          <defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#65A688"/><stop offset="1" stop-color="#F4B400"/></linearGradient></defs>
+          <rect x="20" y="45" width="150" height="90" rx="16" fill="#ffffff" opacity=".95"/>
+          <rect x="40" y="65" width="110" height="52" rx="6" fill="#d9eef5"/>
+          <path d="M95 135 L75 170 H120 Z" fill="#fff" opacity=".95"/>
+          <circle cx="280" cy="120" r="64" fill="url(#g)" opacity=".95"/>
+          <path d="M245 120h70M280 85v70" stroke="#fff" stroke-width="11" stroke-linecap="round"/>
+          <circle cx="450" cy="75" r="38" fill="#fff" opacity=".95"/>
+          <circle cx="450" cy="170" r="38" fill="#fff" opacity=".95"/>
+          <path d="M322 110 L415 78M322 130 L414 164M170 90 L216 110" stroke="#fff" stroke-width="6" opacity=".8" stroke-linecap="round"/>
+          <path d="M438 75 q12 -18 24 0 q-12 20 -24 0" fill="#0f4c81" opacity=".85"/>
+          <path d="M435 170h30M450 155v30" stroke="#1b7f7a" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="70" cy="205" r="18" fill="#fff" opacity=".9"/><circle cx="115" cy="205" r="18" fill="#fff" opacity=".9"/><circle cx="160" cy="205" r="18" fill="#fff" opacity=".9"/>
+        </svg>
+      </div>
+    </div>
+  </header>
+  <nav class="no-print"><div class="wrap">
+    <a href="#datos">Datos</a><a href="#mapa">Mapa</a><a href="#tarjetas">Tarjetas</a><a href="#asociacion">Asociación</a><a href="#clasifica">Clasifica</a><a href="#secuencia">Secuencia</a><a href="#completa">Completa</a><a href="#casos">Casos</a><a href="#reto">Reto</a><a href="#boleta">Boleta</a>
+  </div></nav>
+  <main>
+    <section id="datos" class="grid">
+      <div class="card span-12">
+        <div class="section-title">🧑‍🎓 Registro del estudiante</div>
+        <p>Escribe tus datos antes de comenzar. Con esta información se generará una <strong>marca de agua</strong> visible en la pantalla y en la boleta final para que el profesor identifique tu evidencia.</p>
+        <div class="note"><strong>Nota:</strong> esta marca de agua ayuda a identificar la evidencia, pero no reemplaza la revisión del docente.</div>
+        <div class="form-grid">
+          <div><label>Nombre completo con apellidos</label><input id="nombre" placeholder="Ej. Ana López Martínez" autocomplete="name" /></div>
+          <div><label>Grado</label><select id="grado"><option value="">Selecciona</option><option>1°</option><option>2°</option><option>3°</option><option>4°</option><option>5°</option><option>6°</option></select></div>
+          <div><label>Grupo</label><input id="grupo" placeholder="Ej. A" maxlength="5" inputmode="text" /></div>
+          <div><label>Turno</label><select id="turno"><option value="">Selecciona</option><option>Matutino</option><option>Vespertino</option></select></div>
+        </div>
+        <p><button id="startBtn">Activar marca de agua e iniciar</button> <button class="ghost" id="resetBtn" type="button">Reiniciar actividad</button></p>
+        <div id="studentStatus" class="small">Aún no has activado la marca de agua.</div>
+      </div>
+      <div class="card span-8">
+        <div class="section-title">🎯 Propósito</div>
+        <p>Al terminar este objeto de aprendizaje podrás explicar, con ejemplos, qué es la innovación tecnológica, cómo se relaciona con la sociedad e industria 4.0 y cómo se clasifican algunas innovaciones según su impacto.</p>
+        <div class="progress-wrap" aria-label="Progreso"><div id="progressBar" class="progress-bar"></div></div>
+        <p class="small"><span id="progressTxt">Progreso: 0%</span></p>
+      </div>
+      <div class="card span-4">
+        <div class="section-title">🏆 Tu avance</div>
+        <div class="mini-stat">
+          <div><strong id="scoreTxt">0</strong>puntos acumulados</div>
+          <div><strong id="doneTxt">0/8</strong>retos completados</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mapa" class="card locked" data-activity="mapa">
+      <div class="section-title">🗺️ Explora el mapa de la innovación</div>
+      <div class="lock-msg">Primero registra tus datos y activa la marca de agua.</div>
+      <div class="activity-body">
+        <p>Haz clic en cada elemento del mapa. Revisa la información y completa el recorrido.</p>
+        <div class="hotspot-stage">
+          <svg viewBox="0 0 1100 420" preserveAspectRatio="none">
+            <rect x="0" y="0" width="1100" height="420" fill="#eef7ff"/>
+            <circle cx="550" cy="210" r="82" fill="#c8eadf"/>
+            <circle cx="550" cy="210" r="48" fill="#65A688" opacity=".88"/>
+            <path d="M250,125 C390,80 430,210 500,190" fill="none" stroke="#0f4c81" stroke-width="5" stroke-dasharray="9,10"/>
+            <path d="M290,310 C420,345 445,235 500,230" fill="none" stroke="#0f4c81" stroke-width="5" stroke-dasharray="9,10"/>
+            <path d="M610,190 C710,110 790,120 880,95" fill="none" stroke="#1b7f7a" stroke-width="5" stroke-dasharray="9,10"/>
+            <path d="M610,230 C720,320 800,300 900,320" fill="none" stroke="#1b7f7a" stroke-width="5" stroke-dasharray="9,10"/>
+            <text x="550" y="220" font-size="80" text-anchor="middle">💡</text>
+          </svg>
+          <button class="hotspot" style="left:5%;top:18%" data-info="La sociedad 4.0 describe una vida cotidiana conectada por tecnologías digitales: comunicación inmediata, datos, servicios en línea y nuevas formas de aprender, comprar, trabajar y participar.">Sociedad 4.0</button>
+          <button class="hotspot" style="left:7%;bottom:16%" data-info="La industria 4.0 usa tecnologías como sensores, robots, datos e internet para automatizar procesos, tomar decisiones y producir de manera más eficiente.">Industria 4.0</button>
+          <button class="hotspot" style="left:43%;top:9%" data-info="La innovación tecnológica consiste en aplicar conocimientos, herramientas o procesos para resolver problemas o mejorar productos, servicios y formas de trabajo.">Innovación</button>
+          <button class="hotspot" style="right:8%;top:16%" data-info="Las tecnologías 4.0 incluyen inteligencia artificial, internet de las cosas, big data, nube, robótica, realidad aumentada y automatización.">Tecnologías 4.0</button>
+          <button class="hotspot" style="right:5%;bottom:18%" data-info="Toda innovación debe analizarse con pensamiento crítico: ¿a quién beneficia?, ¿qué riesgos tiene?, ¿es ética?, ¿ayuda a la comunidad?">Impacto social</button>
+        </div>
+        <div id="hotInfo" class="hot-info">Selecciona un elemento del mapa para descubrir su significado.</div>
+        <p><button id="checkMap" class="secondary">Terminé de explorar el mapa</button></p>
+      </div>
+    </section>
+
+    <section id="tarjetas" class="card locked" data-activity="tarjetas">
+      <div class="section-title">🃏 Tarjetas rápidas: tecnologías 4.0</div>
+      <div class="lock-msg">Primero registra tus datos y activa la marca de agua.</div>
+      <div class="activity-body">
+        <p>Haz clic en cada tarjeta para voltearla. El objetivo es reconocer tecnologías que aparecen en la sociedad e industria 4.0.</p>
+        <div class="flash-grid">
+          <div class="flashcard"><div class="flash-inner"><div class="flash-front">Inteligencia Artificial<br><span class="small">IA</span></div><div class="flash-back"><strong>Inteligencia Artificial (IA)</strong><br>Sistemas que imitan tareas humanas como clasificar, recomendar, reconocer patrones o generar respuestas.</div></div></div>
+          <div class="flashcard"><div class="flash-inner"><div class="flash-front">Internet de las cosas<br><span class="small">IoT</span></div><div class="flash-back"><strong>Internet de las cosas (IoT)</strong><br>Objetos conectados a internet que envían o reciben datos, como sensores, relojes, cámaras o máquinas.</div></div></div>
+          <div class="flashcard"><div class="flash-inner"><div class="flash-front">Big Data<br><span class="small">Datos masivos</span></div><div class="flash-back"><strong>Big Data</strong><br>Uso de grandes cantidades de datos para encontrar patrones y tomar mejores decisiones.</div></div></div>
+          <div class="flashcard"><div class="flash-inner"><div class="flash-front">Computación en la nube</div><div class="flash-back"><strong>Computación en la nube</strong><br>Servicios que guardan o procesan información en línea para acceder desde distintos dispositivos.</div></div></div>
+          <div class="flashcard"><div class="flash-inner"><div class="flash-front">Robótica</div><div class="flash-back"><strong>Robótica</strong><br>Máquinas programables que apoyan tareas repetitivas, precisas o de riesgo.</div></div></div>
+          <div class="flashcard"><div class="flash-inner"><div class="flash-front">Realidad aumentada y virtual</div><div class="flash-back"><strong>Realidad aumentada y virtual</strong><br>Entornos digitales para simular, visualizar y aprender con experiencias inmersivas o aumentadas.</div></div></div>
+        </div>
+        <p><button id="checkCards" class="secondary">Ya revisé las tarjetas</button></p>
+      </div>
+    </section>
+
+    <section id="asociacion" class="card locked" data-activity="asociacion">
+      <div class="section-title">🧩 Arrastra y une concepto con definición</div>
+      <div class="lock-msg">Primero registra tus datos y activa la marca de agua.</div>
+      <div class="activity-body">
+        <p>Arrastra cada concepto a la definición correcta. En celular, puedes tocar un concepto y luego tocar el recuadro de destino.</p>
+        <div id="matchBank" class="drag-bank">
+          <div class="drag-item" draggable="true" data-term="incremental">Incremental</div>
+          <div class="drag-item" draggable="true" data-term="radical">Radical</div>
+          <div class="drag-item" draggable="true" data-term="disruptiva">Disruptiva</div>
+          <div class="drag-item" draggable="true" data-term="industria">Industria 4.0</div>
+          <div class="drag-item" draggable="true" data-term="ej-incremental">Ejemplo: celular con mejor cámara y batería</div>
+          <div class="drag-item" draggable="true" data-term="ej-radical">Ejemplo: material biodegradable que sustituye plástico contaminante</div>
+          <div class="drag-item" draggable="true" data-term="ej-disruptiva">Ejemplo: plataforma de streaming que cambia la renta de películas</div>
+        </div>
+        <div class="drop-grid">
+          <div class="dropzone" data-accept="industria"><h4>Definición A</h4><p>Producción conectada con sensores, datos, automatización y sistemas inteligentes.</p></div>
+          <div class="dropzone" data-accept="incremental"><h4>Definición B</h4><p>Mejora gradual de algo existente: más rápido, más claro, más seguro o más eficiente.</p></div>
+          <div class="dropzone" data-accept="disruptiva"><h4>Definición C</h4><p>Cambia la forma habitual de hacer algo y puede desplazar prácticas o servicios anteriores.</p></div>
+          <div class="dropzone" data-accept="radical"><h4>Definición D</h4><p>Crea una solución muy nueva o diferente, con alto impacto frente a lo conocido.</p></div>
+          <div class="dropzone" data-accept="ej-incremental"><h4>Ejemplo de innovación incremental</h4><p>Relaciona aquí una mejora sobre algo que ya existía.</p></div>
+          <div class="dropzone" data-accept="ej-radical"><h4>Ejemplo de innovación radical</h4><p>Relaciona aquí una solución nueva o muy diferente frente a lo conocido.</p></div>
+          <div class="dropzone" data-accept="ej-disruptiva"><h4>Ejemplo de innovación disruptiva</h4><p>Relaciona aquí una solución que cambia una práctica o servicio tradicional.</p></div>
+        </div>
+        <p><button id="checkMatch">Revisar asociación</button> <span id="matchFeedback" class="feedback"></span></p>
+      </div>
+    </section>
+
+    <section id="clasifica" class="card locked" data-activity="clasifica">
+      <div class="section-title">📦 Clasifica: tecnología, impacto o actitud</div>
+      <div class="lock-msg">Primero registra tus datos y activa la marca de agua.</div>
+      <div class="activity-body">
+        <p>Arrastra cada tarjeta a la columna que le corresponde.</p>
+        <div id="classBank" class="drag-bank">
+          <div class="drag-item" draggable="true" data-cat="tec">Internet de las cosas</div>
+          <div class="drag-item" draggable="true" data-cat="tec">Inteligencia artificial</div>
+          <div class="drag-item" draggable="true" data-cat="tec">Robótica</div>
+          <div class="drag-item" draggable="true" data-cat="impacto">Cambios en el empleo</div>
+          <div class="drag-item" draggable="true" data-cat="impacto">Privacidad de datos</div>
+          <div class="drag-item" draggable="true" data-cat="impacto">Automatización</div>
+          <div class="drag-item" draggable="true" data-cat="actitud">Pensamiento crítico</div>
+          <div class="drag-item" draggable="true" data-cat="actitud">Responsabilidad ética</div>
+          <div class="drag-item" draggable="true" data-cat="actitud">Trabajo colaborativo</div>
+        </div>
+        <div class="class-grid">
+          <div class="dropzone class-zone" data-accept="tec"><h4>Tecnologías 4.0</h4></div>
+          <div class="dropzone class-zone" data-accept="impacto"><h4>Impactos o retos</h4></div>
+          <div class="dropzone class-zone" data-accept="actitud"><h4>Actitudes necesarias</h4></div>
+        </div>
+        <p><button id="checkClass">Revisar clasificación</button> <span id="classFeedback" class="feedback"></span></p>
+      </div>
+    </section>
+
+    <section id="secuencia" class="card locked" data-activity="secuencia">
+      <div class="section-title">🔁 Ordena la ruta de una innovación</div>
+      <div class="lock-msg">Primero registra tus datos y activa la marca de agua.</div>
+      <div class="activity-body">
+        <p>Usa las flechas para ordenar las etapas de una innovación tecnológica. Debe iniciar con la observación del problema y terminar con la comunicación de la solución.</p>
+        <div id="seqList" class="seq-list"></div>
+        <p><button id="checkSeq">Revisar secuencia</button> <span id="seqFeedback" class="feedback"></span></p>
+      </div>
+    </section>
+
+    <section id="completa" class="card locked" data-activity="completa">
+      <div class="section-title">✍️ Completa el resumen</div>
+      <div class="lock-msg">Primero registra tus datos y activa la marca de agua.</div>
+      <div class="activity-body">
+        <p>Selecciona la palabra adecuada para completar el texto.</p>
+        <div class="bluenote">
+          La <select class="select-inline fill" data-answer="innovación tecnológica"><option value="">Selecciona</option><option>industria 4.0</option><option>innovación tecnológica</option><option>desinformación</option></select>
+          aplica conocimientos y herramientas para mejorar o crear soluciones. En la
+          <select class="select-inline fill" data-answer="sociedad 4.0"><option value="">Selecciona</option><option>sociedad 4.0</option><option>máquina de vapor</option><option>vida analógica</option></select>,
+          las personas usan datos, plataformas y dispositivos conectados. La
+          <select class="select-inline fill" data-answer="industria 4.0"><option value="">Selecciona</option><option>industria 4.0</option><option>preindustria</option><option>lectura tradicional</option></select>
+          transforma la producción mediante automatización, sensores y análisis de datos. Por eso se requiere
+          <select class="select-inline fill" data-answer="pensamiento crítico"><option value="">Selecciona</option><option>pensamiento crítico</option><option>memorización sin análisis</option><option>copia directa</option></select>
+          para valorar beneficios, riesgos y consecuencias.
+        </div>
+        <p><button id="checkFill">Revisar texto</button> <span id="fillFeedback" class="feedback"></span></p>
+      </div>
+    </section>
+
+    <section id="casos" class="card locked" data-activity="casos">
+      <div class="section-title">🕹️ Mini casos: ¿qué tipo de innovación es?</div>
+      <div class="lock-msg">Primero registra tus datos y activa la marca de agua.</div>
+      <div class="activity-body">
+        <p>Lee cada caso y elige si se trata de innovación incremental, radical o disruptiva.</p>
+        <div class="case-grid">
+          <div class="case"><strong>Caso 1</strong><p>Una app de transporte cambia la forma en que muchas personas piden un viaje y compite con servicios tradicionales.</p><select class="caseSelect" data-answer="disruptiva"><option value="">Elige</option><option>incremental</option><option>radical</option><option>disruptiva</option></select><div class="feedback"></div></div>
+          <div class="case"><strong>Caso 2</strong><p>Un teléfono mejora su batería, cámara y seguridad, pero mantiene la misma idea de uso.</p><select class="caseSelect" data-answer="incremental"><option value="">Elige</option><option>incremental</option><option>radical</option><option>disruptiva</option></select><div class="feedback"></div></div>
+          <div class="case"><strong>Caso 3</strong><p>Un nuevo material biodegradable sustituye por completo un empaque contaminante y cambia la forma de fabricarlo.</p><select class="caseSelect" data-answer="radical"><option value="">Elige</option><option>incremental</option><option>radical</option><option>disruptiva</option></select><div class="feedback"></div></div>
+        </div>
+        <p><button id="checkCases">Revisar casos</button> <span id="casesFeedback" class="feedback"></span></p>
+      </div>
+    </section>
+
+    <section id="reto" class="card locked" data-activity="reto">
+      <div class="section-title">⏱️ Reto de tiempo: decisión tecnológica</div>
+      <div class="lock-msg">Primero registra tus datos y activa la marca de agua.</div>
+      <div class="activity-body">
+        <div class="timer-box"><div><strong>Responde antes de que termine el tiempo.</strong><br><span class="small" style="color:#d8e7ff">Tienes 60 segundos para resolver el reto.</span></div><div class="timer" id="timer">60</div></div>
+        <p><button id="startTimer" class="warn">Iniciar reto</button></p>
+        <div id="timedQuiz" style="display:none">
+          <div class="quiz-card"><strong>1. ¿Qué pregunta ayuda a evaluar una innovación?</strong><label><input type="radio" name="q1" value="a"> ¿Se ve bonita?</label><label><input type="radio" name="q1" value="b"> ¿Qué problema resuelve y a quién beneficia?</label><label><input type="radio" name="q1" value="c"> ¿La puedo copiar rápido?</label></div>
+          <div class="quiz-card"><strong>2. Una fábrica con sensores que reportan fallas usa principalmente:</strong><label><input type="radio" name="q2" value="a"> Internet de las cosas</label><label><input type="radio" name="q2" value="b"> Papel reciclado</label><label><input type="radio" name="q2" value="c"> Pintura digital</label></div>
+          <div class="quiz-card"><strong>3. Mejorar una página para que cargue más rápido es innovación:</strong><label><input type="radio" name="q3" value="a"> incremental</label><label><input type="radio" name="q3" value="b"> sin impacto</label><label><input type="radio" name="q3" value="c"> imposible</label></div>
+          <div class="quiz-card"><strong>4. La nube permite principalmente:</strong><label><input type="radio" name="q4" value="a"> Guardar y acceder información en línea</label><label><input type="radio" name="q4" value="b"> Apagar internet</label><label><input type="radio" name="q4" value="c"> Evitar trabajar en equipo</label></div>
+          <div class="quiz-card"><strong>5. Una actitud clave al usar tecnología es:</strong><label><input type="radio" name="q5" value="a"> Compartir datos sin pensar</label><label><input type="radio" name="q5" value="b"> Responsabilidad ética</label><label><input type="radio" name="q5" value="c"> Usarla solo por moda</label></div>
+          <p><button id="checkTimed">Enviar reto</button> <span id="timedFeedback" class="feedback"></span></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="reflexion" class="card locked" data-activity="reflexion">
+      <div class="section-title">💬 Cierre: reflexión breve</div>
+      <div class="lock-msg">Primero registra tus datos y activa la marca de agua.</div>
+      <div class="activity-body">
+        <p>Escribe una respuesta breve. Esta parte ayuda a tu profesor a ver cómo relacionas la unidad con tu vida diaria.</p>
+        <label>¿Qué innovación tecnológica observas en tu escuela, casa o comunidad y qué problema ayuda a resolver?</label>
+        <textarea id="reflection" placeholder="Escribe 4 o 5 líneas..."></textarea>
+        <p><button id="checkReflection" class="secondary">Guardar reflexión</button> <span id="reflectionFeedback" class="feedback"></span></p>
+      </div>
+    </section>
+
+    <section id="boleta" class="card span-12">
+      <div class="section-title">📄 Boleta de resultados</div>
+      <p>Cuando termines los retos, genera tu boleta. Deberá mostrar tus datos generales, puntaje y marca de agua de identificación.</p>
+      <p class="no-print"><button id="genReport">Generar boleta</button></p>
+      <div id="report" class="score-board print-area" data-wm="Sin datos">
+        <h2 style="margin-top:0;color:#0f4c81">Boleta de resultados | Unidad 1 Innovación tecnológica</h2>
+        <p class="small">Completa las actividades y presiona “Generar boleta”.</p>
+      </div>
+      <div class="note"><strong>Entrega sugerida:</strong> toma captura de esta boleta para entregar la evidencia según indique tu profesor.</div>
+    </section>
+  </main>
+  <script>
+    const state = {
+      started:false,
+      student:{nombre:'',grado:'',grupo:'',turno:'',code:'',time:''},
+      score:0,
+      completed:new Set(),
+      maxScore:80,
+      totalActivities:8,
+      selectedDrag:null,
+      visitedHotspots:new Set(),
+      timer:null,
+      timeLeft:60,
+      timedStarted:false
+    };
+    const points = {mapa:8, tarjetas:6, asociacion:10, clasifica:10, secuencia:10, completa:10, casos:10, reto:12, reflexion:4};
+    function $(id){return document.getElementById(id)}
+    function simpleCode(text){
+      let h=0; for(let i=0;i<text.length;i++){h=((h<<5)-h)+text.charCodeAt(i); h|=0;} return 'U1-'+Math.abs(h).toString(36).toUpperCase().slice(0,8);
+    }
+    function studentLine(){const s=state.student; return `${s.nombre}\n${s.grado} ${s.grupo} ${s.turno}\n${s.code}`;}
+    function activateWatermark(){
+      const wm=$('watermark'); wm.innerHTML='';
+      for(let i=0;i<40;i++){const d=document.createElement('div');d.className='wm-text';d.textContent=studentLine();wm.appendChild(d)}
+      wm.classList.add('active');
+      document.querySelectorAll('.locked').forEach(el=>el.classList.remove('locked'));
+      $('studentStatus').innerHTML=`<strong>Marca de agua activa:</strong> ${state.student.nombre} | ${state.student.grado} ${state.student.grupo} | ${state.student.turno} | Código: ${state.student.code}`;
+    }
+    function addScore(activity, pts){
+      if(!state.completed.has(activity)){
+        state.completed.add(activity); state.score+=pts; updateProgress(); confetti(15);
+      }
+    }
+    function updateProgress(){
+      const pct=Math.min(100,Math.round((state.completed.size/state.totalActivities)*100));
+      $('progressBar').style.width=pct+'%'; $('progressTxt').textContent=`Progreso: ${pct}%`;
+      $('scoreTxt').textContent=state.score; $('doneTxt').textContent=`${Math.min(state.completed.size,state.totalActivities)}/${state.totalActivities}`;
+    }
+    function confetti(n){
+      const colors=['#0f4c81','#1b7f7a','#65A688','#f4b400','#2e7d32'];
+      for(let i=0;i<n;i++){const c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.animationDelay=(Math.random()*.4)+'s';document.body.appendChild(c);setTimeout(()=>c.remove(),2600)}
+    }
+    $('grupo').addEventListener('input',()=>{$('grupo').value=$('grupo').value.replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ]/g,'').toUpperCase();});
+    $('startBtn').addEventListener('click',()=>{
+      const nombre=$('nombre').value.trim(), grado=$('grado').value, grupo=$('grupo').value.trim().toUpperCase(), turno=$('turno').value;
+      if(!nombre||!grado||!grupo||!turno){alert('Completa nombre, grado, grupo y turno antes de iniciar.');return;}
+      if(!/^[A-ZÁÉÍÓÚÜÑ]+$/.test(grupo)){alert('El grupo debe contener solo letras. Ejemplo: A, B, C, GM.');return;}
+      if(!(turno==='Matutino'||turno==='Vespertino')){alert('El turno solo puede ser Matutino o Vespertino.');return;}
+      const time=new Date().toLocaleString('es-MX'); const code=simpleCode(nombre+grado+grupo+turno+time);
+      state.student={nombre,grado,grupo,turno,code,time}; state.started=true; activateWatermark(); updateProgress();
+    });
+    $('resetBtn').addEventListener('click',()=>{ if(confirm('¿Reiniciar toda la actividad?')) location.reload(); });
+
+    document.querySelectorAll('.hotspot').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.hotspot').forEach(b=>b.classList.remove('active'));btn.classList.add('active');$('hotInfo').textContent=btn.dataset.info;state.visitedHotspots.add(btn.textContent.trim());}));
+    $('checkMap').addEventListener('click',()=>{ if(state.visitedHotspots.size>=5){addScore('mapa',points.mapa);$('hotInfo').innerHTML='<strong class="good">Recorrido completo.</strong> Ya exploraste los conceptos base de la unidad.';} else {$('hotInfo').innerHTML='<strong class="bad">Faltan elementos.</strong> Da clic en todos los puntos del mapa.';} });
+
+    let cardsFlipped=0;
+    document.querySelectorAll('.flashcard').forEach(card=>card.addEventListener('click',()=>{card.classList.toggle('flipped');cardsFlipped=document.querySelectorAll('.flashcard.flipped').length;}));
+    $('checkCards').addEventListener('click',()=>{ if(cardsFlipped>=6){addScore('tarjetas',points.tarjetas);alert('Tarjetas revisadas.');} else alert('Voltea todas las tarjetas antes de continuar.'); });
+
+    function bindDrag(){
+      document.querySelectorAll('.drag-item').forEach(item=>{
+        item.addEventListener('dragstart',e=>{state.selectedDrag=item;item.classList.add('dragging');e.dataTransfer.setData('text/plain',item.dataset.term||item.dataset.cat||item.textContent);});
+        item.addEventListener('dragend',()=>item.classList.remove('dragging'));
+        item.addEventListener('click',()=>{document.querySelectorAll('.drag-item').forEach(x=>x.classList.remove('selected'));state.selectedDrag=item;item.classList.add('selected');});
+      });
+      document.querySelectorAll('.dropzone').forEach(zone=>{
+        zone.addEventListener('dragover',e=>e.preventDefault());
+        zone.addEventListener('drop',e=>{e.preventDefault(); if(state.selectedDrag) placeItem(zone,state.selectedDrag);});
+        zone.addEventListener('click',()=>{ if(state.selectedDrag) placeItem(zone,state.selectedDrag);});
+      });
+    }
+    function placeItem(zone,item){
+      if(zone.classList.contains('class-zone')){zone.appendChild(item)}
+      else { const old=zone.querySelector('.drag-item'); if(old) (zone.closest('#asociacion')?$('matchBank'):$('classBank')).appendChild(old); zone.appendChild(item); }
+      item.classList.remove('selected'); state.selectedDrag=null;
+    }
+    bindDrag();
+    $('checkMatch').addEventListener('click',()=>{
+      let ok=0,total=document.querySelectorAll('#asociacion .dropzone').length; document.querySelectorAll('#asociacion .dropzone').forEach(z=>{const it=z.querySelector('.drag-item');z.classList.remove('correct','wrong'); if(it&&it.dataset.term===z.dataset.accept){ok++;z.classList.add('correct')} else z.classList.add('wrong')});
+      $('matchFeedback').className='feedback '+(ok===total?'good':'bad'); $('matchFeedback').textContent= ok===total?'¡Correcto!':'Revisa las tarjetas marcadas.'; if(ok===total)addScore('asociacion',points.asociacion);
+    });
+    $('checkClass').addEventListener('click',()=>{
+      let ok=0,total=9; document.querySelectorAll('#clasifica .class-zone').forEach(z=>{z.classList.remove('correct','wrong'); let all=true; z.querySelectorAll('.drag-item').forEach(it=>{if(it.dataset.cat===z.dataset.accept)ok++; else all=false;}); z.classList.add(all?'correct':'wrong')});
+      const complete=document.querySelectorAll('#clasifica .class-zone .drag-item').length===9;
+      $('classFeedback').className='feedback '+(ok===total&&complete?'good':'bad'); $('classFeedback').textContent=(ok===total&&complete)?'¡Clasificación correcta!':'Aún hay elementos en columna incorrecta o faltan tarjetas.'; if(ok===total&&complete)addScore('clasifica',points.clasifica);
+    });
+
+    const seqItems=[
+      {id:4,t:'Prototipar una primera versión'},
+      {id:1,t:'Observar una necesidad o problema'},
+      {id:6,t:'Comunicar la solución y resultados'},
+      {id:2,t:'Definir el problema con claridad'},
+      {id:5,t:'Probar, recibir retroalimentación y ajustar'},
+      {id:3,t:'Proponer una idea de solución'}
+    ];
+    function renderSeq(){
+      const box=$('seqList'); box.innerHTML='';
+      seqItems.forEach((it,idx)=>{const row=document.createElement('div');row.className='seq-item';row.innerHTML=`<button data-act="up" data-i="${idx}">↑</button><button data-act="down" data-i="${idx}">↓</button><span>${it.t}</span>`;box.appendChild(row)});
+      box.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const i=+b.dataset.i;if(b.dataset.act==='up'&&i>0){[seqItems[i-1],seqItems[i]]=[seqItems[i],seqItems[i-1]]} if(b.dataset.act==='down'&&i<seqItems.length-1){[seqItems[i+1],seqItems[i]]=[seqItems[i],seqItems[i+1]]} renderSeq();}));
+    }
+    renderSeq();
+    $('checkSeq').addEventListener('click',()=>{const ok=seqItems.every((it,i)=>it.id===i+1); $('seqFeedback').className='feedback '+(ok?'good':'bad'); $('seqFeedback').textContent=ok?'Secuencia correcta.':'Ajusta el orden de las etapas.'; if(ok)addScore('secuencia',points.secuencia);});
+
+    $('checkFill').addEventListener('click',()=>{let ok=0,total=0; document.querySelectorAll('.fill').forEach(s=>{total++; s.style.borderColor='#cbd5e1'; if(s.value===s.dataset.answer){ok++;s.style.borderColor='#2e7d32'} else s.style.borderColor='#c62828'}); $('fillFeedback').className='feedback '+(ok===total?'good':'bad'); $('fillFeedback').textContent=ok===total?'Texto completo y correcto.':'Revisa las opciones marcadas en rojo.'; if(ok===total)addScore('completa',points.completa);});
+    $('checkCases').addEventListener('click',()=>{let ok=0,total=0; document.querySelectorAll('.caseSelect').forEach(s=>{total++; const fb=s.parentElement.querySelector('.feedback'); if(s.value===s.dataset.answer){ok++;fb.textContent='Correcto';fb.className='feedback good'} else {fb.textContent='Revisa el tipo de innovación';fb.className='feedback bad'}}); $('casesFeedback').className='feedback '+(ok===total?'good':'bad'); $('casesFeedback').textContent=`Resultado: ${ok}/${total}`; if(ok===total)addScore('casos',points.casos);});
+
+    $('startTimer').addEventListener('click',()=>{
+      if(state.timedStarted)return; state.timedStarted=true; state.timeLeft=60; $('timedQuiz').style.display='block'; $('startTimer').disabled=true;
+      state.timer=setInterval(()=>{state.timeLeft--; $('timer').textContent=state.timeLeft; if(state.timeLeft<=0){clearInterval(state.timer); $('checkTimed').click();}},1000);
+    });
+    $('checkTimed').addEventListener('click',()=>{
+      if(!state.timedStarted){alert('Primero inicia el reto.');return;}
+      clearInterval(state.timer);
+      const ans={q1:'b',q2:'a',q3:'a',q4:'a',q5:'b'}; let ok=0;
+      Object.keys(ans).forEach(q=>{const sel=document.querySelector(`input[name="${q}"]:checked`); if(sel&&sel.value===ans[q]) ok++;});
+      $('timedFeedback').className='feedback '+(ok>=4?'good':'bad'); $('timedFeedback').textContent=`Aciertos: ${ok}/5`;
+      if(ok>=4)addScore('reto',points.reto); else if(!state.completed.has('reto')){state.completed.add('reto'); state.score+=Math.max(3,ok*2); updateProgress();}
+      $('checkTimed').disabled=true;
+    });
+    $('checkReflection').addEventListener('click',()=>{const txt=$('reflection').value.trim(); if(txt.length<40){$('reflectionFeedback').className='feedback bad';$('reflectionFeedback').textContent='Escribe una reflexión más completa.';return;} $('reflectionFeedback').className='feedback good';$('reflectionFeedback').textContent='Reflexión guardada.'; addScore('reflexion',points.reflexion);});
+
+    function level(pct){if(pct>=90)return 'Excelente'; if(pct>=75)return 'Muy bien'; if(pct>=60)return 'En proceso satisfactorio'; return 'Requiere repaso';}
+    function generateReport(){
+      if(!state.started){alert('Primero registra tus datos.');return;}
+      const pct=Math.round((state.score/state.maxScore)*100);
+      const missing=[]; ['mapa','tarjetas','asociacion','clasifica','secuencia','completa','casos','reto'].forEach(a=>{if(!state.completed.has(a))missing.push(a)});
+      const wm=studentLine(); const refl=$('reflection').value.trim()||'Sin reflexión registrada.';
+      const html=`
+        <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-start">
+          <div><h2 style="margin:0;color:#0f4c81">Boleta de resultados</h2><p style="margin:4px 0 12px"><strong>Unidad 1:</strong> Innovación tecnológica</p></div>
+          <div style="text-align:right"><span class="badge">${level(pct)}</span><br><span class="small">Generado: ${new Date().toLocaleString('es-MX')}</span></div>
+        </div>
+        <table class="rubric">
+          <tr><th>Dato</th><th>Información</th></tr>
+          <tr><td>Nombre</td><td>${state.student.nombre}</td></tr>
+          <tr><td>Grado / Grupo / Turno</td><td>${state.student.grado} ${state.student.grupo} | ${state.student.turno}</td></tr>
+          <tr><td>Código de marca de agua</td><td><strong>${state.student.code}</strong></td></tr>
+          <tr><td>Fecha de inicio</td><td>${state.student.time}</td></tr>
+        </table>
+        <div class="mini-stat" style="margin:14px 0">
+          <div><strong>${state.score}/${state.maxScore}</strong>Puntaje</div>
+          <div><strong>${pct}%</strong>Porcentaje</div>
+          <div><strong>${Math.min(state.completed.size,state.totalActivities)}/${state.totalActivities}</strong>Retos principales</div>
+        </div>
+        <table class="rubric">
+          <tr><th>Actividad</th><th>Estado</th></tr>
+          <tr><td>Mapa de innovación</td><td>${state.completed.has('mapa')?'Completado':'Pendiente'}</td></tr>
+          <tr><td>Tarjetas 4.0</td><td>${state.completed.has('tarjetas')?'Completado':'Pendiente'}</td></tr>
+          <tr><td>Asociación</td><td>${state.completed.has('asociacion')?'Completado':'Pendiente'}</td></tr>
+          <tr><td>Clasificación</td><td>${state.completed.has('clasifica')?'Completado':'Pendiente'}</td></tr>
+          <tr><td>Secuencia</td><td>${state.completed.has('secuencia')?'Completado':'Pendiente'}</td></tr>
+          <tr><td>Completar texto</td><td>${state.completed.has('completa')?'Completado':'Pendiente'}</td></tr>
+          <tr><td>Mini casos</td><td>${state.completed.has('casos')?'Completado':'Pendiente'}</td></tr>
+          <tr><td>Reto de tiempo</td><td>${state.completed.has('reto')?'Completado':'Pendiente'}</td></tr>
+        </table>
+        <div class="bluenote"><strong>Reflexión del estudiante:</strong><br>${refl.replace(/</g,'&lt;')}</div>
+        <div class="note"><strong>Marca de agua de identificación:</strong><br>${wm.replace(/\n/g,' | ')}</div>
+        ${missing.length?`<p class="bad"><strong>Actividades pendientes:</strong> ${missing.join(', ')}</p>`:'<p class="good"><strong>Actividad completa:</strong> evidencia lista para entregar.</p>'}
+      `;
+      $('report').setAttribute('data-wm',wm); $('report').innerHTML=html;
+    }
+    $('genReport').addEventListener('click',generateReport);
+  </script>
+</body>
+</html>
