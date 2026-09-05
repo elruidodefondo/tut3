@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Unidad 1 · Consumo de recursos digitales e informacionales</title>
+<style>
+:root{--bg:#07111f;--p:#0e2133;--p2:#102a40;--line:#2d5877;--tx:#eef6fb;--mut:#b9cbd8;--a:#4fc3f7;--b:#73f2c0;--ok:#64d89b;--bad:#ff7373;--warn:#ffd166}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(#06101c,#0b1c2e);color:var(--tx);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+button,input,select{font:inherit}.wrap{width:min(1100px,94%);margin:auto}.hidden{display:none!important}
+.top{position:sticky;top:0;z-index:30;background:#07111ff2;border-bottom:1px solid var(--line);padding:10px 0}.toprow{display:flex;gap:15px;align-items:center}.brand{font-weight:800}.grow{flex:1}
+.bar{height:9px;background:#173348;border-radius:99px;overflow:hidden}.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--a),var(--b));transition:.3s}.small{font-size:.8rem;color:var(--mut)}
+.hero{padding:42px 0 20px}.grid2{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{background:linear-gradient(180deg,#10283d,#0c1e2e);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 18px 45px #0003}
+h1{font-size:clamp(2rem,5vw,3.6rem);line-height:1.02;margin:.3rem 0 1rem}h2{font-size:clamp(1.5rem,3vw,2.25rem);margin:0 0 10px}h3{margin:0 0 8px}
+.k{color:var(--b);font-weight:800;text-transform:uppercase;font-size:.78rem;letter-spacing:1px}.lead{font-size:1.08rem;color:#d9e9f5}
+.badge{display:inline-block;margin:3px;padding:6px 10px;border:1px solid #376581;border-radius:99px;background:#0a2132}
+.sec{padding:22px 0 32px}.head{display:flex;justify-content:space-between;gap:15px;align-items:end;margin-bottom:13px}.obj{max-width:540px;color:var(--mut);font-size:.9rem}
+.mini{border:1px solid var(--line);background:#0a1c2a;border-radius:13px;padding:14px}.mini strong{color:var(--b)}.call{border-left:4px solid var(--b);background:#0a2233;padding:12px 14px;border-radius:9px;margin:12px 0}
+.tabs{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 15px}.tab{border:1px solid var(--line);background:#0a2233;color:white;border-radius:99px;padding:8px 12px;cursor:pointer}.tab.on{background:var(--a);color:#07111f;font-weight:800}
+.lesson{display:none}.lesson.on{display:block}.act{margin-top:16px;border:1px solid #376582;background:#081b2a;border-radius:16px;padding:17px}.acthead{display:flex;justify-content:space-between;gap:12px}.pts{background:#173d55;border-radius:99px;padding:4px 8px;font-size:.8rem;height:max-content}
+.options{display:grid;gap:8px;margin-top:10px}.option{width:100%;text-align:left;border:1px solid #35627f;background:#102a3e;color:white;padding:10px;border-radius:10px}.option.correct{background:#123a2d;border-color:var(--ok)}.option.wrong{background:#3b1d26;border-color:var(--bad)}
+.btn{border:0;border-radius:10px;padding:10px 14px;background:linear-gradient(90deg,var(--a),var(--b));color:#07111f;font-weight:800;cursor:pointer}.btn.alt{background:#15394f;color:white;border:1px solid #3d6d89}.feedback{min-height:22px;margin-top:9px;font-weight:700}.ok{color:var(--ok)}.no{color:var(--bad)}.tip{color:var(--warn)}
+.dragbank{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}.drag{padding:8px 10px;border:1px solid #44728e;background:#173d55;border-radius:9px;cursor:grab}.dropgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.drop{min-height:85px;border:2px dashed #34607c;border-radius:11px;padding:9px}.drop strong{display:block;color:var(--b);margin-bottom:7px}.drop.over{border-color:var(--b)}
+.hotstage{position:relative;min-height:315px;border-radius:14px;overflow:hidden;background:linear-gradient(#c8d5df 0 44px,#f9fbfd 44px 100%);color:#173040;border:1px solid #4d7189}.browserbar{height:44px;display:flex;align-items:center;gap:7px;padding:7px}.dot{width:10px;height:10px;border-radius:50%;background:#859aa9}.address{flex:1;background:white;border:1px solid #9aaebc;border-radius:7px;padding:6px 9px}.page{padding:24px}.page h4{font-size:2rem;margin:15px 0 4px}.hot{position:absolute;width:34px;height:34px;border-radius:50%;border:0;background:#ffdb58;font-weight:900;box-shadow:0 0 0 6px #ffdb5830}.h1{top:5px;left:17%}.h2{top:5px;left:48%}.h3{top:5px;right:9px}.h4{top:170px;left:70%}.hotinfo{margin-top:8px;background:#0b2334;border-radius:9px;padding:10px;min-height:48px}
+.searchrow{display:grid;grid-template-columns:1fr auto;gap:8px}.searchrow input{background:#061824;border:1px solid #35627f;border-radius:9px;padding:10px;color:white}.results{display:grid;gap:7px;margin-top:9px}.res{background:#0b2334;border:1px solid #315a75;border-radius:9px;padding:9px}
+.flash{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.fc{height:145px;perspective:800px;cursor:pointer}.fi{position:relative;width:100%;height:100%;transition:.5s;transform-style:preserve-3d}.fc.flip .fi{transform:rotateY(180deg)}.face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid #35627f;border-radius:13px;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;background:#0d293d}.back{transform:rotateY(180deg);background:#153d3f}
+.fill{line-height:2.4}.fill select,.source select{background:#0a2233;color:white;border:1px solid #35627f;border-radius:8px;padding:6px}.sources{display:grid;grid-template-columns:1fr 1fr;gap:9px}.source{border:1px solid #35627f;border-radius:11px;padding:11px;background:#0b2233}.source select{width:100%}
+.timer{height:9px;background:#18364b;border-radius:99px;overflow:hidden}.timer span{display:block;width:100%;height:100%;background:var(--warn);transition:width 1s linear}
+.start{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 30% 20%,#153c58,#06101c 58%);display:flex;align-items:center;justify-content:center;padding:18px}.startbox{width:min(760px,96%);background:#0c2234;border:1px solid #35627f;border-radius:19px;padding:25px}.form{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px}.form input,.form select{width:100%;background:#071a28;color:white;border:1px solid #35627f;border-radius:9px;padding:10px}
+.wmlayer{position:fixed;inset:0;z-index:25;pointer-events:none;display:none;overflow:hidden}.wmlayer.on{display:block}.wm{position:absolute;color:#7bd7ff1c;font-weight:900;font-size:18px;transform:rotate(-26deg);white-space:nowrap}.wm:nth-child(1){top:14%;left:4%}.wm:nth-child(2){top:35%;left:42%}.wm:nth-child(3){top:59%;left:8%}.wm:nth-child(4){top:79%;left:48%}
+.report{position:relative;overflow:hidden;background:white;color:#17232d;border-radius:16px;padding:22px}.report p{color:#40515f}.rwm{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transform:rotate(-25deg);font-size:26px;font-weight:900;color:#136c9b14;white-space:nowrap;pointer-events:none}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}.metric{border:1px solid #d3dce3;border-radius:10px;padding:10px;text-align:center}.metric b{display:block;font-size:1.45rem;color:#0d6895}.tbl{width:100%;border-collapse:collapse}.tbl th,.tbl td{border-bottom:1px solid #dfe6eb;padding:8px;text-align:left}.footer{text-align:center;color:#89a2b5;padding:25px 0 45px}
+@media(max-width:780px){.grid2,.grid3,.dropgrid,.sources,.flash{grid-template-columns:1fr}.form{grid-template-columns:1fr 1fr}.metrics{grid-template-columns:1fr 1fr}.head{display:block}.toprow .small{display:none}}
+@media print{body{background:white}.top,.hero,.sec:not(#final),.footer,.wmlayer,#finishPrompt{display:none!important}#final{display:block!important}.report{border:1px solid #aaa}}
+</style>
+</head>
+<body>
+
+<div class="start" id="start">
+ <div class="startbox">
+  <div class="k">Objeto de aprendizaje · Unidad 1</div><h2>Consumo de recursos digitales e informacionales</h2>
+  <p class="lead">Registra tus datos. Se generará una <b>marca de agua visible</b> durante el recorrido y en la boleta final.</p>
+  <div class="form">
+   <input id="name" placeholder="Nombre(s) y apellidos">
+   <select id="grade"><option value="">Grado</option><option>1°</option><option>2°</option><option>3°</option></select>
+   <input id="group" placeholder="Grupo">
+   <select id="shift"><option value="">Turno</option><option>Matutino</option><option>Vespertino</option></select>
+  </div>
+  <p class="small">La marca de agua identifica la evidencia, aunque no sustituye la supervisión del docente.</p>
+  <button class="btn" id="begin">Comenzar</button><div class="feedback" id="startmsg"></div>
+ </div>
+</div>
+
+<div class="wmlayer" id="wmlayer"><div class="wm"></div><div class="wm"></div><div class="wm"></div><div class="wm"></div></div>
+
+<div class="top"><div class="wrap toprow"><div class="brand">Consumo y Producción Digital · U1</div><div class="grow"><div class="bar"><span id="pbar"></span></div><div class="small" id="plabel">0% · 0/7 retos</div></div><div class="small" id="chip">Estudiante</div></div></div>
+
+<section class="hero"><div class="wrap grid2">
+ <div class="card"><div class="k">Misión digital</div><h1>Buscar no es lo mismo que encontrar bien.</h1><p class="lead">Aprende a usar navegadores y buscadores con intención, localizar fuentes académicas y decidir si una publicación merece tu confianza.</p><span class="badge">🧭 Navegadores</span><span class="badge">🔎 Buscadores</span><span class="badge">🎓 Fuentes académicas</span><span class="badge">🕵️ Pensamiento crítico</span></div>
+ <div class="card"><h3>Ruta</h3><div class="mini"><strong>1.1</strong> Navegadores, herramientas, extensiones y motores de búsqueda.</div><div class="mini"><strong>1.2</strong> Bases de datos, repositorios y fuentes académicas.</div><div class="mini"><strong>1.3</strong> Evaluación crítica, multimedia, fake news y desinformación.</div></div>
+</div></section>
+
+<section class="sec" id="u11"><div class="wrap">
+ <div class="head"><div><div class="k">Bloque 1 · 1.1</div><h2>Navegadores, herramientas y motores de búsqueda</h2></div><div class="obj">Distingue programa, servicio de búsqueda y extensión; reconoce funciones del navegador y aplica búsquedas precisas.</div></div>
+ <div class="tabs"><button class="tab on" data-tab="c11">Conceptos</button><button class="tab" data-tab="c12">Hotspots</button><button class="tab" data-tab="c13">Busca mejor</button><button class="tab" data-tab="c14">Reto</button></div>
+ <div class="lesson on" id="c11">
+  <div class="grid2">
+   <div class="mini"><strong>🌐 Navegador web</strong><p>Programa que abre e interpreta páginas web. Ejemplos: Chrome, Firefox, Edge y Safari. Incluye pestañas, historial, marcadores, descargas, privacidad, contraseñas, extensiones y configuración.</p></div>
+   <div class="mini"><strong>🔎 Motor de búsqueda</strong><p>Servicio que localiza información a partir de términos de búsqueda. Ejemplos: Google, Bing y DuckDuckGo. Un buscador puede usarse dentro de distintos navegadores.</p></div>
+   <div class="mini"><strong>🧩 Extensiones</strong><p>Agregan funciones al navegador: traducción, lectura limpia, captura, concentración o acceso a recursos académicos.</p></div>
+   <div class="mini"><strong>🍪 Cookies + incógnito</strong><p>Las cookies recuerdan sesión, preferencias o actividad. El modo incógnito reduce el registro local al cerrar, pero <b>no vuelve anónima</b> tu navegación frente a sitios, escuela, empresa o proveedor de Internet.</p></div>
+  </div>
+  <div class="call"><b>Conceptos que conviene dominar:</b> navegador ≠ buscador; cookies; extensiones; modo incógnito y sus límites.</div>
+ </div>
+ <div class="lesson" id="c12">
+  <p>Haz clic en los círculos amarillos.</p>
+  <div class="hotstage"><div class="browserbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="address">https://biblioteca.example.edu/articulo</div></div><div class="page"><small>Portal académico</small><h4>Cómo evaluar información en Internet</h4><p>Autor identificado · Fecha · Referencias</p></div>
+   <button class="hot h1" data-hot="Pestañas: permiten mantener varias páginas abiertas.">1</button><button class="hot h2" data-hot="Barra de direcciones: muestra o recibe una URL y, según la configuración, también acepta búsquedas.">2</button><button class="hot h3" data-hot="Menú y configuración: acceso a historial, descargas, privacidad, extensiones y otras funciones.">3</button><button class="hot h4" data-hot="Contenido web: información que el navegador interpreta y presenta en pantalla.">4</button>
+  </div><div class="hotinfo" id="hotinfo">Selecciona un punto.</div>
+ </div>
+ <div class="lesson" id="c13">
+  <div class="grid2">
+   <div class="mini"><strong>Frase exacta</strong><p><code>"salud mental en adolescentes"</code></p><p>Las comillas buscan esas palabras juntas y en ese orden.</p></div>
+   <div class="mini"><strong>Tipo de archivo</strong><p><code>cambio climático filetype:pdf</code></p><p>Limita por formato.</p></div>
+   <div class="mini"><strong>Sitio específico</strong><p><code>vacunación site:who.int</code></p><p>Limita resultados a un dominio.</p></div>
+   <div class="mini"><strong>Fecha</strong><p>Usa el filtro de fecha cuando la actualidad de la información sea importante.</p></div>
+  </div>
+  <div class="searchrow"><input id="q" placeholder='Ej.: "uso responsable de redes sociales" filetype:pdf'><button class="btn" id="analyze">Analizar</button></div><div class="results" id="qres"></div>
+ </div>
+ <div class="lesson" id="c14">
+  <div class="act" data-id="a1"><div class="acthead"><h3>Reto 1 · Clasifica</h3><span class="pts">4 pts</span></div><p>Arrastra cada elemento a la categoría correcta.</p>
+   <div class="dragbank"><div class="drag" draggable="true" data-cat="nav">Firefox</div><div class="drag" draggable="true" data-cat="search">Bing</div><div class="drag" draggable="true" data-cat="tool">Extensión traductora</div><div class="drag" draggable="true" data-cat="search">DuckDuckGo</div><div class="drag" draggable="true" data-cat="nav">Edge</div><div class="drag" draggable="true" data-cat="tool">Mercury Reader</div></div>
+   <div class="dropgrid"><div class="drop" data-acc="nav"><strong>Navegador</strong></div><div class="drop" data-acc="search"><strong>Motor de búsqueda</strong></div><div class="drop" data-acc="tool"><strong>Herramienta / extensión</strong></div></div>
+   <button class="btn alt checkdrag">Comprobar</button><div class="feedback"></div>
+  </div>
+  <div class="act" data-id="a2"><div class="acthead"><h3>Reto 2 · La mejor consulta</h3><span class="pts">2 pts</span></div><p>Quieres localizar un PDF reciente sobre uso responsable de redes sociales en adolescentes. ¿Cuál es la búsqueda más precisa?</p><div class="options">
+   <button class="option" data-ok="0">redes sociales</button><button class="option" data-ok="0">adolescentes internet pdf</button><button class="option" data-ok="1">"uso responsable de redes sociales" adolescentes filetype:pdf + filtro de fecha</button><button class="option" data-ok="0">Facebook jóvenes tarea</button>
+  </div><div class="feedback"></div></div>
+ </div>
+</div></section>
+
+<section class="sec" id="u12"><div class="wrap">
+ <div class="head"><div><div class="k">Bloque 2 · 1.2</div><h2>Fuentes académicas y científicas en Internet</h2></div><div class="obj">Reconoce bases de datos, repositorios y señales de una fuente académica o científica.</div></div>
+ <div class="grid3">
+  <div class="mini"><strong>Base de datos especializada</strong><p>Organiza registros académicos o científicos y permite filtrar por tema, autor, fecha o disciplina.</p></div>
+  <div class="mini"><strong>Repositorio</strong><p>Almacena y conserva producción académica: tesis, artículos, informes y otros documentos.</p></div>
+  <div class="mini"><strong>Buscador académico</strong><p>Ayuda a localizar literatura académica en múltiples fuentes. Ejemplo frecuente: Google Scholar.</p></div>
+ </div>
+ <div class="call"><b>Ejemplos frecuentes:</b> Google Scholar, SciELO y RedALyC. Revisa autoría, fecha, institución o revista, referencias y datos verificables.</div>
+ <div class="flash">
+  <div class="fc"><div class="fi"><div class="face"><b>DOI</b><br>Toca para voltear</div><div class="face back">Identificador persistente usado para localizar y distinguir documentos académicos digitales.</div></div></div>
+  <div class="fc"><div class="fi"><div class="face"><b>Palabras clave</b><br>Toca para voltear</div><div class="face back">Términos que resumen los temas centrales de una investigación y facilitan su búsqueda.</div></div></div>
+  <div class="fc"><div class="fi"><div class="face"><b>Referencias</b><br>Toca para voltear</div><div class="face back">Fuentes usadas por el autor; permiten rastrear de dónde provienen ideas y datos.</div></div></div>
+ </div>
+ <div class="act" data-id="a3"><div class="acthead"><h3>Reto 3 · Completa la ruta</h3><span class="pts">4 pts</span></div><div class="fill">Para una tarea escolar seria conviene buscar en <select data-a="acad"><option value="">elige</option><option value="social">una red social</option><option value="acad">una fuente académica</option><option value="chat">un chat anónimo</option></select>, revisar que tenga <select data-a="author"><option value="">elige</option><option value="likes">muchos likes</option><option value="author">autor y fecha</option><option value="emoji">emojis</option></select> y comprobar sus <select data-a="refs"><option value="">elige</option><option value="refs">referencias</option><option value="ads">anuncios</option><option value="followers">seguidores</option></select>.</div><button class="btn alt" id="fillcheck">Comprobar</button><div class="feedback"></div></div>
+ <div class="act" data-id="a4"><div class="acthead"><h3>Reto 4 · Clasifica fuentes</h3><span class="pts">4 pts</span></div><div class="sources">
+  <div class="source"><b>A.</b> Portal que reúne tesis y trabajos producidos por una universidad.<select data-a="repo"><option value="">Selecciona</option><option value="repo">Repositorio</option><option value="db">Base de datos especializada</option><option value="social">Red social</option></select></div>
+  <div class="source"><b>B.</b> Sistema que filtra publicaciones de una disciplina por autor, tema y año.<select data-a="db"><option value="">Selecciona</option><option value="repo">Repositorio</option><option value="db">Base de datos especializada</option><option value="social">Red social</option></select></div>
+  <div class="source"><b>C.</b> Artículo con autor, revista, año y referencias.<select data-a="academic"><option value="">Selecciona</option><option value="academic">Fuente académica</option><option value="meme">Meme</option><option value="ad">Anuncio</option></select></div>
+  <div class="source"><b>D.</b> Publicación viral sin autor, fecha ni fuentes verificables.<select data-a="weak"><option value="">Selecciona</option><option value="academic">Fuente académica</option><option value="weak">Fuente de baja confiabilidad</option><option value="repo">Repositorio</option></select></div>
+ </div><button class="btn alt" id="sourcecheck">Comprobar</button><div class="feedback"></div></div>
+</div></section>
+
+<section class="sec" id="u13"><div class="wrap">
+ <div class="head"><div><div class="k">Bloque 3 · 1.3</div><h2>Evaluación y consumo crítico de la información</h2></div><div class="obj">Evalúa la fuente, el contenido y los elementos multimedia antes de creer o compartir.</div></div>
+ <div class="grid3">
+  <div class="mini"><strong>1 · Fuente</strong><p>¿Quién publica? ¿Hay autor, institución, fecha, propósito y trayectoria verificables?</p></div>
+  <div class="mini"><strong>2 · Contenido</strong><p>¿Presenta evidencia? ¿Distingue hechos de opiniones? ¿Incluye referencias? ¿Exagera o manipula?</p></div>
+  <div class="mini"><strong>3 · Multimedia</strong><p>¿La imagen o video corresponde al hecho? ¿Está fuera de contexto o alterada? ¿Puedes localizar su origen?</p></div>
+ </div>
+ <div class="grid2"><div class="mini"><strong>🚩 Señales de alerta</strong><p>Título alarmante, “compártelo antes de que lo borren”, ausencia de autor/fecha, promesas milagrosas, datos sin fuente o imagen sin contexto.</p></div><div class="mini"><strong>🧠 Sesgo de confirmación</strong><p>Tendencia a aceptar con mayor facilidad lo que coincide con lo que ya pensamos. Verifica incluso aquello con lo que estás de acuerdo.</p></div></div>
+ <div class="call"><b>Desinformación:</b> información falsa o engañosa difundida para confundir o influir. <b>Información errónea:</b> puede ser falsa sin intención de engañar.</div>
+ <div class="act" data-id="a5"><div class="acthead"><h3>Reto 5 · Detective de información</h3><span class="pts">6 pts</span></div><p>Selecciona exactamente <b>tres acciones</b> responsables.</p><div class="mini"><b>Mensaje:</b> “🚨 URGENTE: Esta bebida elimina el estrés en 24 horas. Los expertos no quieren que lo sepas. ¡Compártelo antes de que lo borren!”</div>
+  <div class="options" id="detect"><label class="option"><input type="checkbox" value="1"> Buscar quién publica y si hay autor o institución.</label><label class="option"><input type="checkbox" value="2"> Compartirlo rápido porque dice “urgente”.</label><label class="option"><input type="checkbox" value="3"> Contrastar la afirmación con fuentes confiables.</label><label class="option"><input type="checkbox" value="4"> Creerlo si tiene muchos likes.</label><label class="option"><input type="checkbox" value="5"> Revisar fecha, evidencia y contexto.</label><label class="option"><input type="checkbox" value="6"> Aceptarlo si coincide con mi opinión.</label></div>
+  <button class="btn alt" id="detectcheck">Comprobar</button><div class="feedback"></div>
+ </div>
+ <div class="act" data-id="a6"><div class="acthead"><h3>Reto 6 · Imagen viral</h3><span class="pts">2 pts</span></div><p>Una imagen impactante dice mostrar un hecho reciente, pero no incluye fecha ni lugar. ¿Cuál es el mejor primer paso?</p><div class="options"><button class="option" data-ok="0">Compartirla y preguntar si alguien sabe si es real.</button><button class="option" data-ok="1">Buscar el origen de la imagen y contrastar el contexto con fuentes confiables.</button><button class="option" data-ok="0">Creerla si la publicó una cuenta con muchos seguidores.</button><button class="option" data-ok="0">Revisar solo los comentarios.</button></div><div class="feedback"></div></div>
+ <div class="act" data-id="a7"><div class="acthead"><h3>Reto de tiempo · 30 segundos</h3><span class="pts">4 pts</span></div><p>Cuatro decisiones rápidas contra la desinformación.</p><button class="btn" id="tstart">Iniciar reto</button><div id="tbox" class="hidden"><div class="timer"><span id="tfill"></span></div><div id="ttext">30 s</div><div class="mini" id="tq"></div><div class="options" id="topts"></div></div><div class="feedback"></div></div>
+</div></section>
+
+<section class="sec" id="final"><div class="wrap">
+ <div class="head"><div><div class="k">Cierre</div><h2>Boleta de resultados</h2></div><div class="obj">Completa los siete retos para obtener tu resultado.</div></div>
+ <div class="card" id="finishPrompt"><p>Genera tu boleta al finalizar. Puedes imprimirla o guardarla como PDF.</p><button class="btn" id="finish">Generar boleta</button><div class="feedback" id="finishmsg"></div></div>
+ <div class="report hidden" id="report"><div class="rwm" id="rwm"></div><div style="position:relative;z-index:2"><div class="k" style="color:#0a709e">Resultado de aprendizaje</div><h2 style="color:#17232d">Unidad 1 · Consumo de recursos digitales e informacionales</h2><p><b>Estudiante:</b> <span id="rname"></span><br><b>Grado / Grupo / Turno:</b> <span id="rcourse"></span><br><b>Fecha y hora:</b> <span id="rdate"></span></p>
+  <div class="metrics"><div class="metric"><b id="rscore"></b>Puntos</div><div class="metric"><b id="rpct"></b>Desempeño</div><div class="metric"><b>7/7</b>Retos</div><div class="metric"><b id="rlevel"></b>Nivel</div></div>
+  <table class="tbl"><tr><th>Bloque</th><th>Resultado</th><th>Dominio observado</th></tr><tr><td>1.1 Navegadores y buscadores</td><td id="r11"></td><td>Distinguir herramientas y aplicar búsquedas precisas.</td></tr><tr><td>1.2 Fuentes académicas</td><td id="r12"></td><td>Reconocer repositorios, bases de datos y confiabilidad.</td></tr><tr><td>1.3 Consumo crítico</td><td id="r13"></td><td>Evaluar fuente, contenido y multimedia antes de compartir.</td></tr></table>
+  <div class="call" style="background:#eef7fb;color:#20303c;border-left-color:#0b709f"><b>Recuerda:</b> buscar con intención, verificar con evidencia y pensar antes de compartir.</div>
+  <button class="btn" onclick="window.print()">Imprimir / Guardar como PDF</button>
+ </div></div>
+</div></section>
+<div class="footer">Objeto de aprendizaje · Consumo y Producción Digital · Unidad 1</div>
+
+<script>
+const S={student:null,s:{a1:null,a2:null,a3:null,a4:null,a5:null,a6:null,a7:null},m:{a1:4,a2:2,a3:4,a4:4,a5:6,a6:2,a7:4}};
+const $=q=>document.querySelector(q), $$=q=>[...document.querySelectorAll(q)];
+function wm(){return S.student.name+" · "+S.student.grade+S.student.group+" · "+S.student.shift}
+function progress(){let d=Object.values(S.s).filter(v=>v!==null).length,p=Math.round(d/7*100);$("#pbar").style.width=p+"%";$("#plabel").textContent=p+"% · "+d+"/7 retos"}
+function score(id,v){if(S.s[id]!==null)return;S.s[id]=v;progress()}
+$("#begin").onclick=()=>{let n=$("#name").value.trim(),g=$("#grade").value,gr=$("#group").value.trim().toUpperCase(),sh=$("#shift").value;if(n.split(/\s+/).length<2||!g||!gr||!sh){$("#startmsg").innerHTML='<span class="no">Completa nombre y apellidos, grado, grupo y turno.</span>';return}S.student={name:n,grade:g,group:gr,shift:sh};$("#start").classList.add("hidden");$("#wmlayer").classList.add("on");$$(".wm").forEach(x=>x.textContent=wm());$("#chip").textContent=wm();progress()}
+$$(".tab").forEach(b=>b.onclick=()=>{let w=b.closest(".wrap");w.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));w.querySelectorAll(".lesson").forEach(x=>x.classList.remove("on"));b.classList.add("on");$("#"+b.dataset.tab).classList.add("on")})
+$$(".hot").forEach(b=>b.onclick=()=>$("#hotinfo").textContent=b.dataset.hot)
+$("#analyze").onclick=()=>{let q=$("#q").value.trim(),a=[];if(!q){$("#qres").innerHTML='<div class="res">Escribe una búsqueda.</div>';return}if(/"[^"]+"/.test(q))a.push("✅ Usas comillas para frase exacta.");if(/filetype:\w+/i.test(q))a.push("✅ Limitas por tipo de archivo.");if(/site:[^\s]+/i.test(q))a.push("✅ Limitas a un sitio o dominio.");if(!a.length)a.push("💡 Puedes precisar usando comillas, filetype: o site:.");$("#qres").innerHTML=a.map(x=>'<div class="res">'+x+'</div>').join("")}
+let drag=null;document.addEventListener("dragstart",e=>{if(e.target.classList.contains("drag"))drag=e.target});$$(".drop").forEach(d=>{d.ondragover=e=>{e.preventDefault();d.classList.add("over")};d.ondragleave=()=>d.classList.remove("over");d.ondrop=e=>{e.preventDefault();d.classList.remove("over");if(drag)d.appendChild(drag)}})
+$(".checkdrag").onclick=()=>{let a=$('[data-id="a1"]'),f=a.querySelector(".feedback");if(S.s.a1!==null)return;let items=a.querySelectorAll(".drop .drag");if(items.length<6){f.innerHTML='<span class="tip">Coloca los 6 elementos.</span>';return}let n=[...items].filter(x=>x.dataset.cat===x.parentElement.dataset.acc).length,v=Math.round(n/6*4*10)/10;score("a1",v);f.innerHTML=n===6?'<span class="ok">¡Perfecto!</span>':'<span class="no">'+n+'/6 correctos.</span>'}
+$$('.act .options .option[data-ok]').forEach(o=>o.onclick=()=>{let a=o.closest(".act"),id=a.dataset.id,f=a.querySelector(".feedback");if(S.s[id]!==null)return;a.querySelectorAll(".option[data-ok]").forEach(x=>x.disabled=true);if(o.dataset.ok==="1"){o.classList.add("correct");score(id,S.m[id]);f.innerHTML='<span class="ok">Correcto.</span>'}else{o.classList.add("wrong");score(id,0);f.innerHTML='<span class="no">Revisa el criterio del bloque.</span>';let c=[...a.querySelectorAll(".option[data-ok]")].find(x=>x.dataset.ok==="1");if(c)c.classList.add("correct")}})
+$$(".fc").forEach(c=>c.onclick=()=>c.classList.toggle("flip"))
+$("#fillcheck").onclick=()=>{let a=$('[data-id="a3"]'),f=a.querySelector(".feedback");if(S.s.a3!==null)return;let ss=[...a.querySelectorAll("select")];if(ss.some(x=>!x.value)){f.innerHTML='<span class="tip">Completa los tres espacios.</span>';return}let n=ss.filter(x=>x.value===x.dataset.a).length,v=Math.round(n/3*4*10)/10;score("a3",v);f.innerHTML=n===3?'<span class="ok">Ruta correcta.</span>':'<span class="no">'+n+'/3 correctos.</span>'}
+$("#sourcecheck").onclick=()=>{let a=$('[data-id="a4"]'),f=a.querySelector(".feedback");if(S.s.a4!==null)return;let ss=[...a.querySelectorAll("select")];if(ss.some(x=>!x.value)){f.innerHTML='<span class="tip">Clasifica los cuatro casos.</span>';return}let n=ss.filter(x=>x.value===x.dataset.a).length;score("a4",n);f.innerHTML=n===4?'<span class="ok">¡Excelente!</span>':'<span class="no">'+n+'/4 correctos.</span>'}
+$("#detectcheck").onclick=()=>{let a=$('[data-id="a5"]'),f=a.querySelector(".feedback");if(S.s.a5!==null)return;let v=[...a.querySelectorAll("input:checked")].map(x=>x.value);if(v.length!==3){f.innerHTML='<span class="tip">Selecciona exactamente tres.</span>';return}let r=["1","3","5"],n=v.filter(x=>r.includes(x)).length;score("a5",n*2);f.innerHTML=n===3?'<span class="ok">Buen criterio.</span>':'<span class="no">'+n+'/3 decisiones correctas.</span>'}
+const T=[["Un titular dice: “¡No vas a creerlo! La verdad que nadie quiere que sepas”. ¿Primera señal?",["Lenguaje sensacionalista","Fuente académica","DOI visible"],0],["Una publicación coincide con tu opinión. ¿Qué haces?",["La comparto sin revisar","La verifico de todos modos","Solo leo comentarios"],1],["Una foto no tiene fecha ni lugar. ¿Qué acción es más útil?",["Buscar su origen y contexto","Confiar por los likes","Recortarla"],0],["Un artículo no tiene autor ni referencias. ¿Qué conviene?",["Buscar otra fuente mejor documentada","Usarlo si es el primer resultado","Confiar si tiene anuncios"],0]];
+let ti=0,tgood=0,left=30,timer=null;function tq(){if(ti>=T.length){tfinish(false);return}let x=T[ti];$("#tq").textContent=x[0];$("#topts").innerHTML="";x[1].forEach((t,i)=>{let b=document.createElement("button");b.className="option";b.textContent=t;b.onclick=()=>{if(i===x[2])tgood++;ti++;tq()};$("#topts").appendChild(b)})}function tfinish(out){clearInterval(timer);if(S.s.a7===null)score("a7",tgood);$('[data-id="a7"] .feedback').innerHTML='<span class="'+(tgood>=3?"ok":"no")+'">'+(out?"Tiempo terminado. ":"")+"Aciertos: "+tgood+"/4.</span>";$("#tbox").classList.add("hidden")}$("#tstart").onclick=()=>{$("#tstart").disabled=true;$("#tbox").classList.remove("hidden");ti=0;tgood=0;left=30;tq();timer=setInterval(()=>{left--;$("#ttext").textContent=left+" s";$("#tfill").style.width=(left/30*100)+"%";if(left<=0)tfinish(true)},1000)}
+$("#finish").onclick=()=>{let d=Object.values(S.s).filter(v=>v!==null).length;if(d<7){$("#finishmsg").innerHTML='<span class="tip">Faltan '+(7-d)+' reto(s).</span>';return}let sc=Object.values(S.s).reduce((a,b)=>a+b,0),mx=Object.values(S.m).reduce((a,b)=>a+b,0),pc=Math.round(sc/mx*100),lv=pc>=90?"Avanzado":pc>=75?"Sólido":pc>=60?"En proceso":"Requiere refuerzo";$("#rname").textContent=S.student.name;$("#rcourse").textContent=S.student.grade+" · Grupo "+S.student.group+" · "+S.student.shift;$("#rdate").textContent=new Date().toLocaleString("es-MX");$("#rscore").textContent=sc+"/"+mx;$("#rpct").textContent=pc+"%";$("#rlevel").textContent=lv;$("#r11").textContent=(S.s.a1+S.s.a2)+"/6 pts";$("#r12").textContent=(S.s.a3+S.s.a4)+"/8 pts";$("#r13").textContent=(S.s.a5+S.s.a6+S.s.a7)+"/12 pts";$("#rwm").textContent=wm();$("#report").classList.remove("hidden");$("#finishPrompt").classList.add("hidden");$("#report").scrollIntoView({behavior:"smooth"})}
+</script>
+</body></html>
