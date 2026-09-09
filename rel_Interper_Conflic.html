@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relaciones interpersonales: Manejo de problemas y conflictos</title>
+<style>
+:root{
+  --ink:#26344d;--mut:#66748b;--bg:#f5f7fc;--card:#fff;
+  --p:#5D7BCC;--p2:#455fb0;--red:#E45D5D;--green:#2EB872;--gold:#E9C46A;
+  --pass:#5B91C8;--agg:#E36A5D;--ass:#63AE75;--line:#dfe6f2;
+  --shadow:0 14px 38px rgba(35,54,92,.12)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:linear-gradient(180deg,#f8faff,#eef3ff 55%,#f8fbff);color:var(--ink);line-height:1.55}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.wrap{width:min(1100px,92vw);margin:auto}
+.hero{min-height:100vh;display:grid;place-items:center;padding:32px 0;position:relative;overflow:hidden}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;opacity:.35}
+.hero:before{width:460px;height:460px;background:#c7d8ff;left:-170px;top:-140px}
+.hero:after{width:360px;height:360px;background:#ffe0c7;right:-130px;bottom:-110px}
+.entry{position:relative;z-index:2;width:min(800px,94vw);background:#fffffff2;border:1px solid #e3e9f5;border-radius:28px;box-shadow:var(--shadow);padding:32px}
+.tag{display:inline-flex;align-items:center;gap:7px;background:#eef2ff;color:var(--p2);padding:7px 11px;border-radius:999px;font-weight:850;font-size:.84rem}
+h1{font-size:clamp(2.1rem,5.3vw,4.35rem);line-height:1.03;margin:.2em 0 .25em}
+h2{font-size:clamp(1.55rem,3vw,2.25rem);line-height:1.12;margin:.2em 0 .35em}
+h3{margin:1em 0 .4em}
+.muted{color:var(--mut)}
+.notice{background:#fff8df;border-left:5px solid var(--gold);padding:12px 14px;border-radius:10px;margin:18px 0;color:#5f5124}
+.grid4{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:11px}
+.field label{display:block;font-size:.82rem;font-weight:850;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:11px;border:1px solid #cfd9eb;border-radius:11px;background:white;color:var(--ink);outline:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(93,123,204,.12)}
+.btn{border:0;border-radius:11px;padding:11px 17px;font-weight:850;transition:.2s}
+.btn:hover{transform:translateY(-1px)}
+.primary{background:var(--p);color:white;box-shadow:0 8px 20px rgba(93,123,204,.22)}
+.soft{background:#edf2ff;color:var(--p2)}
+.good{background:var(--green);color:white}
+.danger{background:#fff0f0;color:#9e3434;border:1px solid #ffd0d0}
+.topbar{position:sticky;top:0;z-index:30;background:#ffffffeb;backdrop-filter:blur(14px);border-bottom:1px solid #e3e9f5}
+.topin{display:flex;gap:14px;align-items:center;padding:11px 0}
+.progress{height:9px;background:#e7ecf7;border-radius:99px;overflow:hidden;flex:1}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--p),var(--green));transition:.35s}
+.pct{font-size:.82rem;font-weight:850;color:var(--mut)}
+.module{margin:26px auto;background:var(--card);border:1px solid #e4eaf5;border-radius:22px;box-shadow:var(--shadow);padding:24px}
+.eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:.74rem;font-weight:900;color:var(--p)}
+.lead{font-size:1.16rem;background:#eef3ff;border-left:6px solid var(--p);padding:16px;border-radius:13px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.pill{padding:7px 10px;background:#f2f5fa;border:1px solid #dce4f1;border-radius:999px;font-weight:780}
+.activity{background:#fbfcff;border:1px solid #e0e7f2;border-radius:17px;padding:17px}
+.activity-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.score{background:#edf2ff;color:var(--p2);font-weight:900;padding:5px 9px;border-radius:999px;font-size:.8rem}
+.feedback{margin-top:11px;padding:9px 11px;border-radius:9px;font-weight:800}
+.ok{background:#e7f7ef;color:#177646}
+.warn{background:#fff7dc;color:#745e12}
+.bad{background:#fff0f0;color:#993838}
+
+/* network opener */
+.network{position:relative;min-height:370px;border-radius:18px;background:linear-gradient(145deg,#eef5ff,#fff8ef);overflow:hidden}
+.net-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:115px;height:115px;border-radius:50%;background:white;border:6px solid var(--red);display:grid;place-items:center;text-align:center;font-weight:950;z-index:4;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.person{position:absolute;width:104px;height:104px;border-radius:50%;background:white;border:3px solid #dbe3f0;display:grid;place-items:center;text-align:center;font-size:37px;font-weight:850;z-index:4}
+.person small{display:block;font-size:.68rem;color:var(--mut)}
+.p1{left:7%;top:13%}.p2{right:8%;top:11%}.p3{left:10%;bottom:8%}.p4{right:10%;bottom:9%}.p5{left:50%;top:5%;transform:translateX(-50%)}
+.rope{position:absolute;height:5px;background:var(--red);transform-origin:left center;opacity:.75;z-index:2}
+.r1{left:15%;top:29%;width:38%;transform:rotate(18deg)}.r2{left:51%;top:30%;width:34%;transform:rotate(-17deg)}.r3{left:17%;top:70%;width:38%;transform:rotate(-18deg)}.r4{left:51%;top:69%;width:34%;transform:rotate(17deg)}.r5{left:50%;top:18%;width:5px;height:118px}
+.netprompt{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);background:#ffffffea;padding:8px 12px;border-radius:999px;font-weight:850;z-index:5}
+
+/* hotspots */
+.hotgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.hot{border:0;color:white;border-radius:18px;padding:20px;text-align:left;min-height:185px;position:relative;overflow:hidden}
+.hot:after{content:"+";position:absolute;right:16px;bottom:8px;font-size:36px;opacity:.75}
+.hot strong{display:block;font-size:1.3rem;margin-bottom:6px}
+.hot.pass{background:linear-gradient(145deg,#4d82b9,#78a9dc)}
+.hot.agg{background:linear-gradient(145deg,#d6534b,#ed8074)}
+.hot.ass{background:linear-gradient(145deg,#4f9c61,#75bd83)}
+.reveal{margin-top:12px;border:1px solid #e0e6f1;background:#f7f9fd;padding:14px;border-radius:12px}
+.compare{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{padding:11px;border:1px solid #dfe6f2;text-align:left;vertical-align:top}
+th{background:#f0f4ff;color:var(--p2)}
+
+.flashgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.flash{min-height:145px;border:1px solid #dce4f1;background:white;border-radius:15px;padding:16px;text-align:left}
+.flash b{display:block;font-size:1.06rem;color:var(--p2)}
+.flash .back{display:none;margin-top:8px}
+.flash.open{background:#eef3ff}
+.flash.open .back{display:block}
+
+/* relationship map */
+.mapwrap{display:grid;grid-template-columns:300px 1fr;gap:16px}
+.mapcontrols{background:#f7f9fd;border:1px solid #e1e7f2;border-radius:14px;padding:14px}
+.mapcontrols input,.mapcontrols select{width:100%;padding:8px;border:1px solid #cfd8e8;border-radius:9px;margin:5px 0 10px}
+.mapcanvas{min-height:350px;border-radius:16px;background:radial-gradient(circle at 50% 50%,#fff 0 16%,#f1f6ff 17% 42%,#fbfcff 43%);position:relative;border:1px solid #e0e6f1}
+.me{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:100px;height:100px;border-radius:50%;background:var(--p);color:white;display:grid;place-items:center;text-align:center;font-weight:950}
+.node{position:absolute;width:98px;height:98px;border-radius:50%;background:white;border:4px solid var(--green);display:grid;place-items:center;text-align:center;font-weight:850;padding:5px;box-shadow:0 7px 18px rgba(35,54,92,.07);cursor:pointer}
+.node.fuerte{border-color:var(--green)}.node.media{border-color:var(--gold)}.node.debil{border-color:var(--red)}
+.node small{display:block;font-size:.65rem;color:var(--mut)}
+
+/* classification */
+.classgrid{display:grid;grid-template-columns:1fr 1.35fr;gap:14px;margin-top:12px}
+.pool{display:flex;flex-wrap:wrap;gap:7px;align-content:flex-start}
+.chip{background:white;border:1px solid #cfd8e8;border-radius:999px;padding:7px 10px;font-weight:800;cursor:grab;user-select:none}
+.chip.selected{outline:3px solid rgba(93,123,204,.2);border-color:var(--p)}
+.bins{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.bin{min-height:235px;border:2px dashed #c9d3e5;border-radius:13px;padding:9px}
+.bin .chip{display:block;margin:5px 0;border-radius:8px;font-size:.82rem}
+.bin[data-style="pasivo"]{background:#eff6fc}
+.bin[data-style="agresivo"]{background:#fff1ef}
+.bin[data-style="asertivo"]{background:#eff9f1}
+
+/* sequence */
+.seqbank{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.seqitem{border:1px solid #ced8ea;background:white;border-radius:10px;padding:9px 11px;font-weight:850;cursor:grab}
+.seqslots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.seqslot{min-height:135px;border:2px dashed #cbd5e7;border-radius:12px;padding:9px;background:#f7f9fd}
+.seqslot b{display:block;color:var(--p2);margin-bottom:7px}
+.seqslot .seqitem{display:block;margin-top:6px}
+
+/* simulator */
+.simgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.controlbox{background:#f7f9fd;border:1px solid #e1e7f2;border-radius:14px;padding:14px}
+.controlbox label{display:block;font-weight:800;margin-top:9px}
+.controlbox select{width:100%;padding:8px;border:1px solid #cfd8e8;border-radius:9px;background:white}
+.preview{border-radius:14px;padding:18px;min-height:260px;background:#eef3ff;display:flex;flex-direction:column;justify-content:center}
+.preview .resulttitle{font-weight:950;font-size:1.2rem;margin-bottom:8px}
+.preview .bubble{background:white;border-radius:16px;padding:15px;border:1px solid #dfe6f2;box-shadow:0 7px 18px rgba(35,54,92,.07)}
+
+.timer{font-size:1.45rem;font-weight:950;color:var(--red)}
+.case{border:1px solid #dce4f1;border-radius:12px;padding:12px;margin:9px 0;background:white}
+.opts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.opt{border:1px solid #cdd7e7;background:white;border-radius:9px;padding:7px 9px}
+.opt.on{background:#e9efff;border-color:var(--p);font-weight:850;color:var(--p2)}
+.quizq{padding:12px 0;border-bottom:1px solid #e9edf5}
+.quizq label{display:block;margin:6px 0}
+
+.contract{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.contract textarea,.contract select,.contract input{width:100%;padding:10px;border:1px solid #ced8ea;border-radius:10px}
+.contract textarea{min-height:90px}
+.contract .full{grid-column:1/-1}
+
+.report{position:relative;overflow:hidden;border:2px solid #dde5f3;border-radius:20px;padding:24px;background:linear-gradient(#fff,#f6f8ff);margin-top:15px}
+.reportwm{position:absolute;inset:0;display:grid;place-items:center;opacity:.07;transform:rotate(-22deg);font-size:clamp(1.1rem,4vw,3rem);font-weight:950;text-align:center;pointer-events:none}
+.reportcontent{position:relative;z-index:1}
+.rtop{display:flex;justify-content:space-between;gap:18px}
+.bigscore{font-size:4rem;font-weight:950;line-height:1;color:var(--p)}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:15px 0}
+.metric{background:white;border:1px solid #e1e7f2;border-radius:11px;padding:10px}
+.metric b{display:block;font-size:1.15rem}
+.watermarks{position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.052;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:175px;transform:rotate(-18deg) scale(1.16);transform-origin:center}
+.watermarks span{display:grid;place-items:center;font-weight:950;text-align:center;padding:10px}
+.source{font-size:.85rem;color:var(--mut);padding:10px 0 46px}
+
+@media(max-width:850px){
+ .grid4{grid-template-columns:1fr 1fr}.hotgrid{grid-template-columns:1fr}.flashgrid{grid-template-columns:1fr}.mapwrap,.classgrid,.simgrid{grid-template-columns:1fr}
+ .bins{grid-template-columns:1fr}.seqslots{grid-template-columns:1fr 1fr}.metrics{grid-template-columns:1fr 1fr}.contract{grid-template-columns:1fr}.contract .full{grid-column:auto}
+}
+@media(max-width:520px){.grid4{grid-template-columns:1fr}.module{padding:16px}.rtop{display:block}.seqslots{grid-template-columns:1fr}}
+@media print{
+ body{background:white}.topbar,.module:not(#results),.source,#makeReport,#reset{display:none!important}
+ #results{box-shadow:none;border:0;margin:0}.report{min-height:90vh}.watermarks{opacity:.035}.wrap{width:100%}
+}
+</style>
+</head>
+<body>
+
+<section id="entry" class="hero">
+  <div class="entry">
+    <span class="tag">Tutoría de Trayecto I · Objeto de aprendizaje</span>
+    <h1>Relaciones interpersonales</h1>
+    <p class="muted"><strong>Manejo de problemas y conflictos</strong> · Aprende a reconocer cómo nuestras respuestas pueden dañar, aumentar o ayudar a resolver un conflicto.</p>
+    <div class="notice">Escribe tus datos reales. Se transformarán en una <strong>marca de agua personal</strong> visible durante toda la actividad y en tu boleta final.</div>
+    <div class="grid4">
+      <div class="field"><label>Nombre completo con apellidos</label><input id="name" placeholder="Nombre y apellidos"></div>
+      <div class="field"><label>Grado</label><select id="grade"><option value="">—</option><option>1°</option><option>2°</option><option>3°</option></select></div>
+      <div class="field"><label>Grupo</label><input id="group" placeholder="Ej. C"></div>
+      <div class="field"><label>Turno</label><select id="shift"><option value="">—</option><option>Matutino</option><option>Vespertino</option></select></div>
+    </div>
+    <p><button class="btn primary" id="start">Comenzar</button></p>
+  </div>
+</section>
+
+<div id="app" class="hidden">
+<div class="watermarks" id="wms"></div>
+<div class="topbar"><div class="wrap topin"><b>🪢 Relaciones interpersonales</b><div class="progress"><i id="bar"></i></div><span class="pct" id="pct">0%</span></div></div>
+
+<main class="wrap">
+
+<section class="module">
+  <div class="eyebrow">1 · Apertura</div><h2>El nudo de las relaciones</h2>
+  <p>Imagina que esta red representa a un grupo. Cada persona sostiene una parte del mismo vínculo.</p>
+  <div class="network">
+    <div class="rope r1"></div><div class="rope r2"></div><div class="rope r3"></div><div class="rope r4"></div><div class="rope r5"></div>
+    <div class="person p1">👩<small>Amiga</small></div><div class="person p2">👨<small>Compañero</small></div>
+    <div class="person p3">🧑<small>Familiar</small></div><div class="person p4">👩‍🏫<small>Docente</small></div>
+    <div class="person p5">🧑‍🎓<small>Estudiante</small></div>
+    <button class="net-center" id="knot">🪢<br>CONFLICTO</button>
+    <div class="netprompt">Toca el nudo y observa la idea clave</div>
+  </div>
+  <div id="knotFb"></div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">2 · Conceptos</div><h2>Relaciones, problemas y conflictos</h2>
+  <div class="lead"><strong>Las relaciones interpersonales</strong> son vínculos que construimos con otras personas mediante comunicación, confianza, respeto, cooperación, límites y experiencias compartidas.</div>
+  <div class="pills"><span class="pill">🤝 Confianza</span><span class="pill">💬 Comunicación</span><span class="pill">🧭 Límites</span><span class="pill">❤️ Respeto</span><span class="pill">🧩 Cooperación</span></div>
+  <h3>¿Qué es un conflicto?</h3>
+  <p>Es una situación en la que existen <strong>diferencias de ideas, intereses, necesidades, percepciones o expectativas</strong>. El conflicto no es automáticamente “malo”; lo decisivo es <strong>cómo se maneja</strong>.</p>
+  <div class="notice"><strong>Idea clave:</strong> un problema puede convertirse en conflicto cuando afecta la relación entre personas. Resolver el asunto y cuidar el vínculo son dos tareas relacionadas.</div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">3 · Hotspots</div><h2>Tres estilos de respuesta ante el conflicto</h2>
+  <p class="muted">Toca cada opción para analizar qué ocurre con el problema y con la relación.</p>
+  <div class="hotgrid">
+    <button class="hot pass" data-hot="pasivo"><strong>😶 Evitar / Pasividad</strong>Callar, ceder o aplazar el conflicto.</button>
+    <button class="hot agg" data-hot="agresivo"><strong>😠 Competir / Agresividad</strong>Imponer la propia postura.</button>
+    <button class="hot ass" data-hot="asertivo"><strong>🤝 Colaborar / Negociar</strong>Buscar solución y cuidar la relación.</button>
+  </div>
+  <div id="reveal" class="reveal">Selecciona un estilo.</div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">4 · Comparación</div><h2>¿Qué efecto tiene cada estilo?</h2>
+  <div class="compare">
+  <table>
+    <thead><tr><th>Aspecto</th><th>Pasivo / Evitar</th><th>Agresivo / Competir</th><th>Asertivo / Colaborar</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Meta principal</strong></td><td>Evitar tensión inmediata.</td><td>Ganar o imponer.</td><td>Resolver y cuidar el vínculo.</td></tr>
+      <tr><td><strong>Forma de actuar</strong></td><td>Calla, cede, pospone.</td><td>Ataca, culpa, amenaza.</td><td>Escucha, explica, propone, negocia.</td></tr>
+      <tr><td><strong>Efecto frecuente</strong></td><td>El problema permanece y puede crecer.</td><td>Escala el conflicto y daña la relación.</td><td>Aumenta la posibilidad de acuerdo y aprendizaje.</td></tr>
+      <tr><td><strong>Mensaje implícito</strong></td><td>“Lo tuyo importa más.”</td><td>“Lo mío importa más.”</td><td>“Ambas partes importan.”</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">5 · Flashcards</div><h2>Conceptos esenciales</h2>
+  <p class="muted">Toca cada tarjeta para revelar la idea del reverso.</p>
+  <div id="flash" class="flashgrid"></div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">6 · Exploración personal</div><h2>Mapa de mis relaciones</h2>
+  <p class="muted">Agrega hasta cinco personas importantes. Este ejercicio es solo para tu reflexión local: evita escribir información privada o delicada.</p>
+  <div class="mapwrap">
+    <div class="mapcontrols">
+      <label><strong>Persona o rol</strong></label><input id="mapName" placeholder="Ej. mamá, amigo, docente">
+      <label><strong>Tipo de relación</strong></label>
+      <select id="mapType"><option>Familiar</option><option>Amistad</option><option>Escolar</option><option>Otra</option></select>
+      <label><strong>Nivel actual</strong></label>
+      <select id="mapLevel"><option value="fuerte">Fuerte / positiva</option><option value="media">En proceso</option><option value="debil">Necesita atención</option></select>
+      <button class="btn soft" id="addNode">Agregar al mapa</button>
+      <div id="mapFb"></div>
+    </div>
+    <div class="mapcanvas" id="mapcanvas"><div class="me">YO<br>🧑‍🎓</div></div>
+  </div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">7 · Arrastrar y soltar</div><h2>Clasifica respuestas ante conflictos</h2>
+  <div class="activity">
+    <div class="activity-head"><b>Arrastra cada frase a su estilo</b><span class="score">25 puntos</span></div>
+    <div class="classgrid">
+      <div id="pool" class="pool"></div>
+      <div class="bins">
+        <div class="bin" data-style="pasivo"><b>😶 Pasivo / Evitar</b></div>
+        <div class="bin" data-style="agresivo"><b>😠 Agresivo / Competir</b></div>
+        <div class="bin" data-style="asertivo"><b>🤝 Asertivo / Colaborar</b></div>
+      </div>
+    </div>
+    <p><button class="btn primary" id="checkClass">Comprobar clasificación</button></p>
+    <div id="classFb"></div>
+  </div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">8 · Secuencia</div><h2>Ordena una ruta colaborativa para resolver conflictos</h2>
+  <div class="activity">
+    <div class="activity-head"><b>Arrastra los cuatro pasos en orden</b><span class="score">20 puntos</span></div>
+    <div id="seqbank" class="seqbank"></div>
+    <div class="seqslots">
+      <div class="seqslot" data-pos="1"><b>Paso 1</b></div>
+      <div class="seqslot" data-pos="2"><b>Paso 2</b></div>
+      <div class="seqslot" data-pos="3"><b>Paso 3</b></div>
+      <div class="seqslot" data-pos="4"><b>Paso 4</b></div>
+    </div>
+    <p><button class="btn primary" id="checkSeq">Comprobar secuencia</button></p>
+    <div id="seqFb"></div>
+  </div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">9 · Simulador</div><h2>Laboratorio de conflicto</h2>
+  <p class="muted">Manipula el estilo, el tono y la intención. Observa qué pasa con el problema y con el vínculo.</p>
+  <div class="activity">
+    <div class="activity-head"><b>Elige cómo responder</b><span class="score">20 puntos</span></div>
+    <div class="simgrid">
+      <div class="controlbox">
+        <label>Situación</label>
+        <select id="simSituation">
+          <option>Tu compañero no entregó su parte del proyecto.</option>
+          <option>Un amigo contó algo que le pediste mantener en privado.</option>
+          <option>En casa cambian un acuerdo sin avisarte.</option>
+        </select>
+        <label>Estilo</label>
+        <select id="simStyle">
+          <option value="pasivo">Evitar / pasivo</option>
+          <option value="agresivo">Competir / agresivo</option>
+          <option value="asertivo">Colaborar / asertivo</option>
+        </select>
+        <label>Tono</label>
+        <select id="simTone">
+          <option value="pasivo">Inseguro / evasivo</option>
+          <option value="agresivo">Desafiante / elevado</option>
+          <option value="asertivo">Firme / calmado</option>
+        </select>
+        <label>Objetivo</label>
+        <select id="simGoal">
+          <option value="pasivo">Que el tema desaparezca sin hablarlo</option>
+          <option value="agresivo">Demostrar que yo tengo razón</option>
+          <option value="asertivo">Resolver el asunto y cuidar la relación</option>
+        </select>
+        <p><button class="btn soft" id="trySim">Probar respuesta</button></p>
+      </div>
+      <div class="preview" id="preview"><div class="resulttitle">Prueba una combinación</div><div class="bubble">El resultado cambia según el estilo, tono e intención.</div></div>
+    </div>
+    <div id="simFb"></div>
+  </div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">10 · Reto de tiempo</div><h2>60 segundos: ¿qué respuesta fortalece la relación?</h2>
+  <div class="activity">
+    <div class="activity-head"><b>5 mini casos</b><span class="score">15 puntos</span><span class="timer" id="timer">01:00</span></div>
+    <div id="cases"></div>
+    <button class="btn primary" id="startCases">Iniciar reto</button>
+    <button class="btn good hidden" id="endCases">Finalizar</button>
+    <div id="caseFb"></div>
+  </div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">11 · Contrato personal</div><h2>Contrato de fortalecimiento relacional</h2>
+  <p class="muted">Escribe de forma general. No es necesario registrar nombres ni detalles privados.</p>
+  <div class="contract">
+    <div><label><strong>1. El nudo</strong></label><textarea id="contractKnot" placeholder="Describe brevemente un tipo de conflicto recurrente, sin identificar personas."></textarea></div>
+    <div><label><strong>2. Mi respuesta actual</strong></label><select id="contractStyle"><option>Pasiva / evitar</option><option>Agresiva / competir</option><option>Asertiva / colaborar</option><option>Depende de la situación</option></select></div>
+    <div class="full"><label><strong>3. Tres pasos concretos que aplicaré</strong></label><textarea id="contractSteps" placeholder="1) ...  2) ...  3) ..."></textarea></div>
+  </div>
+  <p><button class="btn soft" id="saveContract">Guardar compromiso</button></p>
+  <div id="contractFb"></div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">12 · Quiz final</div><h2>Comprueba lo aprendido</h2>
+  <div class="activity">
+    <div class="activity-head"><b>Cuestionario rápido</b><span class="score">20 puntos</span></div>
+    <div id="quiz"></div>
+    <button class="btn primary" id="checkQuiz">Calificar quiz</button>
+    <div id="quizFb"></div>
+  </div>
+</section>
+
+<section class="module" id="results">
+  <div class="eyebrow">13 · Evidencia</div><h2>Boleta de resultados</h2>
+  <label><input type="checkbox" id="honor"> Declaro que realicé personalmente las actividades y que mis datos son correctos.</label>
+  <p><button class="btn good" id="makeReport">Generar boleta</button></p>
+  <div id="report" class="report hidden">
+    <div id="reportwm" class="reportwm"></div>
+    <div class="reportcontent">
+      <div class="rtop">
+        <div><span class="tag">Tutoría de Trayecto I</span><h2>Resultado · Relaciones interpersonales y conflictos</h2><div id="student"></div></div>
+        <div><div id="total" class="bigscore">0</div><b>/ 100</b></div>
+      </div>
+      <div id="metrics" class="metrics"></div>
+      <h3 id="level"></h3>
+      <p id="rec"></p>
+      <hr>
+      <p><b>Folio:</b> <span id="folio"></span><br>
+      <b>Fecha y hora:</b> <span id="date"></span><br>
+      <b>Intentos registrados:</b> <span id="tries"></span></p>
+      <button class="btn primary" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
+    </div>
+  </div>
+  <button class="btn danger" id="reset" style="margin-top:18px">Reiniciar</button>
+</section>
+
+</main>
+<div class="wrap source"><b>Nota didáctica:</b> objeto de aprendizaje diseñado con base en la secuencia de Tutoría de Trayecto I proporcionada para el tema “Relaciones interpersonales: Manejo de problemas y conflictos”.</div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const state={student:null,done:new Set(),scores:{clas:0,seq:0,sim:0,cases:0,quiz:0},tries:{clas:0,seq:0,sim:0,cases:0,quiz:0},timer:null,left:60,ended:false,mapCount:0,selected:null};
+function esc(s){return s.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}
+function hash(str){let h=2166136261;for(const c of str){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return (h>>>0).toString(36).toUpperCase()}
+function mark(x){state.done.add(x);let p=Math.min(100,Math.round(state.done.size/10*100));$("#bar").style.width=p+"%";$("#pct").textContent=p+"%"}
+function wmText(){let s=state.student;return `${s.name} · ${s.grade}${s.group} · ${s.shift} · ${s.folio}`}
+
+$("#start").onclick=()=>{
+ let name=$("#name").value.trim(),grade=$("#grade").value,group=$("#group").value.trim().toUpperCase(),shift=$("#shift").value;
+ if(name.split(/\s+/).length<2||!grade||!group||!shift){alert("Completa nombre con apellidos, grado, grupo y turno.");return}
+ let folio=hash(name+"|"+grade+"|"+group+"|"+shift+"|"+new Date().toISOString());
+ state.student={name,grade,group,shift,folio};
+ $("#entry").classList.add("hidden");$("#app").classList.remove("hidden");
+ $("#wms").innerHTML=Array(24).fill(`<span>${esc(wmText())}</span>`).join("");
+ $("#reportwm").textContent=wmText();build();window.scrollTo(0,0);
+};
+
+$("#knot").onclick=()=>{
+ $("#knotFb").innerHTML='<div class="feedback ok"><strong>La red muestra una idea importante:</strong> cuando una persona jala, suelta o cambia su forma de actuar, otras partes del vínculo también pueden verse afectadas. El conflicto es el “nudo”; manejarlo implica trabajar sobre el problema y sobre la relación.</div>';
+ mark("knot")
+};
+
+const hotInfo={
+ pasivo:"<b>Evitar / Pasividad:</b> puede disminuir la tensión por un momento, pero el problema queda sin atender. A largo plazo puede producir frustración, resentimiento o distancia.",
+ agresivo:"<b>Competir / Agresividad:</b> busca imponer una postura y puede escalar el conflicto. Es frecuente que produzca defensividad, miedo, enojo o ruptura del vínculo.",
+ asertivo:"<b>Colaborar / Negociación:</b> reconoce las necesidades de ambas partes, escucha, explica, propone y busca acuerdos. No garantiza que todos obtengan exactamente lo que desean, pero aumenta la posibilidad de una solución respetuosa."
+};
+$$(".hot").forEach(b=>b.onclick=()=>{$("#reveal").innerHTML=hotInfo[b.dataset.hot];mark("hot")});
+
+function build(){
+ const flash=[
+  ["Relación interpersonal","Vínculo entre personas construido mediante comunicación, confianza, respeto, límites y experiencias compartidas."],
+  ["Conflicto","Diferencia de ideas, intereses, necesidades, percepciones o expectativas que requiere manejo."],
+  ["Evitar / Pasividad","Se calla, cede o pospone. Puede proteger de la tensión inmediata, pero no resuelve el fondo."],
+  ["Competir / Agresividad","Busca ganar o imponer. Puede resolver algo por fuerza, pero suele dañar el vínculo."],
+  ["Colaborar / Asertividad","Busca atender el problema y cuidar la relación mediante diálogo, escucha y negociación."],
+  ["Negociación","Proceso de buscar acuerdos posibles considerando intereses, límites y alternativas de las partes."]
+ ];
+ $("#flash").innerHTML=flash.map(x=>`<button class="flash"><b>${x[0]}</b><span class="muted">Toca para ver la definición</span><div class="back">${x[1]}</div></button>`).join("");
+ $$(".flash").forEach(f=>f.onclick=()=>{f.classList.toggle("open");mark("flash")});
+
+ const cls=[
+  ["“Mejor no digo nada para que no se enoje.”","pasivo"],["Acepta algo aunque no está de acuerdo.","pasivo"],["Pospone siempre la conversación difícil.","pasivo"],
+  ["“¡Se hace como yo digo y punto!”","agresivo"],["Culpa e insulta para conseguir obediencia.","agresivo"],["Interrumpe y eleva la voz para imponerse.","agresivo"],
+  ["“Quiero explicar lo que necesito y escuchar tu versión.”","asertivo"],["Propone una alternativa que ambas partes pueden discutir.","asertivo"],["Pone un límite con respeto.","asertivo"],["Busca aclarar hechos antes de culpar.","asertivo"]
+ ];
+ $("#pool").innerHTML=cls.sort(()=>Math.random()-.5).map((x,i)=>`<div class="chip" draggable="true" id="c${i}" data-style="${x[1]}">${x[0]}</div>`).join("");
+ $$(".chip").forEach(c=>{
+  c.ondragstart=e=>e.dataTransfer.setData("text/plain",c.id);
+  c.onclick=e=>{e.stopPropagation();$$(".chip").forEach(x=>x.classList.remove("selected"));state.selected=c;c.classList.add("selected")}
+ });
+ $$(".bin").forEach(b=>{
+  b.ondragover=e=>e.preventDefault();
+  b.ondrop=e=>{e.preventDefault();let c=document.getElementById(e.dataTransfer.getData("text/plain"));if(c)b.appendChild(c)};
+  b.onclick=()=>{if(state.selected){b.appendChild(state.selected);state.selected.classList.remove("selected");state.selected=null}}
+ });
+
+ const seq=[
+  ["Describir el problema sin atacar","1"],["Escuchar intereses y necesidades de las partes","2"],["Proponer alternativas y negociar","3"],["Acordar acciones y revisar el cumplimiento","4"]
+ ];
+ $("#seqbank").innerHTML=seq.sort(()=>Math.random()-.5).map((x,i)=>`<div class="seqitem" draggable="true" id="s${i}" data-pos="${x[1]}">${x[0]}</div>`).join("");
+ $$(".seqitem").forEach(x=>x.ondragstart=e=>e.dataTransfer.setData("text/plain",x.id));
+ $$(".seqslot").forEach(slot=>{slot.ondragover=e=>e.preventDefault();slot.ondrop=e=>{e.preventDefault();let x=document.getElementById(e.dataTransfer.getData("text/plain"));if(x){let old=slot.querySelector(".seqitem");if(old)$("#seqbank").appendChild(old);slot.appendChild(x)}}});
+
+ const cases=[
+  {t:"Tu compañero no cumplió con una parte del proyecto.",a:"“Quiero saber qué pasó y acordar cómo terminamos lo pendiente.”",o:["“Yo haré todo; ya no importa.”","“Eres un irresponsable, nunca haces nada.”","“Quiero saber qué pasó y acordar cómo terminamos lo pendiente.”"]},
+  {t:"Un amigo comparte algo que te incomoda.",a:"“Me molestó que lo compartieras. Quiero explicarte por qué y acordar un límite.”",o:["“No diré nada, aunque me dolió.”","“Te voy a hacer lo mismo.”","“Me molestó que lo compartieras. Quiero explicarte por qué y acordar un límite.”"]},
+  {t:"En casa cambiaron un acuerdo que te afectaba.",a:"“Quiero entender por qué cambió y explicar cómo me afecta para buscar otra opción.”",o:["“Está bien, aunque no me parezca.”","“¡Nunca toman en cuenta nada de lo que digo!”","“Quiero entender por qué cambió y explicar cómo me afecta para buscar otra opción.”"]},
+  {t:"Dos amigos tuyos están en desacuerdo y te piden escoger un bando.",a:"“Puedo escuchar a ambos, pero prefiero ayudar a que hablen directamente.”",o:["“Mejor me desaparezco.”","“Yo decidiré quién tiene razón.”","“Puedo escuchar a ambos, pero prefiero ayudar a que hablen directamente.”"]},
+  {t:"Un compañero hace una broma que cruza un límite.",a:"“No me resulta gracioso. Te pido que no vuelvas a hacerlo conmigo.”",o:["“Me río para que no se note que me molestó.”","“Te voy a insultar también.”","“No me resulta gracioso. Te pido que no vuelvas a hacerlo conmigo.”"]}
+ ];
+ $("#cases").innerHTML=cases.map((c,i)=>`<div class="case" data-a="${c.a}"><b>${i+1}.</b> ${c.t}<div class="opts">${c.o.map(o=>`<button class="opt" data-v="${o}" disabled>${o}</button>`).join("")}</div></div>`).join("");
+ $$(".opt").forEach(o=>o.onclick=()=>{let p=o.closest(".case");p.querySelectorAll(".opt").forEach(x=>x.classList.remove("on"));o.classList.add("on")});
+
+ const quiz=[
+  ["¿Cuál describe mejor un conflicto?",1,["Una pelea que siempre debe evitarse","Una diferencia de ideas, necesidades o expectativas que requiere manejo","Una situación en la que una persona necesariamente tiene la culpa"]],
+  ["¿Qué puede ocurrir cuando se evita siempre un conflicto?",2,["El problema desaparece automáticamente","La relación siempre se fortalece","El problema puede mantenerse o crecer"]],
+  ["¿Qué estilo busca imponer la propia postura?",0,["Agresivo / competir","Pasivo / evitar","Asertivo / colaborar"]],
+  ["¿Qué distingue al estilo colaborativo?",1,["Busca que nadie diga lo que necesita","Busca atender el problema y cuidar el vínculo","Busca ganar la discusión"]],
+  ["¿Cuál sería una buena primera acción al manejar un conflicto?",2,["Amenazar para que el otro ceda","Callar hasta que pase","Describir qué ocurre sin atacar y escuchar la situación"]]
+ ];
+ $("#quiz").innerHTML=quiz.map((q,i)=>`<div class="quizq" data-a="${q[1]}"><b>${i+1}. ${q[0]}</b>${q[2].map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}"> ${o}</label>`).join("")}</div>`).join("");
+}
+
+$("#addNode").onclick=()=>{
+ if(state.mapCount>=5){$("#mapFb").innerHTML='<div class="feedback warn">El mapa permite hasta cinco relaciones.</div>';return}
+ let name=$("#mapName").value.trim();if(!name){$("#mapFb").innerHTML='<div class="feedback warn">Escribe una persona o rol.</div>';return}
+ let level=$("#mapLevel").value,type=$("#mapType").value;
+ const pos=[[10,14],[68,12],[10,68],[68,68],[39,7]][state.mapCount];
+ let div=document.createElement("div");div.className=`node ${level}`;div.style.left=pos[0]+"%";div.style.top=pos[1]+"%";div.innerHTML=`${esc(name)}<small>${type}</small>`;
+ $("#mapcanvas").appendChild(div);state.mapCount++;$("#mapName").value="";$("#mapFb").innerHTML='<div class="feedback ok">Relación agregada al mapa.</div>';mark("map")
+};
+
+$("#checkClass").onclick=()=>{
+ state.tries.clas++;let all=$$(".bin .chip"),right=all.filter(c=>c.dataset.style===c.closest(".bin").dataset.style).length;
+ state.scores.clas=Math.round(right/10*25);$("#classFb").innerHTML=`<div class="feedback ${right===10?"ok":"warn"}">${right}/10 correctas · ${state.scores.clas}/25 puntos.</div>`;mark("clas")
+};
+
+$("#checkSeq").onclick=()=>{
+ state.tries.seq++;let slots=$$(".seqslot"),right=slots.filter(s=>{let x=s.querySelector(".seqitem");return x&&x.dataset.pos===s.dataset.pos}).length;
+ state.scores.seq=Math.round(right/4*20);$("#seqFb").innerHTML=`<div class="feedback ${right===4?"ok":"warn"}">${right}/4 pasos en la posición correcta · ${state.scores.seq}/20 puntos.</div>`;mark("seq")
+};
+
+$("#trySim").onclick=()=>{
+ state.tries.sim++;let vals=[$("#simStyle").value,$("#simTone").value,$("#simGoal").value],counts={pasivo:0,agresivo:0,asertivo:0};vals.forEach(v=>counts[v]++);
+ let style=Object.keys(counts).sort((a,b)=>counts[b]-counts[a])[0],perfect=counts.asertivo===3;
+ let content={
+  pasivo:["Resultado probable: conflicto aplazado","Puede bajar la tensión inmediata, pero el problema y las necesidades quedan sin resolver."],
+  agresivo:["Resultado probable: escalamiento","Puede conseguir obediencia momentánea, pero aumenta defensividad y daño en la relación."],
+  asertivo:["Resultado probable: colaboración","Se atiende el problema de forma directa, se escuchan necesidades y aumenta la posibilidad de acuerdo."]
+ }[style];
+ $("#preview").style.background=style==="pasivo"?"#eef6fc":style==="agresivo"?"#fff1ef":"#eff9f1";
+ $("#preview").innerHTML=`<div class="resulttitle">${content[0]}</div><div class="bubble">${content[1]}</div>`;
+ state.scores.sim=perfect?20:Math.max(state.scores.sim,10);
+ $("#simFb").innerHTML=`<div class="feedback ${perfect?"ok":"warn"}">${perfect?"¡Combinación colaborativa completa! 20/20 puntos.":"La combinación tiene señales mezcladas. Ajusta estilo, tono y objetivo para que sean coherentes."}</div>`;mark("sim")
+};
+
+$("#startCases").onclick=()=>{
+ state.ended=false;state.left=60;$$(".opt").forEach(o=>o.disabled=false);$("#startCases").classList.add("hidden");$("#endCases").classList.remove("hidden");
+ state.timer=setInterval(()=>{state.left--;$("#timer").textContent="00:"+String(state.left).padStart(2,"0");if(state.left<=0)finishCases()},1000)
+};
+$("#endCases").onclick=finishCases;
+function finishCases(){
+ if(state.ended)return;state.ended=true;clearInterval(state.timer);$$(".opt").forEach(o=>o.disabled=true);state.tries.cases++;
+ let a=$$(".case"),right=a.filter(c=>{let x=c.querySelector(".opt.on");return x&&x.dataset.v===c.dataset.a}).length;
+ state.scores.cases=Math.round(right/a.length*15);$("#caseFb").innerHTML=`<div class="feedback ${right>=4?"ok":"warn"}">${right}/${a.length} casos correctos · ${state.scores.cases}/15 puntos · Tiempo utilizado: ${60-state.left}s.</div>`;mark("cases")
+}
+
+$("#saveContract").onclick=()=>{
+ if(!$("#contractKnot").value.trim()||!$("#contractSteps").value.trim()){ $("#contractFb").innerHTML='<div class="feedback warn">Completa el nudo y los tres pasos de compromiso.</div>';return}
+ $("#contractFb").innerHTML='<div class="feedback ok">Compromiso registrado. Recuerda: la meta no es evitar todo conflicto, sino aprender a manejarlo de una forma que fortalezca el vínculo.</div>';mark("contract")
+};
+
+$("#checkQuiz").onclick=()=>{
+ state.tries.quiz++;let a=$$(".quizq"),right=a.filter(q=>{let x=q.querySelector("input:checked");return x&&+x.value===+q.dataset.a}).length;
+ state.scores.quiz=Math.round(right/a.length*20);$("#quizFb").innerHTML=`<div class="feedback ${right>=4?"ok":"warn"}">${right}/${a.length} correctas · ${state.scores.quiz}/20 puntos.</div>`;mark("quiz")
+};
+
+$("#makeReport").onclick=()=>{
+ if(!$("#honor").checked){alert("Marca la declaración de autoría.");return}
+ let total=Object.values(state.scores).reduce((a,b)=>a+b,0),s=state.student;
+ $("#total").textContent=total;$("#student").innerHTML=`<b>${esc(s.name)}</b><br>${s.grade} · Grupo ${esc(s.group)} · Turno ${s.shift}`;
+ $("#metrics").innerHTML=`
+ <div class="metric">Clasificación<b>${state.scores.clas}/25</b></div>
+ <div class="metric">Secuencia<b>${state.scores.seq}/20</b></div>
+ <div class="metric">Simulador<b>${state.scores.sim}/20</b></div>
+ <div class="metric">Reto<b>${state.scores.cases}/15</b></div>
+ <div class="metric">Quiz<b>${state.scores.quiz}/20</b></div>`;
+ let level,rec;
+ if(total>=90){level="Dominio destacado";rec="Distingues estilos de respuesta y aplicas una ruta colaborativa con seguridad. El siguiente paso es trasladarla a conflictos cotidianos reales."}
+ else if(total>=80){level="Buen dominio";rec="Comprendes cómo los estilos afectan al problema y a la relación. Revisa los casos en los que dudaste para fortalecer tu criterio."}
+ else if(total>=70){level="En desarrollo";rec="Tienes una base adecuada. Repasa la comparación de estilos y la secuencia de resolución colaborativa."}
+ else{level="Requiere repaso";rec="Conviene revisar las flashcards, los tres estilos y el simulador antes de repetir los ejercicios formativos."}
+ $("#level").textContent="Nivel: "+level;$("#rec").textContent=rec;$("#folio").textContent=s.folio;$("#date").textContent=new Date().toLocaleString("es-MX");
+ $("#tries").textContent=Object.values(state.tries).reduce((a,b)=>a+b,0);$("#report").classList.remove("hidden");$("#reportwm").textContent=wmText();mark("report");$("#report").scrollIntoView({behavior:"smooth"})
+};
+$("#reset").onclick=()=>{if(confirm("¿Reiniciar todo el objeto de aprendizaje?"))location.reload()};
+</script>
+</body>
+</html>
