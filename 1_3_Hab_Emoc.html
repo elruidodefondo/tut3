@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.3 Habilidades emocionales · Tutoría de Trayecto I</title>
+<style>
+:root{
+  --ink:#24324a;--mut:#68768e;--bg:#f5f7fc;--card:#fff;
+  --p:#5D7BCC;--p2:#4359aa;--red:#ef5b5b;--yellow:#f0c85b;--green:#37b66b;
+  --blue:#5b9bd5;--violet:#8f6bd1;--line:#dfe6f2;--shadow:0 14px 38px rgba(35,54,92,.12)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,"Segoe UI",Arial,sans-serif;background:linear-gradient(180deg,#f8faff,#eef3ff 58%,#f8fbff);color:var(--ink);line-height:1.55}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.wrap{width:min(1100px,92vw);margin:auto}
+.hero{min-height:100vh;display:grid;place-items:center;padding:32px 0;position:relative;overflow:hidden}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;opacity:.34}
+.hero:before{width:460px;height:460px;background:#c7d8ff;left:-170px;top:-140px}
+.hero:after{width:360px;height:360px;background:#ffe3c5;right:-130px;bottom:-110px}
+.entry{position:relative;z-index:2;width:min(800px,94vw);background:#fffffff2;border:1px solid #e3e9f5;border-radius:28px;box-shadow:var(--shadow);padding:32px}
+.tag{display:inline-flex;align-items:center;gap:7px;background:#eef2ff;color:var(--p2);padding:7px 11px;border-radius:999px;font-weight:850;font-size:.84rem}
+h1{font-size:clamp(2.1rem,5.3vw,4.25rem);line-height:1.03;margin:.2em 0 .25em}
+h2{font-size:clamp(1.55rem,3vw,2.25rem);line-height:1.12;margin:.2em 0 .35em}
+h3{margin:1em 0 .4em}
+.muted{color:var(--mut)}
+.notice{background:#fff8df;border-left:5px solid var(--yellow);padding:12px 14px;border-radius:10px;margin:18px 0;color:#5f5124}
+.grid4{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:11px}
+.field label{display:block;font-size:.82rem;font-weight:850;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:11px;border:1px solid #cfd9eb;border-radius:11px;background:white;color:var(--ink);outline:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(93,123,204,.12)}
+.btn{border:0;border-radius:11px;padding:11px 17px;font-weight:850;transition:.2s}
+.btn:hover{transform:translateY(-1px)}
+.primary{background:var(--p);color:white;box-shadow:0 8px 20px rgba(93,123,204,.22)}
+.soft{background:#edf2ff;color:var(--p2)}
+.good{background:var(--green);color:white}
+.danger{background:#fff0f0;color:#9e3434;border:1px solid #ffd0d0}
+.topbar{position:sticky;top:0;z-index:30;background:#ffffffeb;backdrop-filter:blur(14px);border-bottom:1px solid #e3e9f5}
+.topin{display:flex;gap:14px;align-items:center;padding:11px 0}
+.progress{height:9px;background:#e7ecf7;border-radius:99px;overflow:hidden;flex:1}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--p),var(--green));transition:.35s}
+.pct{font-size:.82rem;font-weight:850;color:var(--mut)}
+.module{margin:26px auto;background:var(--card);border:1px solid #e4eaf5;border-radius:22px;box-shadow:var(--shadow);padding:24px}
+.eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:.74rem;font-weight:900;color:var(--p)}
+.lead{font-size:1.16rem;background:#eef3ff;border-left:6px solid var(--p);padding:16px;border-radius:13px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.pill{padding:7px 10px;background:#f2f5fa;border:1px solid #dce4f1;border-radius:999px;font-weight:780}
+.activity{background:#fbfcff;border:1px solid #e0e7f2;border-radius:17px;padding:17px}
+.activity-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.score{background:#edf2ff;color:var(--p2);font-weight:900;padding:5px 9px;border-radius:999px;font-size:.8rem}
+.feedback{margin-top:11px;padding:9px 11px;border-radius:9px;font-weight:800}
+.ok{background:#e7f7ef;color:#177646}
+.warn{background:#fff7dc;color:#745e12}
+.bad{background:#fff0f0;color:#993838}
+
+/* thermometer */
+.thermo-wrap{display:grid;grid-template-columns:310px 1fr;gap:18px;align-items:center}
+.thermo-card{background:linear-gradient(180deg,#f4f8ff,#fff);border:1px solid var(--line);border-radius:18px;padding:18px;text-align:center}
+.thermo{height:300px;width:88px;margin:12px auto;position:relative;border:7px solid #26344d;border-radius:48px;background:#fff;padding:7px;display:flex;align-items:flex-end}
+.thermo:after{content:"";position:absolute;left:50%;bottom:-32px;transform:translateX(-50%);width:86px;height:86px;border-radius:50%;border:7px solid #26344d;background:var(--blue);z-index:1}
+.mercury{width:100%;height:10%;border-radius:35px;background:linear-gradient(180deg,var(--red),#ff8b54,var(--yellow),var(--green),var(--blue));transition:height .35s}
+.scale{font-size:1.05rem;font-weight:900}
+.slider{width:100%}
+.thermo-info{background:#f7f9fd;border:1px solid var(--line);border-radius:15px;padding:16px}
+.thermo-info textarea{width:100%;min-height:88px;border:1px solid #cfd8e8;border-radius:10px;padding:10px}
+
+/* skill hotspots */
+.hotgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.hot{border:0;border-radius:17px;padding:18px;text-align:left;min-height:170px;color:white;position:relative}
+.hot:after{content:"+";position:absolute;right:14px;bottom:8px;font-size:32px;opacity:.75}
+.hot strong{display:block;font-size:1.15rem;margin-bottom:6px}
+.hot.id{background:linear-gradient(145deg,#5e82d3,#789be8)}
+.hot.comp{background:linear-gradient(145deg,#835fbd,#a682d9)}
+.hot.expr{background:linear-gradient(145deg,#d0788f,#e79caf)}
+.hot.gest{background:linear-gradient(145deg,#4c9a6b,#6eb987)}
+.reveal{margin-top:12px;border:1px solid #e0e6f1;background:#f7f9fd;padding:14px;border-radius:12px}
+
+/* semaforo */
+.light-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.light{border-radius:18px;padding:18px;color:#172033;min-height:210px;border:1px solid #dfe6f2}
+.light.red{background:#fff0f0}.light.yellow{background:#fff9df}.light.green{background:#edf9f1}
+.circle{width:82px;height:82px;border-radius:50%;margin-bottom:10px;display:grid;place-items:center;color:white;font-weight:950;font-size:1.15rem}
+.red .circle{background:var(--red)}.yellow .circle{background:var(--yellow);color:#493e11}.green .circle{background:var(--green)}
+.light b{font-size:1.05rem}
+
+/* flash */
+.flashgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.flash{min-height:145px;border:1px solid #dce4f1;background:white;border-radius:15px;padding:16px;text-align:left}
+.flash b{display:block;font-size:1.06rem;color:var(--p2)}
+.flash .back{display:none;margin-top:8px}
+.flash.open{background:#eef3ff}
+.flash.open .back{display:block}
+
+/* drag */
+.classgrid{display:grid;grid-template-columns:1fr 1.25fr;gap:14px;margin-top:12px}
+.pool{display:flex;flex-wrap:wrap;gap:7px;align-content:flex-start}
+.chip{background:white;border:1px solid #cfd8e8;border-radius:999px;padding:7px 10px;font-weight:800;cursor:grab;user-select:none}
+.chip.selected{outline:3px solid rgba(93,123,204,.2);border-color:var(--p)}
+.bins{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.bin{min-height:230px;border:2px dashed #c9d3e5;border-radius:13px;padding:9px}
+.bin .chip{display:block;margin:5px 0;border-radius:8px;font-size:.82rem}
+.bin[data-kind="reaccion"]{background:#fff1ef}
+.bin[data-kind="respuesta"]{background:#eff9f1}
+
+/* sequence */
+.seqbank{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.seqitem{border:1px solid #ced8ea;background:white;border-radius:10px;padding:9px 11px;font-weight:850;cursor:grab}
+.seqslots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seqslot{min-height:140px;border:2px dashed #cbd5e7;border-radius:12px;padding:9px;background:#f7f9fd}
+.seqslot b{display:block;color:var(--p2);margin-bottom:7px}
+.seqslot .seqitem{display:block;margin-top:6px}
+
+/* simulator */
+.simgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.controlbox{background:#f7f9fd;border:1px solid #e1e7f2;border-radius:14px;padding:14px}
+.controlbox label{display:block;font-weight:800;margin-top:9px}
+.controlbox select{width:100%;padding:8px;border:1px solid #cfd8e8;border-radius:9px;background:white}
+.preview{border-radius:14px;padding:18px;min-height:270px;background:#eef3ff;display:flex;flex-direction:column;justify-content:center}
+.preview .resulttitle{font-weight:950;font-size:1.2rem;margin-bottom:8px}
+.preview .bubble{background:white;border-radius:16px;padding:15px;border:1px solid #dfe6f2;box-shadow:0 7px 18px rgba(35,54,92,.07)}
+
+.timer{font-size:1.45rem;font-weight:950;color:var(--red)}
+.case{border:1px solid #dce4f1;border-radius:12px;padding:12px;margin:9px 0;background:white}
+.opts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.opt{border:1px solid #cdd7e7;background:white;border-radius:9px;padding:7px 9px}
+.opt.on{background:#e9efff;border-color:var(--p);font-weight:850;color:var(--p2)}
+.quizq{padding:12px 0;border-bottom:1px solid #e9edf5}
+.quizq label{display:block;margin:6px 0}
+
+.plan{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.plan textarea,.plan select{width:100%;padding:10px;border:1px solid #ced8ea;border-radius:10px}
+.plan textarea{min-height:90px}
+.plan .full{grid-column:1/-1}
+
+.report{position:relative;overflow:hidden;border:2px solid #dde5f3;border-radius:20px;padding:24px;background:linear-gradient(#fff,#f6f8ff);margin-top:15px}
+.reportwm{position:absolute;inset:0;display:grid;place-items:center;opacity:.07;transform:rotate(-22deg);font-size:clamp(1.1rem,4vw,3rem);font-weight:950;text-align:center;pointer-events:none}
+.reportcontent{position:relative;z-index:1}
+.rtop{display:flex;justify-content:space-between;gap:18px}
+.bigscore{font-size:4rem;font-weight:950;line-height:1;color:var(--p)}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:15px 0}
+.metric{background:white;border:1px solid #e1e7f2;border-radius:11px;padding:10px}
+.metric b{display:block;font-size:1.15rem}
+.watermarks{position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.052;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:175px;transform:rotate(-18deg) scale(1.16);transform-origin:center}
+.watermarks span{display:grid;place-items:center;font-weight:950;text-align:center;padding:10px}
+.source{font-size:.85rem;color:var(--mut);padding:10px 0 46px}
+
+@media(max-width:850px){
+ .grid4{grid-template-columns:1fr 1fr}.thermo-wrap,.simgrid,.classgrid{grid-template-columns:1fr}.hotgrid{grid-template-columns:1fr 1fr}
+ .flashgrid{grid-template-columns:1fr}.bins{grid-template-columns:1fr}.seqslots{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.plan{grid-template-columns:1fr}.plan .full{grid-column:auto}
+}
+@media(max-width:520px){.grid4{grid-template-columns:1fr}.module{padding:16px}.rtop{display:block}.hotgrid{grid-template-columns:1fr}}
+@media print{
+ body{background:white}.topbar,.module:not(#results),.source,#makeReport,#reset{display:none!important}
+ #results{box-shadow:none;border:0;margin:0}.report{min-height:90vh}.watermarks{opacity:.035}.wrap{width:100%}
+}
+</style>
+</head>
+<body>
+
+<section id="entry" class="hero">
+  <div class="entry">
+    <span class="tag">Tutoría de Trayecto I · Objeto de aprendizaje</span>
+    <h1>1.3 Habilidades emocionales</h1>
+    <p class="muted"><strong>Definición · Manejo de emociones y sentimientos</strong><br>Aprende a identificar, comprender, expresar y gestionar lo que sientes sin reaccionar de manera impulsiva.</p>
+    <div class="notice">Escribe tus datos reales. Se transformarán en una <strong>marca de agua personal</strong> visible durante toda la actividad y en tu boleta final.</div>
+    <div class="grid4">
+      <div class="field"><label>Nombre completo con apellidos</label><input id="name" placeholder="Nombre y apellidos"></div>
+      <div class="field"><label>Grado</label><select id="grade"><option value="">—</option><option>1°</option><option>2°</option><option>3°</option></select></div>
+      <div class="field"><label>Grupo</label><input id="group" placeholder="Ej. C"></div>
+      <div class="field"><label>Turno</label><select id="shift"><option value="">—</option><option>Matutino</option><option>Vespertino</option></select></div>
+    </div>
+    <p><button class="btn primary" id="start">Comenzar</button></p>
+  </div>
+</section>
+
+<div id="app" class="hidden">
+<div class="watermarks" id="wms"></div>
+<div class="topbar"><div class="wrap topin"><b>🎛️ Habilidades emocionales</b><div class="progress"><i id="bar"></i></div><span class="pct" id="pct">0%</span></div></div>
+
+<main class="wrap">
+
+<section class="module">
+  <div class="eyebrow">1 · Apertura</div><h2>El termómetro emocional</h2>
+  <div class="thermo-wrap">
+    <div class="thermo-card">
+      <div class="scale">Intensidad: <span id="levelNum">5</span>/10</div>
+      <div class="thermo"><div class="mercury" id="mercury"></div></div>
+      <input class="slider" type="range" id="emotionLevel" min="1" max="10" value="5">
+    </div>
+    <div class="thermo-info">
+      <h3>Piensa en una emoción intensa reciente</h3>
+      <p>No necesitas escribir detalles privados. Solo observa mentalmente cómo se siente una emoción cuando sube de intensidad.</p>
+      <div class="field"><label>¿Qué señales notas cuando una emoción se intensifica?</label><textarea id="thermoText" placeholder="Ej. cambia mi respiración, hablo más rápido, me cuesta pensar con calma..."></textarea></div>
+      <button class="btn soft" id="saveThermo">Guardar reflexión</button>
+      <div id="thermoFb"></div>
+      <div class="notice"><strong>Pregunta detonadora:</strong> ¿qué sucede si una emoción de 9 o 10 nos atrapa en un momento inoportuno? ¿Quién tiene el “control remoto” de esa intensidad?</div>
+    </div>
+  </div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">2 · Concepto</div><h2>¿Qué son las habilidades emocionales?</h2>
+  <div class="lead"><strong>Son destrezas para identificar, comprender, expresar y gestionar las emociones propias y reconocer las de otras personas.</strong></div>
+  <div class="pills"><span class="pill">🔎 Identificar</span><span class="pill">🧠 Comprender</span><span class="pill">💬 Expresar</span><span class="pill">🎛️ Gestionar</span></div>
+  <p>Gestionar una emoción <strong>no significa eliminarla ni fingir que no existe</strong>. Significa reconocer lo que sentimos y elegir una respuesta más adecuada al contexto.</p>
+</section>
+
+<section class="module">
+  <div class="eyebrow">3 · Hotspots</div><h2>Cuatro habilidades emocionales clave</h2>
+  <p class="muted">Toca cada bloque para explorar qué implica.</p>
+  <div class="hotgrid">
+    <button class="hot id" data-hot="id"><strong>🔎 Identificar</strong>Reconocer qué emoción aparece.</button>
+    <button class="hot comp" data-hot="comp"><strong>🧠 Comprender</strong>Relacionarla con causas y necesidades.</button>
+    <button class="hot expr" data-hot="expr"><strong>💬 Expresar</strong>Comunicarla sin dañar.</button>
+    <button class="hot gest" data-hot="gest"><strong>🎛️ Gestionar</strong>Regular la intensidad y elegir cómo actuar.</button>
+  </div>
+  <div id="reveal" class="reveal">Selecciona una habilidad.</div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">4 · Modelo práctico</div><h2>Semáforo emocional</h2>
+  <div class="light-grid">
+    <div class="light red"><div class="circle">ROJO</div><b>ALTO</b><p>Detén la acción impulsiva. Reconoce que la emoción está subiendo y evita actuar de inmediato.</p></div>
+    <div class="light yellow"><div class="circle">AMARILLO</div><b>PIENSO</b><p>Pausa. Respira, nombra la emoción y analiza qué ocurrió, qué necesitas y qué opciones tienes.</p></div>
+    <div class="light green"><div class="circle">VERDE</div><b>ACTÚO</b><p>Elige una respuesta constructiva y asertiva que cuide tus objetivos, tus límites y a otras personas.</p></div>
+  </div>
+  <div class="notice"><strong>Idea clave:</strong> entre la emoción y la acción puede existir una pausa. Esa pausa abre espacio para elegir.</div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">5 · Flashcards</div><h2>Conceptos que debes distinguir</h2>
+  <p class="muted">Toca cada tarjeta para ver su definición.</p>
+  <div id="flash" class="flashgrid"></div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">6 · Arrastrar y soltar</div><h2>Reacción vs. respuesta</h2>
+  <div class="activity">
+    <div class="activity-head"><b>Clasifica cada conducta</b><span class="score">20 puntos</span></div>
+    <div class="classgrid">
+      <div id="pool" class="pool"></div>
+      <div class="bins">
+        <div class="bin" data-kind="reaccion"><b>⚡ Reacción impulsiva</b></div>
+        <div class="bin" data-kind="respuesta"><b>🧠 Respuesta regulada</b></div>
+      </div>
+    </div>
+    <p><button class="btn primary" id="checkClass">Comprobar clasificación</button></p>
+    <div id="classFb"></div>
+  </div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">7 · Ordena la secuencia</div><h2>Construye el Semáforo Emocional</h2>
+  <div class="activity">
+    <div class="activity-head"><b>Arrastra los tres pasos en orden</b><span class="score">15 puntos</span></div>
+    <div id="seqbank" class="seqbank"></div>
+    <div class="seqslots">
+      <div class="seqslot" data-pos="1"><b>Paso 1</b></div>
+      <div class="seqslot" data-pos="2"><b>Paso 2</b></div>
+      <div class="seqslot" data-pos="3"><b>Paso 3</b></div>
+    </div>
+    <p><button class="btn primary" id="checkSeq">Comprobar secuencia</button></p>
+    <div id="seqFb"></div>
+  </div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">8 · Simulador</div><h2>Laboratorio de regulación emocional</h2>
+  <p class="muted">Combina intensidad, pausa y forma de responder. Observa cómo cambia el resultado.</p>
+  <div class="activity">
+    <div class="activity-head"><b>Configura una respuesta</b><span class="score">20 puntos</span></div>
+    <div class="simgrid">
+      <div class="controlbox">
+        <label>Situación</label>
+        <select id="simSituation">
+          <option>Recibes una crítica que consideras injusta.</option>
+          <option>Te excluyen de un plan del grupo.</option>
+          <option>Obtienes una calificación menor a la esperada.</option>
+        </select>
+        <label>Intensidad emocional</label>
+        <select id="simIntensity"><option value="alta">Alta: 8–10</option><option value="media">Media: 5–7</option><option value="baja">Baja: 1–4</option></select>
+        <label>Primera acción</label>
+        <select id="simPause"><option value="impulsiva">Responder de inmediato</option><option value="regulada">Hacer una pausa y respirar</option></select>
+        <label>Forma de actuar</label>
+        <select id="simAction"><option value="impulsiva">Gritar, atacar o abandonar</option><option value="regulada">Nombrar la emoción, pensar opciones y responder con respeto</option></select>
+        <p><button class="btn soft" id="trySim">Probar combinación</button></p>
+      </div>
+      <div class="preview" id="preview"><div class="resulttitle">Prueba una combinación</div><div class="bubble">El resultado cambia según la intensidad y la forma de responder.</div></div>
+    </div>
+    <div id="simFb"></div>
+  </div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">9 · Reto de tiempo</div><h2>60 segundos: elige la respuesta más constructiva</h2>
+  <div class="activity">
+    <div class="activity-head"><b>5 mini casos</b><span class="score">20 puntos</span><span class="timer" id="timer">01:00</span></div>
+    <div id="cases"></div>
+    <button class="btn primary" id="startCases">Iniciar reto</button>
+    <button class="btn good hidden" id="endCases">Finalizar</button>
+    <div id="caseFb"></div>
+  </div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">10 · Mi plan</div><h2>Declaración de control emocional</h2>
+  <p class="muted">Este registro queda únicamente en tu navegador mientras realizas la actividad. Evita incluir información privada o delicada.</p>
+  <div class="plan">
+    <div><label><strong>Mi emoción desafiante</strong></label>
+      <select id="challenge"><option>Impaciencia</option><option>Enojo</option><option>Nervios</option><option>Frustración</option><option>Tristeza</option><option>Otra emoción</option></select>
+    </div>
+    <div><label><strong>ROJO: lo que haré para detenerme</strong></label><textarea id="redPlan" placeholder="Ej. no contestar de inmediato, alejarme un momento, dejar el celular..."></textarea></div>
+    <div class="full"><label><strong>AMARILLO: lo que haré para pensar antes de actuar</strong></label><textarea id="yellowPlan" placeholder="Ej. respirar, nombrar la emoción, preguntarme qué necesito, elegir dos opciones..."></textarea></div>
+  </div>
+  <p><button class="btn soft" id="savePlan">Guardar mi plan</button></p>
+  <div id="planFb"></div>
+</section>
+
+<section class="module">
+  <div class="eyebrow">11 · Quiz final</div><h2>Comprueba lo aprendido</h2>
+  <div class="activity">
+    <div class="activity-head"><b>Cuestionario rápido</b><span class="score">25 puntos</span></div>
+    <div id="quiz"></div>
+    <button class="btn primary" id="checkQuiz">Calificar quiz</button>
+    <div id="quizFb"></div>
+  </div>
+</section>
+
+<section class="module" id="results">
+  <div class="eyebrow">12 · Evidencia</div><h2>Boleta de resultados</h2>
+  <label><input type="checkbox" id="honor"> Declaro que realicé personalmente las actividades y que mis datos son correctos.</label>
+  <p><button class="btn good" id="makeReport">Generar boleta</button></p>
+  <div id="report" class="report hidden">
+    <div id="reportwm" class="reportwm"></div>
+    <div class="reportcontent">
+      <div class="rtop">
+        <div><span class="tag">Tutoría de Trayecto I</span><h2>Resultado · Habilidades emocionales</h2><div id="student"></div></div>
+        <div><div id="total" class="bigscore">0</div><b>/ 100</b></div>
+      </div>
+      <div id="metrics" class="metrics"></div>
+      <h3 id="level"></h3>
+      <p id="rec"></p>
+      <hr>
+      <p><b>Folio:</b> <span id="folio"></span><br>
+      <b>Fecha y hora:</b> <span id="date"></span><br>
+      <b>Intentos registrados:</b> <span id="tries"></span></p>
+      <button class="btn primary" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
+    </div>
+  </div>
+  <button class="btn danger" id="reset" style="margin-top:18px">Reiniciar</button>
+</section>
+
+</main>
+<div class="wrap source"><b>Nota didáctica:</b> objeto de aprendizaje construido a partir de la secuencia de Tutoría de Trayecto I proporcionada para el tema “1.3 Habilidades emocionales / Manejo de emociones y sentimientos”.</div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const state={student:null,done:new Set(),scores:{clas:0,seq:0,sim:0,cases:0,quiz:0},tries:{clas:0,seq:0,sim:0,cases:0,quiz:0},timer:null,left:60,ended:false,selected:null};
+function esc(s){return s.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}
+function hash(str){let h=2166136261;for(const c of str){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return (h>>>0).toString(36).toUpperCase()}
+function mark(x){state.done.add(x);let p=Math.min(100,Math.round(state.done.size/9*100));$("#bar").style.width=p+"%";$("#pct").textContent=p+"%"}
+function wmText(){let s=state.student;return `${s.name} · ${s.grade}${s.group} · ${s.shift} · ${s.folio}`}
+
+$("#start").onclick=()=>{
+  let name=$("#name").value.trim(),grade=$("#grade").value,group=$("#group").value.trim().toUpperCase(),shift=$("#shift").value;
+  if(name.split(/\s+/).length<2||!grade||!group||!shift){alert("Completa nombre con apellidos, grado, grupo y turno.");return}
+  let folio=hash(name+"|"+grade+"|"+group+"|"+shift+"|"+new Date().toISOString());
+  state.student={name,grade,group,shift,folio};
+  $("#entry").classList.add("hidden");$("#app").classList.remove("hidden");
+  $("#wms").innerHTML=Array(24).fill(`<span>${esc(wmText())}</span>`).join("");
+  $("#reportwm").textContent=wmText();build();window.scrollTo(0,0);
+};
+
+$("#emotionLevel").oninput=e=>{
+  let v=+e.target.value;$("#levelNum").textContent=v;$("#mercury").style.height=(v*9)+"%";
+};
+$("#saveThermo").onclick=()=>{
+  if(!$("#thermoText").value.trim()){ $("#thermoFb").innerHTML='<div class="feedback warn">Escribe al menos una señal que notes cuando una emoción se intensifica.</div>';return}
+  $("#thermoFb").innerHTML='<div class="feedback ok">Reflexión registrada. Observar señales tempranas ayuda a detener una reacción impulsiva.</div>';mark("thermo")
+};
+
+const hotInfo={
+ id:"<b>Identificar:</b> reconocer qué emoción aparece y qué señales la acompañan en el cuerpo, pensamientos y conducta. Nombrarla reduce la confusión: “estoy frustrado”, “estoy nerviosa”, “siento enojo”.",
+ comp:"<b>Comprender:</b> relacionar la emoción con lo que ocurrió, nuestras expectativas, necesidades y pensamientos. Comprender no significa justificar cualquier conducta.",
+ expr:"<b>Expresar:</b> comunicar lo que sentimos de una manera adecuada al contexto, sin ocultarlo por completo ni descargarlo sobre otras personas.",
+ gest:"<b>Gestionar:</b> regular la intensidad, crear una pausa y elegir acciones que ayuden a resolver la situación de forma constructiva."
+};
+$$(".hot").forEach(b=>b.onclick=()=>{$("#reveal").innerHTML=hotInfo[b.dataset.hot];mark("hot")});
+
+function build(){
+ const flash=[
+  ["Emoción","Respuesta breve del organismo ante una situación: puede incluir cambios corporales, pensamientos y tendencias a actuar."],
+  ["Sentimiento","Experiencia consciente y más elaborada de lo que sentimos, influida por la interpretación y el contexto."],
+  ["Reacción impulsiva","Acción rápida dominada por la intensidad emocional, con poca pausa o análisis."],
+  ["Respuesta regulada","Conducta elegida después de reconocer la emoción, hacer una pausa y valorar opciones."],
+  ["Autorregulación","Capacidad de manejar la intensidad emocional y orientar la conducta hacia una respuesta útil."],
+  ["Semáforo emocional","Modelo: Alto (rojo) → Pienso (amarillo) → Actúo (verde)."]
+ ];
+ $("#flash").innerHTML=flash.map(x=>`<button class="flash"><b>${x[0]}</b><span class="muted">Toca para ver la definición</span><div class="back">${x[1]}</div></button>`).join("");
+ $$(".flash").forEach(f=>f.onclick=()=>{f.classList.toggle("open");mark("flash")});
+
+ const cls=[
+   ["Responder un mensaje enojado sin releerlo.","reaccion"],
+   ["Gritar inmediatamente después de una crítica.","reaccion"],
+   ["Salir del grupo sin explicar qué ocurrió.","reaccion"],
+   ["Respirar y esperar antes de contestar.","respuesta"],
+   ["Nombrar la emoción y pensar qué la provocó.","respuesta"],
+   ["Expresar un desacuerdo con respeto.","respuesta"],
+   ["Pedir unos minutos antes de hablar.","respuesta"],
+   ["Buscar dos alternativas antes de decidir.","respuesta"]
+ ];
+ $("#pool").innerHTML=cls.sort(()=>Math.random()-.5).map((x,i)=>`<div class="chip" draggable="true" id="c${i}" data-kind="${x[1]}">${x[0]}</div>`).join("");
+ $$(".chip").forEach(c=>{
+   c.ondragstart=e=>e.dataTransfer.setData("text/plain",c.id);
+   c.onclick=e=>{e.stopPropagation();$$(".chip").forEach(x=>x.classList.remove("selected"));state.selected=c;c.classList.add("selected")}
+ });
+ $$(".bin").forEach(b=>{
+   b.ondragover=e=>e.preventDefault();
+   b.ondrop=e=>{e.preventDefault();let c=document.getElementById(e.dataTransfer.getData("text/plain"));if(c)b.appendChild(c)};
+   b.onclick=()=>{if(state.selected){b.appendChild(state.selected);state.selected.classList.remove("selected");state.selected=null}}
+ });
+
+ const seq=[["ALTO: detener la acción impulsiva e identificar la emoción","1"],["PIENSO: pausar, respirar, nombrar y analizar","2"],["ACTÚO: elegir una respuesta constructiva y asertiva","3"]];
+ $("#seqbank").innerHTML=seq.sort(()=>Math.random()-.5).map((x,i)=>`<div class="seqitem" draggable="true" id="s${i}" data-pos="${x[1]}">${x[0]}</div>`).join("");
+ $$(".seqitem").forEach(x=>x.ondragstart=e=>e.dataTransfer.setData("text/plain",x.id));
+ $$(".seqslot").forEach(slot=>{slot.ondragover=e=>e.preventDefault();slot.ondrop=e=>{e.preventDefault();let x=document.getElementById(e.dataTransfer.getData("text/plain"));if(x){let old=slot.querySelector(".seqitem");if(old)$("#seqbank").appendChild(old);slot.appendChild(x)}}});
+
+ const cases=[
+  {t:"Recibes una crítica que consideras injusta.",a:"Pedir unos minutos, respirar y después explicar con calma tu punto de vista.",o:["Responder con un insulto.","Pedir unos minutos, respirar y después explicar con calma tu punto de vista.","Dejar de hablarle para siempre."]},
+  {t:"Te excluyen de un plan del grupo.",a:"Reconocer tristeza o enojo y preguntar con calma qué ocurrió antes de sacar conclusiones.",o:["Publicar una indirecta en redes.","Reconocer tristeza o enojo y preguntar con calma qué ocurrió antes de sacar conclusiones.","Insultar al grupo."]},
+  {t:"Obtienes una calificación menor a la esperada.",a:"Pausar, revisar qué salió mal y decidir una estrategia de mejora.",o:["Romper la hoja.","Pausar, revisar qué salió mal y decidir una estrategia de mejora.","Decir que no volverás a intentarlo."]},
+  {t:"Alguien interrumpe constantemente tu exposición.",a:"Regular el enojo y pedir con firmeza que te permitan terminar.",o:["Gritarle frente al grupo.","Callarte y abandonar la exposición.","Regular el enojo y pedir con firmeza que te permitan terminar."]},
+  {t:"Recibes un mensaje que te molesta mucho.",a:"Esperar antes de responder, releerlo y elegir un mensaje claro y respetuoso.",o:["Contestar inmediatamente en mayúsculas.","Esperar antes de responder, releerlo y elegir un mensaje claro y respetuoso.","Bloquear a la persona sin aclarar nada."]}
+ ];
+ $("#cases").innerHTML=cases.map((c,i)=>`<div class="case" data-a="${c.a}"><b>${i+1}.</b> ${c.t}<div class="opts">${c.o.map(o=>`<button class="opt" data-v="${o}" disabled>${o}</button>`).join("")}</div></div>`).join("");
+ $$(".opt").forEach(o=>o.onclick=()=>{let p=o.closest(".case");p.querySelectorAll(".opt").forEach(x=>x.classList.remove("on"));o.classList.add("on")});
+
+ const quiz=[
+  ["¿Qué significa gestionar una emoción?",1,["Eliminarla para no sentir nada","Reconocerla y elegir cómo responder","Ocultarla siempre"]],
+  ["¿Cuál es el primer paso del Semáforo Emocional?",0,["Alto: detener la acción impulsiva","Actúo: responder inmediatamente","Pienso: discutir"]],
+  ["¿Qué diferencia mejor una reacción de una respuesta?",2,["La reacción siempre es negativa","La respuesta siempre es lenta","La respuesta incorpora una pausa y una elección consciente"]],
+  ["¿Qué es una habilidad emocional?",1,["Una forma de evitar problemas","Una destreza para identificar, comprender, expresar y gestionar emociones","Una emoción agradable"]],
+  ["¿Qué opción corresponde al paso amarillo?",2,["Atacar","Ignorar","Respirar, nombrar la emoción y analizar la situación"]]
+ ];
+ $("#quiz").innerHTML=quiz.map((q,i)=>`<div class="quizq" data-a="${q[1]}"><b>${i+1}. ${q[0]}</b>${q[2].map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}"> ${o}</label>`).join("")}</div>`).join("");
+}
+
+$("#checkClass").onclick=()=>{
+  state.tries.clas++;let all=$$(".bin .chip"),right=all.filter(c=>c.dataset.kind===c.closest(".bin").dataset.kind).length;
+  state.scores.clas=Math.round(right/8*20);$("#classFb").innerHTML=`<div class="feedback ${right===8?"ok":"warn"}">${right}/8 correctas · ${state.scores.clas}/20 puntos.</div>`;mark("clas")
+};
+
+$("#checkSeq").onclick=()=>{
+  state.tries.seq++;let slots=$$(".seqslot"),right=slots.filter(s=>{let x=s.querySelector(".seqitem");return x&&x.dataset.pos===s.dataset.pos}).length;
+  state.scores.seq=Math.round(right/3*15);$("#seqFb").innerHTML=`<div class="feedback ${right===3?"ok":"warn"}">${right}/3 pasos en orden · ${state.scores.seq}/15 puntos.</div>`;mark("seq")
+};
+
+$("#trySim").onclick=()=>{
+  state.tries.sim++;
+  let pause=$("#simPause").value, action=$("#simAction").value, intensity=$("#simIntensity").value;
+  let regulated=pause==="regulada"&&action==="regulada";
+  let title,text;
+  if(regulated){
+    title="Respuesta regulada";
+    text=intensity==="alta"?"La intensidad es alta, pero la pausa reduce la probabilidad de actuar impulsivamente. Nombrar la emoción y elegir una respuesta ayuda a recuperar control.":"La intensidad permite pensar con mayor claridad. Mantener la pausa y elegir una respuesta constructiva fortalece la autorregulación.";
+    state.scores.sim=20;$("#preview").style.background="#eff9f1";
+  }else{
+    title="Riesgo de reacción impulsiva";
+    text="Cuando se actúa de inmediato, especialmente con alta intensidad, aumenta la probabilidad de decir o hacer algo que complique la situación. Prueba usar una pausa y una acción regulada.";
+    state.scores.sim=Math.max(state.scores.sim,10);$("#preview").style.background="#fff1ef";
+  }
+  $("#preview").innerHTML=`<div class="resulttitle">${title}</div><div class="bubble">${text}</div>`;
+  $("#simFb").innerHTML=`<div class="feedback ${regulated?"ok":"warn"}">${regulated?"Combinación adecuada · 20/20 puntos.":"Ajusta la combinación para aplicar el Semáforo Emocional completo."}</div>`;mark("sim")
+};
+
+$("#startCases").onclick=()=>{
+  state.ended=false;state.left=60;$$(".opt").forEach(o=>o.disabled=false);$("#startCases").classList.add("hidden");$("#endCases").classList.remove("hidden");
+  state.timer=setInterval(()=>{state.left--;$("#timer").textContent="00:"+String(state.left).padStart(2,"0");if(state.left<=0)finishCases()},1000)
+};
+$("#endCases").onclick=finishCases;
+function finishCases(){
+  if(state.ended)return;state.ended=true;clearInterval(state.timer);$$(".opt").forEach(o=>o.disabled=true);state.tries.cases++;
+  let a=$$(".case"),right=a.filter(c=>{let x=c.querySelector(".opt.on");return x&&x.dataset.v===c.dataset.a}).length;
+  state.scores.cases=Math.round(right/a.length*20);$("#caseFb").innerHTML=`<div class="feedback ${right>=4?"ok":"warn"}">${right}/${a.length} casos correctos · ${state.scores.cases}/20 puntos · Tiempo: ${60-state.left}s.</div>`;mark("cases")
+}
+
+$("#savePlan").onclick=()=>{
+  if(!$("#redPlan").value.trim()||!$("#yellowPlan").value.trim()){ $("#planFb").innerHTML='<div class="feedback warn">Completa tus pasos rojo y amarillo.</div>';return}
+  $("#planFb").innerHTML='<div class="feedback ok">Plan guardado. La meta es tener una estrategia concreta antes de que la emoción llegue a su punto máximo.</div>';mark("plan")
+};
+
+$("#checkQuiz").onclick=()=>{
+  state.tries.quiz++;let a=$$(".quizq"),right=a.filter(q=>{let x=q.querySelector("input:checked");return x&&+x.value===+q.dataset.a}).length;
+  state.scores.quiz=Math.round(right/a.length*25);$("#quizFb").innerHTML=`<div class="feedback ${right>=4?"ok":"warn"}">${right}/${a.length} correctas · ${state.scores.quiz}/25 puntos.</div>`;mark("quiz")
+};
+
+$("#makeReport").onclick=()=>{
+  if(!$("#honor").checked){alert("Marca la declaración de autoría.");return}
+  let total=Object.values(state.scores).reduce((a,b)=>a+b,0),s=state.student;
+  $("#total").textContent=total;$("#student").innerHTML=`<b>${esc(s.name)}</b><br>${s.grade} · Grupo ${esc(s.group)} · Turno ${s.shift}`;
+  $("#metrics").innerHTML=`
+  <div class="metric">Clasificación<b>${state.scores.clas}/20</b></div>
+  <div class="metric">Semáforo<b>${state.scores.seq}/15</b></div>
+  <div class="metric">Simulador<b>${state.scores.sim}/20</b></div>
+  <div class="metric">Reto<b>${state.scores.cases}/20</b></div>
+  <div class="metric">Quiz<b>${state.scores.quiz}/25</b></div>`;
+  let level,rec;
+  if(total>=90){level="Dominio destacado";rec="Identificas la diferencia entre reacción y respuesta y aplicas el Semáforo Emocional con seguridad. El siguiente paso es practicarlo en situaciones cotidianas."}
+  else if(total>=80){level="Buen dominio";rec="Comprendes el manejo emocional y la mayoría de las estrategias. Revisa los casos en los que dudaste para fortalecer su aplicación."}
+  else if(total>=70){level="En desarrollo";rec="Tienes una base adecuada. Repasa las cuatro habilidades emocionales y los pasos rojo, amarillo y verde."}
+  else{level="Requiere repaso";rec="Conviene revisar las flashcards, el Semáforo Emocional y el simulador antes de repetir las actividades formativas."}
+  $("#level").textContent="Nivel: "+level;$("#rec").textContent=rec;$("#folio").textContent=s.folio;$("#date").textContent=new Date().toLocaleString("es-MX");
+  $("#tries").textContent=Object.values(state.tries).reduce((a,b)=>a+b,0);$("#report").classList.remove("hidden");$("#reportwm").textContent=wmText();mark("report");$("#report").scrollIntoView({behavior:"smooth"})
+};
+$("#reset").onclick=()=>{if(confirm("¿Reiniciar todo el objeto de aprendizaje?"))location.reload()};
+</script>
+</body>
+</html>
