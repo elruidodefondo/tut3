@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Unidad 2 · Pensamiento computacional y análisis de datos</title>
+<style>
+:root{
+  --navy:#083b5c;--blue:#0d6fa9;--cyan:#13a8c7;--green:#2f9e66;
+  --purple:#7656c9;--orange:#f28a2e;--yellow:#f4c542;--red:#d94b4b;
+  --ink:#1e2938;--muted:#66758a;--line:#d8e5ed;--soft:#f6fafc;
+  --shadow:0 18px 42px rgba(0,0,0,.16)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);min-height:100vh;
+  background:
+    radial-gradient(circle at 12% 4%,rgba(19,168,199,.27),transparent 30%),
+    radial-gradient(circle at 90% 9%,rgba(118,86,201,.22),transparent 31%),
+    linear-gradient(135deg,#061725,#0a2f4a 58%,#071a2b)
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:38px 38px
+}
+#watermark{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;display:none}
+.wm{
+  position:absolute;left:-27%;width:154%;text-align:center;transform:rotate(-25deg);
+  color:rgba(88,96,108,.23);font-size:clamp(38px,6vw,84px);font-weight:900;
+  letter-spacing:1.2px;white-space:nowrap;text-transform:uppercase;user-select:none
+}
+.app{position:relative;z-index:2;max-width:1180px;margin:auto;padding:18px}
+header{
+  position:sticky;top:0;z-index:12;margin:0 -18px 21px;padding:12px 18px;
+  background:rgba(6,23,37,.91);backdrop-filter:blur(12px);color:white;
+  border-bottom:1px solid rgba(255,255,255,.12)
+}
+.head{max-width:1180px;margin:auto;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+.head h1{font-size:clamp(20px,3vw,31px);margin:0}
+.head small{display:block;color:#c9dae7;margin-top:3px}
+.metrics{display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+.pill{border-radius:99px;padding:9px 13px;font-weight:900;background:linear-gradient(135deg,var(--blue),var(--cyan));color:white}
+.progress{grid-column:1/-1;height:9px;border-radius:99px;background:rgba(255,255,255,.16);overflow:hidden}
+#progressFill{height:100%;width:0;background:linear-gradient(90deg,var(--yellow),var(--cyan),var(--green));transition:.35s}
+.screen{display:none;animation:fade .28s ease both}.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card{
+  background:rgba(255,255,255,.97);border-radius:23px;box-shadow:var(--shadow);
+  border:1px solid rgba(255,255,255,.75);padding:23px;margin-bottom:17px
+}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:20px}
+.hero-main{background:linear-gradient(135deg,var(--navy),var(--blue));color:white}
+.hero-main h2{margin:0 0 12px;color:white;font-size:clamp(30px,4vw,48px);line-height:1.05}
+.hero-main p{font-size:18px;color:#e9f8ff}
+.what{
+  background:#eef9ff;color:#073a5b;border-left:8px solid var(--cyan);border-radius:14px;
+  padding:14px 15px;font-weight:800;line-height:1.55
+}
+.unit-flow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:15px}
+.flow-box{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:12px}
+.flow-box b{font-size:22px;display:block}
+h2,h3{color:var(--navy)}
+.muted{color:var(--muted)}
+label{display:block;font-weight:900;margin:11px 0 5px}
+input,select,textarea{
+  width:100%;border:2px solid var(--line);border-radius:13px;padding:11px 12px;font-size:16px;
+  background:white;color:var(--ink);outline:none
+}
+input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 4px rgba(19,168,199,.11)}
+textarea{min-height:100px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.notice{padding:13px 15px;border-radius:12px;margin:13px 0;background:#fff7dc;border-left:7px solid var(--yellow)}
+.notice.blue{background:#eaf7fb;border-left-color:var(--cyan)}.notice.green{background:#edf9f3;border-left-color:var(--green)}
+.btn{
+  appearance:none;border:0;border-radius:14px;padding:11px 16px;margin:3px;font-size:15px;font-weight:900;
+  cursor:pointer;color:white;background:linear-gradient(135deg,var(--blue),var(--cyan));box-shadow:0 8px 18px rgba(13,111,169,.22)
+}
+.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.46;cursor:not-allowed;transform:none}
+.btn.green{background:linear-gradient(135deg,var(--green),#40bd7c)}.btn.purple{background:linear-gradient(135deg,var(--purple),#9871e5)}
+.btn.orange{background:linear-gradient(135deg,var(--orange),var(--yellow));color:#3a2b0e}.btn.gray{background:#586777}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+.menu{display:grid;grid-template-columns:repeat(5,1fr);gap:13px}
+.level{
+  position:relative;overflow:hidden;background:white;border-radius:19px;padding:19px;min-height:196px;
+  box-shadow:0 11px 26px rgba(0,0,0,.11);cursor:pointer;transition:.2s
+}
+.level::before{content:"";position:absolute;inset:0 0 auto;height:7px;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.level:hover{transform:translateY(-4px)}.level.locked{opacity:.55;filter:grayscale(.5);cursor:not-allowed}.level.locked:hover{transform:none}
+.icon{font-size:39px}.status{display:inline-block;padding:5px 9px;border-radius:99px;background:#e8f7ee;color:#187a4d;font-size:12px;font-weight:900}
+.status.lock{background:#eee;color:#666}
+.pillars,.concept-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.pillar,.concept-card{
+  background:#f8fbfd;border:2px solid var(--line);border-radius:17px;padding:15px;cursor:pointer;min-height:170px;transition:.2s
+}
+.pillar.open,.concept-card.open{border-color:var(--cyan);background:#eaf8fd;transform:translateY(-2px)}
+.detail{display:none;margin-top:9px;line-height:1.45}.pillar.open .detail,.concept-card.open .detail{display:block}
+.source,.zone,.target{
+  background:#f7fbfd;border:2px dashed #b8cad6;border-radius:16px;padding:13px;min-height:170px
+}
+.zones{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}.zones h3{text-align:center}
+.drag,.placed,.code-block{
+  padding:11px 12px;border-radius:12px;margin:7px 0;font-weight:900;box-shadow:0 6px 14px rgba(0,0,0,.07)
+}
+.drag{background:linear-gradient(135deg,#dff5ff,#f2edff);cursor:grab}.placed{background:linear-gradient(135deg,var(--blue),var(--cyan));color:white}
+.placed button,.code-block button{float:right;border:0;background:rgba(255,255,255,.23);color:inherit;border-radius:8px;padding:4px 7px;cursor:pointer}
+.feedback{display:none;padding:13px 14px;border-radius:13px;margin-top:12px;border-left:7px solid}
+.feedback.ok{display:block;background:#edf9f3;border-color:var(--green)}.feedback.bad{display:block;background:#fff0f0;border-color:var(--red)}
+.feedback.info{display:block;background:#eaf7fb;border-color:var(--cyan)}
+.quick-check{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-top:14px}
+.quick-item{background:#f7fbfd;border:1px solid var(--line);padding:13px;border-radius:14px}
+.code-bridge{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin:16px 0}
+.bridge-box{padding:16px;border-radius:15px;background:#f7fbfd;border:2px solid var(--line)}
+.arrow{font-size:32px;color:var(--cyan);font-weight:900}
+.code-case{background:#0e2639;color:#e6f8ff;padding:16px;border-radius:15px;font-family:"Courier New",monospace;line-height:1.65}
+.block-palette{display:flex;flex-wrap:wrap;gap:8px}.block-btn{border:0;border-radius:12px;padding:10px 12px;color:white;font-weight:900;cursor:pointer;background:var(--purple)}
+.code-block{background:linear-gradient(135deg,var(--purple),#9a72e8);color:white}.code-block.condition{background:linear-gradient(135deg,var(--orange),#e7a62d);color:#2e2309}.code-block.io{background:linear-gradient(135deg,var(--blue),var(--cyan))}
+.sheet-shell{background:#f7fbfd;border:2px solid var(--line);border-radius:17px;overflow:hidden}
+.sheet-toolbar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;background:#edf4f7;padding:9px;border-bottom:1px solid var(--line)}
+.tool{background:white;border:1px solid #cedce5;border-radius:7px;padding:7px 9px;font-weight:800}
+.formula-row{display:grid;grid-template-columns:90px 1fr;gap:7px;padding:8px;background:white;border-bottom:1px solid var(--line)}
+.name-box,.formula-box{border:1px solid #cad8e1;border-radius:7px;padding:8px;min-height:36px}
+.sheet-grid{display:grid;grid-template-columns:50px repeat(5,1fr);background:white}
+.cell{min-height:46px;padding:8px 6px;border-right:1px solid #dfe7ed;border-bottom:1px solid #dfe7ed}.headcell{background:#eef3f6;font-weight:900;text-align:center}.activecell{outline:3px solid var(--green);outline-offset:-3px}
+.sheet-tabs{padding:8px 11px;background:#edf4f7}.sheet-tab{display:inline-block;background:white;border:1px solid #d0dde5;border-radius:7px 7px 0 0;padding:6px 13px;font-weight:900}
+.hotspot{display:inline-flex;align-items:center;justify-content:center;width:27px;height:27px;border-radius:50%;background:var(--orange);color:white;font-weight:900;cursor:pointer;margin-left:4px;box-shadow:0 4px 9px rgba(0,0,0,.16)}
+.hotspot.seen{background:var(--green)}.hot-info{background:#eaf7fb;border-left:7px solid var(--cyan);border-radius:13px;padding:13px;margin-top:12px;min-height:64px}
+.syntax-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}.syntax{background:#f7fbfd;border:2px solid var(--line);border-radius:15px;padding:14px}
+.code-line{background:#0f2638;color:#e8f8ff;font-family:"Courier New",monospace;border-radius:10px;padding:11px;margin-top:8px;line-height:1.8}.code-line select{width:auto;min-width:110px;padding:6px}
+table{width:100%;border-collapse:collapse;background:white;margin:12px 0}th,td{border:1px solid #d7e4ec;padding:9px;text-align:center}th{background:#eaf7fb;color:var(--navy)}
+.table-option,.chart-option{background:#f8fbfd;border:2px solid var(--line);border-radius:14px;padding:13px;cursor:pointer}
+.table-option.selected,.chart-option.selected{border-color:var(--cyan);background:#eaf8fd}.table-option.correct,.chart-option.correct{border-color:var(--green);background:#edf9f3}.table-option.wrong,.chart-option.wrong{border-color:var(--red);background:#fff0f0}
+.table-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}.chart-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.chart-case{background:#f7fbfd;border:1px solid var(--line);border-radius:15px;padding:14px;margin:12px 0}
+.prompt{background:#f4f7fb;border-left:7px solid var(--purple);border-radius:14px;padding:15px;font-size:20px;font-weight:900}
+.option{display:block;width:100%;text-align:left;border:2px solid var(--line);background:white;border-radius:13px;padding:12px;margin:8px 0;font-weight:900;cursor:pointer}
+.option.correct{border-color:var(--green);background:#edf9f3}.option.wrong{border-color:var(--red);background:#fff0f0}
+.timer{font-size:34px;color:var(--red);font-weight:900;margin:8px 0}
+.boleta{background:white;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);position:relative}
+.bwm{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transform:rotate(-20deg);font-size:clamp(34px,7vw,86px);font-weight:900;color:rgba(90,96,106,.18);white-space:pre-wrap;text-align:center;pointer-events:none}
+.bhead{position:relative;z-index:1;background:linear-gradient(135deg,var(--navy),var(--blue));color:white;padding:21px}.bhead h2{color:white;margin:0}
+.bbody{position:relative;z-index:1;padding:22px}.data-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.box{background:#f7fafc;border:1px solid var(--line);border-radius:12px;padding:10px}.box small{display:block;color:var(--muted);font-weight:900;margin-bottom:3px}
+.answer{background:#f8fbfd;border-left:6px solid var(--cyan);border-radius:11px;padding:11px;margin:8px 0;white-space:pre-wrap}
+.toast{position:fixed;right:18px;bottom:18px;z-index:30;background:#14263c;color:white;padding:12px 14px;border-radius:12px;display:none;font-weight:900;max-width:340px}.toast.show{display:block}
+@media(max-width:980px){.menu{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr}.pillars,.concept-grid,.zones{grid-template-columns:repeat(2,1fr)}.head{grid-template-columns:1fr}.metrics{justify-content:flex-start}}
+@media(max-width:680px){.row,.menu,.pillars,.concept-grid,.zones,.quick-check,.syntax-grid,.table-grid,.chart-grid,.data-grid,.unit-flow{grid-template-columns:1fr}.code-bridge{grid-template-columns:1fr}.arrow{transform:rotate(90deg);text-align:center}.sheet-grid{grid-template-columns:42px repeat(5,minmax(70px,1fr));overflow:auto}}
+</style>
+</head>
+<body>
+<div id="watermark"></div><div id="toast" class="toast"></div>
+
+<header>
+  <div class="head">
+    <div><h1>🧠 Unidad 2 · Pensamiento computacional y análisis de datos</h1><small>De resolver problemas → crear algoritmos → hacer coding → organizar y analizar datos.</small></div>
+    <div class="metrics">
+      <div class="pill">⭐ <span id="scoreTop">0</span>/100</div>
+      <div class="pill">✅ <span id="progressText">0%</span></div>
+      <button id="boletaTop" class="btn green" onclick="openBoleta()" disabled>📋 Boleta</button>
+    </div>
+    <div class="progress"><div id="progressFill"></div></div>
+  </div>
+</header>
+
+<main class="app">
+
+<section id="register" class="screen active">
+  <div class="hero">
+    <div class="card hero-main">
+      <h2>De la idea a los datos</h2>
+      <p>En esta unidad aprenderás a pensar una solución, convertirla en instrucciones y usar datos para obtener información útil.</p>
+      <div class="what"><b>Ruta de aprendizaje</b><br>
+      Primero repasarás pensamiento computacional y algoritmos. Después pasarás a <b>Coding</b>: cómo un algoritmo se transforma en instrucciones ejecutables. Finalmente trabajarás con <b>hoja de cálculo</b>: entorno, sintaxis, tablas y gráficas.</div>
+      <div class="unit-flow">
+        <div class="flow-box"><b>🧠 2.1</b>Pensamiento computacional</div>
+        <div class="flow-box"><b>💻 CODING</b>Del algoritmo al programa</div>
+        <div class="flow-box"><b>📊 2.2</b>Hoja de cálculo</div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Registro del estudiante</h2>
+      <p class="muted">Estos datos aparecerán como marca de agua durante toda la actividad y en la boleta final.</p>
+      <label>Nombre completo con apellidos</label>
+      <input id="studentName" placeholder="Ej. Fernanda López Ramírez">
+      <div class="row">
+        <div><label>Grado</label><select id="grade"><option value="">Selecciona</option><option value="1">1°</option><option value="2">2°</option><option value="3">3°</option><option value="4">4°</option><option value="5">5°</option><option value="6">6°</option></select></div>
+        <div><label>Grupo</label><input id="group" maxlength="4" placeholder="Solo letras. Ej. B"></div>
+      </div>
+      <label>Turno</label>
+      <select id="shift"><option value="">Selecciona</option><option>Matutino</option><option>Vespertino</option></select>
+      <div class="notice"><b>Importante:</b> registra tus datos reales. La evidencia quedará identificada con ellos.</div>
+      <button class="btn" onclick="startOA()">Comenzar actividad</button>
+    </div>
+  </div>
+</section>
+
+<section id="home" class="screen">
+  <div class="card">
+    <h2>Ruta de aprendizaje</h2>
+    <p class="muted">Las estaciones están acomodadas para avanzar de pensamiento computacional a Coding y después a análisis de datos, sin repetir innecesariamente los mismos conceptos.</p>
+    <div id="studentBanner"></div>
+    <div class="actions">
+      <button id="reflectionBtn" class="btn orange" onclick="openReflections()" disabled>✍️ Reflexiones finales</button>
+      <button id="boletaBtn" class="btn green" onclick="openBoleta()" disabled>📋 Ver boleta</button>
+    </div>
+  </div>
+  <div id="menu" class="menu"></div>
+</section>
+
+<!-- 1 -->
+<section id="stage1" class="screen">
+  <div class="card">
+    <h2>🧠 2.1 · Pensamiento computacional</h2>
+    <p>Este es el único repaso conceptual de los cuatro pilares. Abre cada tarjeta y recuerda para qué sirve.</p>
+    <div class="pillars">
+      <div class="pillar" data-p="0" onclick="openPillar(this)"><h3>🧩 Descomposición</h3><div class="detail">Dividir un problema grande en partes pequeñas y manejables.<br><br><b>Ejemplo:</b> separar un proyecto en investigación, diseño, materiales y exposición.</div></div>
+      <div class="pillar" data-p="1" onclick="openPillar(this)"><h3>🔁 Patrones</h3><div class="detail">Encontrar semejanzas o repeticiones que permiten aplicar una regla conocida.<br><br><b>Ejemplo:</b> descubrir que varios cálculos siguen la misma operación.</div></div>
+      <div class="pillar" data-p="2" onclick="openPillar(this)"><h3>🎯 Abstracción</h3><div class="detail">Conservar la información importante y dejar fuera los detalles que no ayudan.<br><br><b>Ejemplo:</b> para calcular un promedio importan las calificaciones, no el color de la mochila.</div></div>
+      <div class="pillar" data-p="3" onclick="openPillar(this)"><h3>🧭 Algoritmos</h3><div class="detail">Construir una secuencia clara, ordenada y finita de pasos para resolver un problema.</div></div>
+    </div>
+    <div id="feedback1" class="feedback info">Abre las cuatro tarjetas para continuar.</div>
+    <div class="actions"><button class="btn purple" onclick="home()">Menú</button></div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section id="stage2" class="screen">
+  <div class="card">
+    <h2>🧩 Aplica los cuatro pilares</h2>
+    <p>Ahora aplícalos una sola vez. Arrastra cada situación al pilar que representa.</p>
+    <div id="classSource" class="source"></div>
+  </div>
+  <div class="zones">
+    <div class="zone" data-zone="descomposicion" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="classDrop(event)"><h3>🧩 Descomposición</h3></div>
+    <div class="zone" data-zone="patrones" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="classDrop(event)"><h3>🔁 Patrones</h3></div>
+    <div class="zone" data-zone="abstraccion" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="classDrop(event)"><h3>🎯 Abstracción</h3></div>
+    <div class="zone" data-zone="algoritmos" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="classDrop(event)"><h3>🧭 Algoritmos</h3></div>
+  </div>
+  <div class="actions"><button class="btn green" onclick="checkClass()">Verificar</button><button class="btn gray" onclick="initClass()">Reiniciar</button><button class="btn purple" onclick="home()">Menú</button></div>
+  <div id="feedback2" class="feedback"></div>
+</section>
+
+<!-- 3 -->
+<section id="stage3" class="screen">
+  <div class="card">
+    <h2>🧭 Algoritmos · Orden y precisión</h2>
+    <p>Ordena los pasos para entregar correctamente una tarea en Moodle. Puedes arrastrar o hacer clic en un paso para enviarlo a tu secuencia.</p>
+    <div class="row">
+      <div><h3>Pasos disponibles</h3><div id="seqSource" class="source"></div></div>
+      <div><h3>Tu algoritmo</h3><div id="seqTarget" class="target" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="seqDrop(event)"></div></div>
+    </div>
+    <div class="actions"><button class="btn green" onclick="checkSequence()">Verificar algoritmo</button><button class="btn gray" onclick="initSequence()">Reiniciar</button><button class="btn purple" onclick="home()">Menú</button></div>
+    <div id="feedback3" class="feedback"></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section id="stage4" class="screen">
+  <div class="card">
+    <h2>💻 CODING · Del algoritmo al programa</h2>
+    <p><b>Coding</b> es traducir una idea o algoritmo al lenguaje que una computadora puede ejecutar. La computadora es literal: necesita instrucciones claras y exactas.</p>
+    <div class="code-bridge">
+      <div class="bridge-box"><h3>🧭 Algoritmo</h3><p>1. Pedir nombre.<br>2. Pedir puntos.<br>3. Evaluar puntos.<br>4. Mostrar resultado.</p></div>
+      <div class="arrow">→</div>
+      <div class="bridge-box"><h3>💻 Código</h3><div class="code-case">LEER nombre<br>LEER puntos<br>SI puntos &gt;= 100 ...<br>MOSTRAR resultado</div></div>
+    </div>
+    <p>Abre las tarjetas. Aquí se concentran los conceptos de Coding; no volveremos a repetir los cuatro pilares.</p>
+    <div class="concept-grid">
+      <div class="concept-card" data-code="0" onclick="openCodeConcept(this)"><h3>🔄 Entrada–Proceso–Salida</h3><div class="detail"><b>Entrada:</b> datos que recibe el programa.<br><b>Proceso:</b> lo que calcula o decide.<br><b>Salida:</b> resultado que muestra.</div></div>
+      <div class="concept-card" data-code="1" onclick="openCodeConcept(this)"><h3>📦 Variables</h3><div class="detail">Guardan información que el programa puede usar o cambiar, como <b>nombre</b>, <b>puntos</b> o <b>vidas</b>.</div></div>
+      <div class="concept-card" data-code="2" onclick="openCodeConcept(this)"><h3>🚦 Condiciones</h3><div class="detail">Permiten tomar decisiones.<br><br><b>SI puntos ≥ 100</b> → nivel superado.<br><b>SI NO</b> → sigue intentando.</div></div>
+      <div class="concept-card" data-code="3" onclick="openCodeConcept(this)"><h3>🔁 Bucles</h3><div class="detail">Repiten acciones sin escribir el mismo código muchas veces.<br><br>Ejemplo: revisar 5 materias.</div></div>
+      <div class="concept-card" data-code="4" onclick="openCodeConcept(this)"><h3>🐞 Debugging</h3><div class="detail">Programar también implica detectar y corregir errores: palabras mal escritas, comillas olvidadas o signos incorrectos.</div></div>
+      <div class="concept-card" data-code="5" onclick="openCodeConcept(this)"><h3>🤖 La computadora es literal</h3><div class="detail">“Hazlo rápido” es ambiguo. “Repite 5 veces: avanzar 10 pasos” es preciso y ejecutable.</div></div>
+    </div>
+    <h3>Comprueba que entendiste</h3>
+    <div class="quick-check">
+      <div class="quick-item"><label>Guardar “puntos = 80” corresponde a:</label><select id="codeCheck1"><option value="">Selecciona</option><option value="variable">Variable</option><option value="bucle">Bucle</option><option value="salida">Salida</option></select></div>
+      <div class="quick-item"><label>“Si puntos ≥ 100” corresponde a:</label><select id="codeCheck2"><option value="">Selecciona</option><option value="condicion">Condición</option><option value="entrada">Entrada</option><option value="comentario">Comentario</option></select></div>
+      <div class="quick-item"><label>Repetir una acción 5 veces corresponde a:</label><select id="codeCheck3"><option value="">Selecciona</option><option value="depurar">Depurar</option><option value="bucle">Bucle</option><option value="variable">Variable</option></select></div>
+      <div class="quick-item"><label>Buscar y corregir un error corresponde a:</label><select id="codeCheck4"><option value="">Selecciona</option><option value="debug">Debugging</option><option value="salida">Salida</option><option value="tabla">Tabla</option></select></div>
+    </div>
+    <div class="actions"><button class="btn green" onclick="checkCodingConcepts()">Verificar Coding</button><button class="btn purple" onclick="home()">Menú</button></div>
+    <div id="feedback4" class="feedback info">Abre las seis tarjetas y completa los cuatro reactivos.</div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section id="stage5" class="screen">
+  <div class="card">
+    <h2>🎮 Reto de Coding · Del algoritmo a bloques</h2>
+    <p><b>Caso:</b> un juego pide el nombre y los puntos del jugador. Si tiene 100 puntos o más, muestra “Nivel superado”; si no, muestra “Sigue intentando”.</p>
+    <h3>A. Identifica Entrada–Proceso–Salida</h3>
+    <div class="quick-check">
+      <div class="quick-item"><label>Nombre y puntos</label><select id="eps1"><option value="">Selecciona</option><option value="entrada">Entrada</option><option value="proceso">Proceso</option><option value="salida">Salida</option></select></div>
+      <div class="quick-item"><label>Evaluar puntos ≥ 100</label><select id="eps2"><option value="">Selecciona</option><option value="entrada">Entrada</option><option value="proceso">Proceso</option><option value="salida">Salida</option></select></div>
+      <div class="quick-item"><label>“Nivel superado” / “Sigue intentando”</label><select id="eps3"><option value="">Selecciona</option><option value="entrada">Entrada</option><option value="proceso">Proceso</option><option value="salida">Salida</option></select></div>
+    </div>
+    <h3>B. Construye el programa con bloques</h3>
+    <p class="muted">Haz clic en los bloques para agregarlos. Si te equivocas, usa ✕ para quitar el bloque.</p>
+    <div id="codingPalette" class="block-palette"></div>
+    <div id="codingCanvas" class="target" style="margin-top:12px"></div>
+    <div class="actions"><button class="btn green" onclick="checkCodingChallenge()">Verificar solución</button><button class="btn gray" onclick="resetCodingChallenge()">Reiniciar</button><button class="btn purple" onclick="home()">Menú</button></div>
+    <div id="feedback5" class="feedback"></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section id="stage6" class="screen">
+  <div class="card">
+    <h2>🖥️ 2.2 · Entorno de la hoja de cálculo</h2>
+    <p>Haz clic en los siete puntos para reconocer las partes básicas del entorno.</p>
+    <div class="sheet-shell">
+      <div class="sheet-toolbar"><span class="tool">Archivo</span><span class="tool">Editar</span><span class="tool">Formato</span><span class="tool">Datos</span><span class="hotspot" data-hot="toolbar" onclick="showHotspot(this,'Barra de herramientas: reúne comandos para dar formato, insertar elementos y trabajar con datos.')">1</span></div>
+      <div class="formula-row">
+        <div class="name-box">B3 <span class="hotspot" data-hot="name" onclick="showHotspot(this,'Cuadro de nombre: muestra la referencia de la celda activa, por ejemplo B3.')">2</span></div>
+        <div class="formula-box">=SUMA(B2:B6) <span class="hotspot" data-hot="formula" onclick="showHotspot(this,'Barra de fórmulas: permite escribir o revisar datos, operaciones y funciones.')">3</span></div>
+      </div>
+      <div class="sheet-grid">
+        <div class="cell headcell"></div><div class="cell headcell">A <span class="hotspot" data-hot="cols" onclick="showHotspot(this,'Columnas: se identifican con letras como A, B, C...')">4</span></div><div class="cell headcell">B</div><div class="cell headcell">C</div><div class="cell headcell">D</div><div class="cell headcell">E</div>
+        <div class="cell headcell">1 <span class="hotspot" data-hot="rows" onclick="showHotspot(this,'Filas: se identifican con números como 1, 2, 3...')">5</span></div><div class="cell">Producto</div><div class="cell">Enero</div><div class="cell">Febrero</div><div class="cell">Marzo</div><div class="cell">Total</div>
+        <div class="cell headcell">2</div><div class="cell">Cuadernos</div><div class="cell activecell">12 <span class="hotspot" data-hot="cell" onclick="showHotspot(this,'Celda: espacio donde se introduce un dato o fórmula. Su referencia combina columna y fila.')">6</span></div><div class="cell">15</div><div class="cell">10</div><div class="cell">37</div>
+      </div>
+      <div class="sheet-tabs"><span class="sheet-tab">Hoja 1</span><span class="hotspot" data-hot="tabs" onclick="showHotspot(this,'Pestañas de hoja: permiten organizar diferentes conjuntos de datos dentro del mismo archivo.')">7</span></div>
+    </div>
+    <div id="hotInfo" class="hot-info">Selecciona un punto numerado para ver su explicación.</div>
+    <div id="feedback6" class="feedback info">Explora los siete puntos del entorno.</div>
+    <div class="actions"><button class="btn purple" onclick="home()">Menú</button></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section id="stage7" class="screen">
+  <div class="card">
+    <h2>🧮 2.2 · Sintaxis de fórmulas y referencias</h2>
+    <p>Completa las expresiones. Recuerda: una fórmula inicia con <b>=</b>, puede usar funciones, operadores y referencias de celdas.</p>
+    <div class="syntax-grid">
+      <div class="syntax"><b>1. Sumar de B2 a B6</b><div class="code-line"><select id="syn1"><option value="">?</option><option value="=">=</option><option value="+">+</option></select>SUMA(<select id="syn2"><option value="">?</option><option value="B2:B6">B2:B6</option><option value="B2-B6">B2-B6</option></select>)</div></div>
+      <div class="syntax"><b>2. Promedio de C2 a C5</b><div class="code-line">=<select id="syn3"><option value="">?</option><option value="PROMEDIO">PROMEDIO</option><option value="SUMA">SUMA</option></select>(<select id="syn4"><option value="">?</option><option value="C2:C5">C2:C5</option><option value="C2+C5">C2+C5</option></select>)</div></div>
+      <div class="syntax"><b>3. Multiplicar precio por cantidad</b><div class="code-line">=D2 <select id="syn5"><option value="">?</option><option value="*">*</option><option value="x">x</option><option value="+">+</option></select> E2</div></div>
+      <div class="syntax"><b>4. Columna F, fila 7</b><div class="code-line"><select id="syn6"><option value="">Selecciona</option><option value="F7">F7</option><option value="7F">7F</option><option value="F:7">F:7</option></select></div></div>
+    </div>
+    <div class="actions"><button class="btn green" onclick="checkSyntax()">Verificar</button><button class="btn gray" onclick="resetSyntax()">Reiniciar</button><button class="btn purple" onclick="home()">Menú</button></div>
+    <div id="feedback7" class="feedback"></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section id="stage8" class="screen">
+  <div class="card">
+    <h2>📋 2.2 · Construye una tabla útil</h2>
+    <p>Una tabla debe facilitar la lectura y el análisis. Selecciona la opción mejor organizada.</p>
+    <div class="table-grid" id="tableOptions">
+      <div class="table-option" data-table="a" onclick="selectTable(this)"><b>Opción A</b><table><tr><th></th><th></th></tr><tr><td>Ene</td><td>12</td></tr><tr><td>Feb</td><td>18</td></tr></table><small>Sin encabezados</small></div>
+      <div class="table-option" data-table="b" onclick="selectTable(this)"><b>Opción B</b><table><tr><th>Mes</th><th>Participaciones</th></tr><tr><td>Enero</td><td>12</td></tr><tr><td>Febrero</td><td>18</td></tr><tr><td>Marzo</td><td>15</td></tr></table><small>Encabezados claros y datos consistentes</small></div>
+      <div class="table-option" data-table="c" onclick="selectTable(this)"><b>Opción C</b><table><tr><th>Mes</th><th>Dato</th></tr><tr><td>Enero</td><td>12 alumnos</td></tr><tr><td></td><td>Febrero</td></tr></table><small>Datos mezclados y fila incompleta</small></div>
+    </div>
+    <div class="quick-check">
+      <div class="quick-item"><label>Si quieres graficar Mes y Participaciones, ¿qué rango elegirías?</label><select id="tableRange"><option value="">Selecciona</option><option value="A1:B4">A1:B4</option><option value="B2:B4">B2:B4</option><option value="A2:A4">A2:A4</option></select></div>
+      <div class="quick-item"><label>¿Para qué sirven los encabezados?</label><select id="tableHeader"><option value="">Selecciona</option><option value="identificar">Identificar qué representa cada columna</option><option value="decorar">Decorar la tabla</option><option value="sumar">Sumar automáticamente</option></select></div>
+    </div>
+    <div class="actions"><button class="btn green" onclick="checkTable()">Verificar tabla</button><button class="btn gray" onclick="resetTable()">Reiniciar</button><button class="btn purple" onclick="home()">Menú</button></div>
+    <div id="feedback8" class="feedback"></div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section id="stage9" class="screen">
+  <div class="card">
+    <h2>📈 2.2 · Elige la gráfica adecuada</h2>
+    <p>No todas las gráficas sirven para lo mismo. Elige la más útil para cada propósito.</p>
+    <div class="chart-case"><b>Caso 1:</b> comparar cuántos estudiantes participan en fútbol, voleibol, ajedrez y teatro.<div class="chart-grid"><div class="chart-option" data-case="1" data-answer="barras" onclick="chooseChart(this)">📊 Barras</div><div class="chart-option" data-case="1" data-answer="lineas" onclick="chooseChart(this)">📈 Líneas</div><div class="chart-option" data-case="1" data-answer="circular" onclick="chooseChart(this)">🥧 Circular</div></div></div>
+    <div class="chart-case"><b>Caso 2:</b> observar cómo cambia la temperatura durante siete días.<div class="chart-grid"><div class="chart-option" data-case="2" data-answer="barras" onclick="chooseChart(this)">📊 Barras</div><div class="chart-option" data-case="2" data-answer="lineas" onclick="chooseChart(this)">📈 Líneas</div><div class="chart-option" data-case="2" data-answer="circular" onclick="chooseChart(this)">🥧 Circular</div></div></div>
+    <div class="chart-case"><b>Caso 3:</b> mostrar qué porcentaje del presupuesto se usa en materiales, transporte y difusión.<div class="chart-grid"><div class="chart-option" data-case="3" data-answer="barras" onclick="chooseChart(this)">📊 Barras</div><div class="chart-option" data-case="3" data-answer="lineas" onclick="chooseChart(this)">📈 Líneas</div><div class="chart-option" data-case="3" data-answer="circular" onclick="chooseChart(this)">🥧 Circular</div></div></div>
+    <div class="actions"><button class="btn green" onclick="checkCharts()">Verificar gráficas</button><button class="btn gray" onclick="resetCharts()">Reiniciar</button><button class="btn purple" onclick="home()">Menú</button></div>
+    <div id="feedback9" class="feedback"></div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section id="stage10" class="screen">
+  <div class="card">
+    <h2>🏁 Reto integrador · De la lógica a los datos</h2>
+    <p>Tienes 75 segundos para responder 6 preguntas que integran algoritmos, Coding y hoja de cálculo.</p>
+    <div class="timer">⏱ <span id="timer10">75</span>s</div>
+    <div id="finalPrompt" class="prompt">Presiona <b>Iniciar</b> cuando estés listo.</div>
+    <div id="finalOptions"></div>
+    <div id="feedback10" class="feedback"></div>
+    <div class="actions"><button id="startFinal" class="btn orange" onclick="startFinal()">Iniciar reto</button><button class="btn purple" onclick="home()">Menú</button></div>
+  </div>
+</section>
+
+<section id="reflections" class="screen">
+  <div class="card">
+    <h2>✍️ Reflexiones finales</h2>
+    <p>Responde con tus propias palabras. Las respuestas aparecerán en la boleta.</p>
+    <label>1. ¿Cómo se relacionan un algoritmo y el Coding? Explica qué cambia cuando pasas de los pasos al programa.</label><textarea id="r1" placeholder="Escribe tu reflexión..."></textarea>
+    <label>2. Piensa en un problema escolar que tenga datos. ¿Cómo usarías una hoja de cálculo para organizarlo o analizarlo?</label><textarea id="r2" placeholder="Escribe tu reflexión..."></textarea>
+    <label>3. ¿Qué herramienta de esta unidad —algoritmos, Coding, tablas, fórmulas o gráficas— te resultó más útil y por qué?</label><textarea id="r3" placeholder="Escribe tu reflexión..."></textarea>
+    <div class="actions"><button class="btn green" onclick="saveReflections()">Guardar y abrir boleta</button><button class="btn purple" onclick="home()">Menú</button></div>
+  </div>
+</section>
+
+<section id="boleta" class="screen">
+  <div class="boleta">
+    <div id="boletaWM" class="bwm"></div>
+    <div class="bhead"><h2>Boleta de resultados</h2><p style="margin:5px 0 0">Unidad 2 · Pensamiento computacional y análisis de datos</p></div>
+    <div class="bbody">
+      <h3>Datos generales del estudiante</h3>
+      <div class="data-grid">
+        <div class="box"><small>Nombre</small><b id="bName"></b></div><div class="box"><small>Grado</small><b id="bGrade"></b></div>
+        <div class="box"><small>Grupo</small><b id="bGroup"></b></div><div class="box"><small>Turno</small><b id="bShift"></b></div>
+      </div>
+      <h3>Resultados</h3>
+      <div class="data-grid">
+        <div class="box"><small>Puntaje total</small><b id="bScore"></b></div><div class="box"><small>Estaciones</small><b id="bStages"></b></div>
+        <div class="box"><small>Coding</small><b id="bCoding"></b></div><div class="box"><small>Hoja de cálculo</small><b id="bSheet"></b></div>
+        <div class="box"><small>Reto integrador</small><b id="bFinal"></b></div><div class="box"><small>Fecha</small><b id="bDate"></b></div>
+      </div>
+      <h3>Reflexiones del estudiante</h3>
+      <p><b>1. Algoritmo y Coding</b></p><div id="br1" class="answer"></div>
+      <p><b>2. Uso de hoja de cálculo</b></p><div id="br2" class="answer"></div>
+      <p><b>3. Herramienta más útil</b></p><div id="br3" class="answer"></div>
+      <div class="notice blue"><b>Marca de agua:</b> <span id="bMark"></span><br>Toma una captura completa de esta boleta para entregar la evidencia según las indicaciones del docente.</div>
+    </div>
+  </div>
+  <div class="actions"><button class="btn purple" onclick="home()">Volver al menú</button></div>
+</section>
+
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const state={
+  name:"",grade:"",group:"",shift:"",
+  completed:Array(10).fill(false),scores:Array(10).fill(0),
+  pillars:new Set(),codingSeen:new Set(),dragged:null,
+  hotspots:new Set(),selectedTable:"",chartAnswers:{},
+  codingBlocks:[],finalIndex:0,finalCorrect:0,finalTime:75,finalTimer:null,
+  reflectionsSaved:false
+};
+const maxPoints=[0,10,10,10,15,10,10,10,10,15];
+
+document.addEventListener("DOMContentLoaded",()=>{
+  $("group").addEventListener("input",function(){this.value=this.value.replace(/[^a-zA-ZÁÉÍÓÚÜÑáéíóúüñ]/g,"").toUpperCase()});
+  buildMenu();
+});
+
+function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2400)}
+function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");window.scrollTo({top:0,behavior:"smooth"})}
+
+function startOA(){
+  const name=$("studentName").value.trim(),grade=$("grade").value,group=$("group").value.trim().toUpperCase(),shift=$("shift").value;
+  if(name.length<8){toast("Escribe tu nombre completo con apellidos.");return}
+  if(!grade||!group||!shift){toast("Completa grado, grupo y turno.");return}
+  state.name=name;state.grade=grade;state.group=group;state.shift=shift;
+  createWatermark();$("watermark").style.display="block";
+  $("studentBanner").innerHTML=`<div class="notice blue"><b>${state.name}</b> · ${state.grade}° ${state.group} · ${state.shift}</div>`;
+  home();
+}
+function createWatermark(){
+  const w=$("watermark");w.innerHTML="";const text=`${state.name} • ${state.grade}° ${state.group} • ${state.shift}`;
+  for(let i=0;i<7;i++){const d=document.createElement("div");d.className="wm";d.style.top=`${i*17-7}%`;d.textContent=text;w.appendChild(d)}
+}
+
+function buildMenu(){
+  const stages=[
+    ["🧠","Pensamiento computacional","Repaso breve de los cuatro pilares"],
+    ["🧩","Aplicación","Clasifica situaciones"],
+    ["🧭","Algoritmos","Orden y precisión"],
+    ["💻","Coding","Del algoritmo al programa"],
+    ["🎮","Reto de Coding","Construye con bloques"],
+    ["🖥️","Hoja de cálculo","Conoce el entorno"],
+    ["🧮","Sintaxis","Fórmulas y referencias"],
+    ["📋","Tablas","Organiza los datos"],
+    ["📈","Gráficas","Representa e interpreta"],
+    ["🏁","Reto integrador","Lógica + Coding + datos"]
+  ];
+  $("menu").innerHTML=stages.map((s,i)=>`<div id="card${i+1}" class="level ${i?'locked':''}" onclick="openStage(${i+1})"><div class="icon">${s[0]}</div><h3>${i+1}. ${s[1]}</h3><p>${s[2]}</p><span id="status${i+1}" class="status ${i?'lock':''}">${i?'Bloqueado':'Disponible'}</span></div>`).join("");
+}
+function updateUI(){
+  const total=state.scores.reduce((a,b)=>a+b,0),done=state.completed.filter(Boolean).length,pct=Math.round(done/10*100);
+  $("scoreTop").textContent=total;$("progressText").textContent=pct+"%";$("progressFill").style.width=pct+"%";
+  for(let i=1;i<=10;i++){
+    const unlocked=i===1||state.completed[i-2],card=$("card"+i),status=$("status"+i);
+    card.classList.toggle("locked",!unlocked);
+    if(state.completed[i-1]){status.textContent="Completado";status.className="status"}
+    else if(unlocked){status.textContent="Disponible";status.className="status"}
+    else{status.textContent="Bloqueado";status.className="status lock"}
+  }
+  const all=done===10;$("reflectionBtn").disabled=!all;
+  $("boletaBtn").disabled=!(all&&state.reflectionsSaved);$("boletaTop").disabled=!(all&&state.reflectionsSaved);
+}
+function home(){updateUI();show("home")}
+function completeStage(n,score=maxPoints[n-1]){
+  if(!state.completed[n-1]){state.completed[n-1]=true;state.scores[n-1]=score;updateUI();toast(n<10?`Estación ${n} completada. Se desbloqueó la siguiente.`:"Ruta completada. Responde las reflexiones.")}
+}
+function openStage(n){
+  if(n>1&&!state.completed[n-2]){toast("Completa primero la estación anterior.");return}
+  if(n===2)initClass();if(n===3)initSequence();if(n===5)resetCodingChallenge();if(n===6)initHotspots();
+  if(n===7)resetSyntax();if(n===8)resetTable();if(n===9)resetCharts();if(n===10)resetFinal();
+  show("stage"+n);
+}
+
+/* 1 */
+function openPillar(el){
+  el.classList.toggle("open");state.pillars.add(el.dataset.p);
+  if(state.pillars.size===4){$("feedback1").className="feedback ok";$("feedback1").innerHTML="<b>Repaso completado.</b> Ya tienes la base para aplicar los conceptos.";completeStage(1,0)}
+}
+
+/* 2 */
+const classItems=[
+  {id:"cl1",t:"Separar un proyecto en investigación, diseño y exposición",c:"descomposicion"},
+  {id:"cl2",t:"Dividir una app en pantalla, botones y datos",c:"descomposicion"},
+  {id:"cl3",t:"Detectar que varios ejercicios usan la misma regla",c:"patrones"},
+  {id:"cl4",t:"Reconocer una secuencia que se repite cada semana",c:"patrones"},
+  {id:"cl5",t:"Ignorar el color de la mochila para calcular un promedio",c:"abstraccion"},
+  {id:"cl6",t:"Usar solo distancia y tiempo para calcular velocidad",c:"abstraccion"},
+  {id:"cl7",t:"Escribir pasos para entregar una tarea",c:"algoritmos"},
+  {id:"cl8",t:"Crear pasos para calcular el cambio de una compra",c:"algoritmos"}
+];
+function makeClassCard(o){
+  const d=document.createElement("div");d.className="drag";d.id=o.id;d.draggable=true;d.dataset.cat=o.c;d.dataset.text=o.t;d.textContent=o.t;
+  d.ondragstart=e=>{state.dragged=o.id;e.dataTransfer.setData("text/plain",o.id)};return d
+}
+function initClass(){
+  $("classSource").innerHTML="";document.querySelectorAll("#stage2 .zone .placed").forEach(x=>x.remove());
+  [...classItems].sort(()=>Math.random()-.5).forEach(o=>$("classSource").appendChild(makeClassCard(o)));$("feedback2").className="feedback"
+}
+function dragOver(e){e.preventDefault();e.currentTarget.style.borderColor="#13a8c7"}function dragLeave(e){e.currentTarget.style.borderColor=""}
+function classDrop(e){
+  e.preventDefault();e.currentTarget.style.borderColor="";const id=e.dataTransfer.getData("text/plain")||state.dragged,d=$(id);if(!d)return;
+  const p=document.createElement("div");p.className="placed";p.id=id;p.dataset.cat=d.dataset.cat;p.dataset.text=d.dataset.text;p.innerHTML=`<span>${d.dataset.text}</span><button onclick="returnClass('${id}')">↩</button>`;e.currentTarget.appendChild(p);d.remove()
+}
+function returnClass(id){const p=$(id),o=classItems.find(x=>x.id===id);if(p)p.remove();if(o)$("classSource").appendChild(makeClassCard(o))}
+function checkClass(){
+  const all=[...document.querySelectorAll("#stage2 .placed")];if(all.length!==classItems.length){$("feedback2").className="feedback bad";$("feedback2").textContent="Clasifica todas las tarjetas.";return}
+  const ok=all.filter(x=>x.dataset.cat===x.parentElement.dataset.zone).length;
+  if(ok===all.length){$("feedback2").className="feedback ok";$("feedback2").innerHTML="<b>¡Correcto!</b> Aplicaste los cuatro pilares en situaciones diferentes.";completeStage(2)}
+  else{$("feedback2").className="feedback bad";$("feedback2").textContent=`Tienes ${ok} de ${all.length} correctas. Revisa las tarjetas mal ubicadas.`}
+}
+
+/* 3 */
+const seqSteps=[
+  "Leer las instrucciones de la tarea","Realizar el producto solicitado","Guardar el archivo en el formato indicado",
+  "Entrar a la actividad en Moodle","Subir el archivo","Verificar que la entrega quedó registrada"
+];
+function makeSeq(i){
+  const d=document.createElement("div");d.className="drag";d.id="sq"+i;d.draggable=true;d.dataset.order=i;d.dataset.text=seqSteps[i];d.textContent=seqSteps[i];
+  d.ondragstart=e=>{state.dragged=d.id;e.dataTransfer.setData("text/plain",d.id)};d.onclick=()=>moveSeqToTarget(d);return d
+}
+function initSequence(){
+  $("seqSource").innerHTML="";$("seqTarget").innerHTML="";[...seqSteps.keys()].sort(()=>Math.random()-.5).forEach(i=>$("seqSource").appendChild(makeSeq(i)));$("feedback3").className="feedback"
+}
+function moveSeqToTarget(d){
+  if(!d||!d.classList.contains("drag"))return;const p=document.createElement("div");p.className="placed";p.id=d.id;p.dataset.order=d.dataset.order;p.dataset.text=d.dataset.text;p.innerHTML=`<span>${d.dataset.text}</span><button onclick="returnSeq('${d.id}')">↩</button>`;$("seqTarget").appendChild(p);d.remove()
+}
+function seqDrop(e){e.preventDefault();e.currentTarget.style.borderColor="";moveSeqToTarget($(e.dataTransfer.getData("text/plain")||state.dragged))}
+function returnSeq(id){const p=$(id),i=Number(p.dataset.order);p.remove();$("seqSource").appendChild(makeSeq(i))}
+function checkSequence(){
+  const a=[...$("seqTarget").querySelectorAll(".placed")];if(a.length!==seqSteps.length){$("feedback3").className="feedback bad";$("feedback3").textContent="Faltan pasos.";return}
+  if(a.every((x,i)=>Number(x.dataset.order)===i)){$("feedback3").className="feedback ok";$("feedback3").innerHTML="<b>Algoritmo correcto.</b> El orden transforma una intención en una secuencia ejecutable.";completeStage(3)}
+  else{$("feedback3").className="feedback bad";$("feedback3").textContent="El orden todavía no es lógico. Revisa qué debe ocurrir antes de subir el archivo."}
+}
+
+/* 4 */
+function openCodeConcept(el){el.classList.toggle("open");state.codingSeen.add(el.dataset.code);if(state.codingSeen.size===6&&$("feedback4").className.includes("info")){$("feedback4").textContent="Ya exploraste los conceptos. Completa los cuatro reactivos para verificar."}}
+function checkCodingConcepts(){
+  if(state.codingSeen.size<6){$("feedback4").className="feedback bad";$("feedback4").textContent="Abre primero las seis tarjetas de Coding.";return}
+  const ok=$("codeCheck1").value==="variable"&&$("codeCheck2").value==="condicion"&&$("codeCheck3").value==="bucle"&&$("codeCheck4").value==="debug";
+  if(ok){$("feedback4").className="feedback ok";$("feedback4").innerHTML="<b>¡Coding entendido!</b> Reconoces variables, condiciones, bucles y debugging.";completeStage(4)}
+  else{$("feedback4").className="feedback bad";$("feedback4").textContent="Hay respuestas por revisar. Usa las tarjetas como apoyo."}
+}
+
+/* 5 */
+const codingBlocks=[
+  {id:"inicio",t:"INICIO",cls:"code-block"},
+  {id:"leerNombre",t:"LEER nombre",cls:"code-block io"},
+  {id:"leerPuntos",t:"LEER puntos",cls:"code-block io"},
+  {id:"cond",t:"SI puntos >= 100",cls:"code-block condition"},
+  {id:"ok",t:'MOSTRAR "Nivel superado"',cls:"code-block io"},
+  {id:"sino",t:"SINO",cls:"code-block condition"},
+  {id:"no",t:'MOSTRAR "Sigue intentando"',cls:"code-block io"},
+  {id:"fin",t:"FIN",cls:"code-block"}
+];
+const codingOrder=codingBlocks.map(x=>x.id);
+function resetCodingChallenge(){
+  state.codingBlocks=[];$("codingCanvas").innerHTML="";const p=$("codingPalette");p.innerHTML="";
+  codingBlocks.forEach(b=>{const btn=document.createElement("button");btn.className="block-btn";btn.textContent=b.t;btn.onclick=()=>addCodingBlock(b);p.appendChild(btn)});
+  ["eps1","eps2","eps3"].forEach(id=>$(id).value="");$("feedback5").className="feedback"
+}
+function addCodingBlock(b){
+  if(state.codingBlocks.includes(b.id)){toast("Ese bloque ya está en tu solución.");return}
+  state.codingBlocks.push(b.id);renderCoding()
+}
+function removeCodingBlock(id){state.codingBlocks=state.codingBlocks.filter(x=>x!==id);renderCoding()}
+function renderCoding(){
+  $("codingCanvas").innerHTML=state.codingBlocks.map(id=>{const b=codingBlocks.find(x=>x.id===id);return `<div class="${b.cls}">${b.t}<button onclick="removeCodingBlock('${id}')">✕</button></div>`}).join("")
+}
+function checkCodingChallenge(){
+  const eps=$("eps1").value==="entrada"&&$("eps2").value==="proceso"&&$("eps3").value==="salida";
+  const order=state.codingBlocks.length===codingOrder.length&&state.codingBlocks.every((x,i)=>x===codingOrder[i]);
+  if(eps&&order){$("feedback5").className="feedback ok";$("feedback5").innerHTML="<b>¡Del algoritmo al programa!</b> Identificaste Entrada–Proceso–Salida y construiste una secuencia lógica de bloques.";completeStage(5)}
+  else{$("feedback5").className="feedback bad";$("feedback5").innerHTML=`${!eps?"Revisa Entrada–Proceso–Salida. ":""}${!order?"Revisa el orden de los bloques: primero se leen los datos, después se evalúa la condición y al final se muestra el resultado.":""}`}
+}
+
+/* 6 */
+function initHotspots(){
+  $("feedback6").className=state.completed[5]?"feedback ok":"feedback info";$("feedback6").textContent=state.completed[5]?"Estación completada.":"Explora los siete puntos del entorno."
+}
+function showHotspot(el,msg){
+  el.classList.add("seen");state.hotspots.add(el.dataset.hot);$("hotInfo").textContent=msg;
+  if(state.hotspots.size>=7){$("feedback6").className="feedback ok";$("feedback6").innerHTML="<b>Entorno explorado.</b> Ya reconoces las partes principales de una hoja de cálculo.";completeStage(6)}
+}
+
+/* 7 */
+function resetSyntax(){["syn1","syn2","syn3","syn4","syn5","syn6"].forEach(id=>$(id).value="");$("feedback7").className="feedback"}
+function checkSyntax(){
+  const a=[$("syn1").value==="=",$("syn2").value==="B2:B6",$("syn3").value==="PROMEDIO",$("syn4").value==="C2:C5",$("syn5").value==="*",$("syn6").value==="F7"];
+  const ok=a.filter(Boolean).length;if(ok===a.length){$("feedback7").className="feedback ok";$("feedback7").innerHTML="<b>¡Sintaxis correcta!</b> Reconoces fórmulas, rangos, referencias y operadores.";completeStage(7)}
+  else{$("feedback7").className="feedback bad";$("feedback7").textContent=`Tienes ${ok} de ${a.length} elementos correctos.`}
+}
+
+/* 8 */
+function resetTable(){state.selectedTable="";document.querySelectorAll("#tableOptions .table-option").forEach(x=>x.classList.remove("selected","correct","wrong"));$("tableRange").value="";$("tableHeader").value="";$("feedback8").className="feedback"}
+function selectTable(el){state.selectedTable=el.dataset.table;document.querySelectorAll("#tableOptions .table-option").forEach(x=>x.classList.remove("selected"));el.classList.add("selected")}
+function checkTable(){
+  document.querySelectorAll("#tableOptions .table-option").forEach(x=>x.classList.remove("correct","wrong"));
+  if(!state.selectedTable){$("feedback8").className="feedback bad";$("feedback8").textContent="Selecciona una tabla.";return}
+  const chosen=document.querySelector(`#tableOptions .table-option[data-table="${state.selectedTable}"]`),ok=state.selectedTable==="b"&&$("tableRange").value==="A1:B4"&&$("tableHeader").value==="identificar";
+  chosen.classList.add(state.selectedTable==="b"?"correct":"wrong");
+  if(ok){$("feedback8").className="feedback ok";$("feedback8").innerHTML="<b>¡Tabla bien estructurada!</b> Los encabezados y la consistencia permiten analizar y graficar mejor.";completeStage(8)}
+  else{$("feedback8").className="feedback bad";$("feedback8").textContent="Revisa la estructura, el rango y la función de los encabezados."}
+}
+
+/* 9 */
+function resetCharts(){state.chartAnswers={};document.querySelectorAll("#stage9 .chart-option").forEach(x=>x.classList.remove("selected","correct","wrong"));$("feedback9").className="feedback"}
+function chooseChart(el){
+  const c=el.dataset.case;state.chartAnswers[c]=el.dataset.answer;document.querySelectorAll(`#stage9 .chart-option[data-case="${c}"]`).forEach(x=>x.classList.remove("selected"));el.classList.add("selected")
+}
+function checkCharts(){
+  const correct={1:"barras",2:"lineas",3:"circular"};let ok=0;
+  Object.keys(correct).forEach(c=>{document.querySelectorAll(`#stage9 .chart-option[data-case="${c}"]`).forEach(x=>x.classList.remove("correct","wrong"));const ans=state.chartAnswers[c];if(ans){const el=document.querySelector(`#stage9 .chart-option[data-case="${c}"][data-answer="${ans}"]`);if(ans===correct[c]){el.classList.add("correct");ok++}else el.classList.add("wrong")}});
+  if(ok===3){$("feedback9").className="feedback ok";$("feedback9").innerHTML="<b>¡Gráficas correctas!</b> Barras compara categorías, líneas muestra cambios en el tiempo y circular representa proporciones.";completeStage(9)}
+  else{$("feedback9").className="feedback bad";$("feedback9").textContent=`Tienes ${ok} de 3 casos correctos. Piensa qué necesitas comunicar en cada situación.`}
+}
+
+/* 10 */
+const finalQuestions=[
+  {q:"¿Qué convierte un algoritmo en instrucciones que una computadora puede ejecutar?",a:"Coding",o:["Coding","Abstracción","Una gráfica"]},
+  {q:"¿Qué elemento guarda información como nombre, puntos o vidas?",a:"Variable",o:["Variable","Bucle","Gráfica"]},
+  {q:"¿Cuál bloque permite tomar una decisión?",a:"Condición",o:["Salida","Condición","Encabezado"]},
+  {q:"¿Qué fórmula calcula correctamente el promedio de B2 a B6?",a:"=PROMEDIO(B2:B6)",o:["=PROMEDIO(B2:B6)","PROMEDIO=B2:B6","=B2:B6"]},
+  {q:"¿Qué gráfica es adecuada para observar cambios durante varios días?",a:"Líneas",o:["Circular","Líneas","Ninguna"]},
+  {q:"Antes de crear una gráfica, ¿qué ayuda a que los datos sean entendibles?",a:"Una tabla con encabezados claros",o:["Una tabla con encabezados claros","Cambiar colores al azar","Eliminar los nombres de columnas"]}
+];
+function resetFinal(){
+  clearInterval(state.finalTimer);state.finalIndex=0;state.finalCorrect=0;state.finalTime=75;$("timer10").textContent=75;$("finalPrompt").innerHTML="Presiona <b>Iniciar</b> cuando estés listo.";$("finalOptions").innerHTML="";$("feedback10").className="feedback";$("startFinal").style.display="inline-block"
+}
+function startFinal(){
+  $("startFinal").style.display="none";showFinalQ();state.finalTimer=setInterval(()=>{state.finalTime--;$("timer10").textContent=state.finalTime;if(state.finalTime<=0)finishFinal()},1000)
+}
+function showFinalQ(){
+  const q=finalQuestions[state.finalIndex];$("finalPrompt").textContent=q.q;$("finalOptions").innerHTML="";
+  q.o.forEach(v=>{const b=document.createElement("button");b.className="option";b.textContent=v;b.onclick=()=>{if(v===q.a)state.finalCorrect++;state.finalIndex++;if(state.finalIndex>=finalQuestions.length)finishFinal();else showFinalQ()};$("finalOptions").appendChild(b)})
+}
+function finishFinal(){
+  clearInterval(state.finalTimer);$("finalOptions").innerHTML="";$("finalPrompt").textContent=`Resultado: ${state.finalCorrect} de ${finalQuestions.length} correctas.`;$("feedback10").className="feedback ok";$("feedback10").innerHTML="<b>Reto terminado.</b> Integraste algoritmos, Coding y análisis de datos.";
+  const score=Math.round(state.finalCorrect/finalQuestions.length*15);completeStage(10,score)
+}
+
+/* Reflexiones y boleta */
+function openReflections(){if(state.completed.filter(Boolean).length!==10){toast("Completa las diez estaciones.");return}show("reflections")}
+function saveReflections(){
+  if(!$("r1").value.trim()||!$("r2").value.trim()||!$("r3").value.trim()){toast("Responde las tres reflexiones.");return}
+  state.reflectionsSaved=true;updateUI();fillBoleta();show("boleta")
+}
+function fillBoleta(){
+  const total=state.scores.reduce((a,b)=>a+b,0);
+  $("bName").textContent=state.name;$("bGrade").textContent=state.grade+"°";$("bGroup").textContent=state.group;$("bShift").textContent=state.shift;
+  $("bScore").textContent=total+"/100";$("bStages").textContent=state.completed.filter(Boolean).length+"/10";
+  $("bCoding").textContent=(state.scores[3]+state.scores[4])+"/25";$("bSheet").textContent=(state.scores[5]+state.scores[6]+state.scores[7]+state.scores[8])+"/40";
+  $("bFinal").textContent=state.scores[9]+"/15";$("bDate").textContent=new Date().toLocaleDateString("es-MX");
+  $("br1").textContent=$("r1").value.trim();$("br2").textContent=$("r2").value.trim();$("br3").textContent=$("r3").value.trim();
+  const mark=`${state.name}\n${state.grade}° ${state.group} • ${state.shift}`;$("boletaWM").textContent=mark;$("bMark").textContent=`${state.name} | ${state.grade}° ${state.group} | ${state.shift}`
+}
+function openBoleta(){if(!state.reflectionsSaved){toast("Primero completa las estaciones y guarda las reflexiones.");return}fillBoleta();show("boleta")}
+</script>
+</body>
+</html>
